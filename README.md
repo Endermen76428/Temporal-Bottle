@@ -22,7 +22,7 @@ Below is a list of how much time you need to accelerate to a certain level of sp
 
 ![Temporal Bottle List of Cost](doc/3.0%20-%20Temporal%20List.png)
 
-## Showing How Accelerate:
+# Showing How Accelerate:
 To accelerate some block you **need** to have **time**.
 Using the **Temporal Bottle** in your hand and interacting with the blocks below will create a time zone 2 times faster, interacting again now it'll be 4 times faster.
 
@@ -32,7 +32,7 @@ Using the **Temporal Bottle** in your hand and interacting with the blocks below
 Soon I will add compatibility with other addons and a compatibility feature so that addon creators can already create compatibility issues without depending on me.
 
 # Other Info:
-* This addon **don't** disable Achievements;
-* This addon **don't** use Experimental;
-* This addon **don't** use player.json;
-* This addon **is not** compatible with other addons.
+* This addon __**don't**__ disable Achievements;
+* This addon __**don't**__ use Experimental;
+* This addon __**don't**__ use player.json;
+* This addon __**is not**__ compatible with other addons.
