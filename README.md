@@ -2,6 +2,9 @@
 Are your furnaces taking too long to heat up your food or ores? Then speed them up and much more with the Temporal Bottle.
 
 [Curseforge Link](https://www.curseforge.com/minecraft-bedrock/addons/temporal-bottle)
+[MCPEDL Link](https://www.mcpedl.com/temporal-bottle)
+
+![Thumb](logo/Temporal%20Bottle%20-%20MCPEDL%20v0.1.png)
 
 # Craft:
 To craft a **Temporal Bottle** you will need:
@@ -32,7 +35,7 @@ Using the **Temporal Bottle** in your hand and interacting with the blocks below
 Soon I will add compatibility with other addons and a compatibility feature so that addon creators can already create compatibility issues without depending on me.
 
 # Other Info:
-* This addon __**don't**__ disable Achievements;
-* This addon __**don't**__ use Experimental;
-* This addon __**don't**__ use player.json;
-* This addon __**is not**__ compatible with other addons.
+* This addon __**don't**__ disable **Achievements;**
+* This addon __**don't**__ use **Experimental;**
+* This addon __**don't**__ use **player.json;**
+* This addon __**is not**__ compatible with **other addons (For Now)**.
