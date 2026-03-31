@@ -33,9 +33,14 @@ Using the **Temporal Bottle** in your hand and interacting with the blocks below
 ![Accelerate Furnace](doc/4.0%20-%20Accelerate%20Furnace.gif)
 ![Accelerate Brewing Stand](doc/4.1%20-%20Accelerate%20Brewing%20Stand.gif)
 
-Soon I will add compatibility with other addons and a compatibility feature so that addon creators can already create compatibility issues without depending on me.
+# Commands:
+If you don't want to wait for the **Temporal Bottle** to collect time, you can use the **"/givetime"** command.
+You can:
+* Set Time: **"/givetime set [seconds: number]**
+* Add Time: **"/givetime add [seconds: number]**
 
 # Other Info:
+Soon I will add compatibility with other addons and a compatibility feature so that addon creators can already create compatibility issues without depending on me.
 * This addon __**don't**__ disable **Achievements;**
 * This addon __**don't**__ use **Experimental;**
 * This addon __**don't**__ use **player.json;**
