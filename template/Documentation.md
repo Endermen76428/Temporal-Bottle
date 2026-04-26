@@ -1,5 +1,6 @@
 # Bedrock Awakening Compatibility System (BACS)
 Hello AddonMaker in this documentation we'll see how create a compatibility with the **Temporal Bottle Addon**.
+If you need any help, send me a message on Discord [@Endermen76428](https://discordapp.com/users/760855617383432262)
 
 Remember, at the momente only have 3 compatibility:
 - [Vanilla Furnace](https://github.com/Endermen76428/Temporal-Bottle/blob/main/template/Documentation.md#vanilla-furnace)
