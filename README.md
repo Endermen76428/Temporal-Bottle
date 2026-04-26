@@ -8,7 +8,8 @@ Are your furnaces taking too long to heat up your food or ores? Then speed them 
 ![Thumb](logo/Temporal%20Bottle%20-%20MCPEDL%20v0.1.png)
 
 # Compatibility System - AddonMaker Section
-**Temporal Bottle** use BACS (Bedrock Awakening Compatibility System); At the moment this addon has 3 compatibilities, that can create easily with one line of code, to have more informations use the links below:
+**Temporal Bottle Addon** use **BACS** (Bedrock Awakening Compatibility System)
+At the moment this addon has 3 compatibilities, that can create easily with one line of code, to have more informations use the links below:
 - [Documentation](template/Documentation.md)
 - [Addon Template](https://github.com/Endermen76428/Temporal-Bottle/raw/refs/heads/main/template/Temporal_Bottle_Template_v0.1.mcaddon)
 
