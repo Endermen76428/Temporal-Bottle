@@ -1,7 +1,7 @@
 import { temporalBottleFuncBrewStand } from "../../functions/brewingStand";
 import { temporalBottleFuncFurnace } from "../../functions/furnace";
-import { system } from "@minecraft/server";
 import { furnaceFuelStoredAmount } from "../variables/cache";
+import { system } from "@minecraft/server";
 import { temporalBottleBlock } from "./block";
 import { temporalBottleInfo } from "./info";
 const accelerationRunInterval = new Map();
@@ -28,6 +28,7 @@ export const temporalBottleEntity = new class TemporalBottleEntity {
             if (execute)
                 execute(block);
         }, tickInterval);
+        console.warn(tickInterval);
         accelerationRunInterval.set(entity.id, runIntervalId);
     }
 };

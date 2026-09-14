@@ -21,7 +21,7 @@ export const startUpCommandFunc = {
 export const startUpCommandHeader = {
     "giveTime": {
         name: "temporal_bottle:givetime",
-        description: "commands.temporal_bottle:give_time.description",
+        description: "commands.temporal_bottle.give_time",
         cheatsRequired: true,
         permissionLevel: CommandPermissionLevel.GameDirectors,
         mandatoryParameters: [

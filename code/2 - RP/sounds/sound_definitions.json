@@ -2,46 +2,74 @@
   "format_version" : "1.21.60",
   "sound_definitions" : {
     // Warnings
-    "temporal_bottle.warn.levelup": {
+    "warn.ender_addon_pack:levelup": {
       "category": "warn",
       "max_distance": 8,
       "min_distance": 0,
-      "sounds": [ { "name" : "sounds/random/levelup", "is3D": false } ]
+      "sounds": [ { "name": "sounds/random/levelup", "is3D": false } ],
+      "subtitle": "subtitles.warn.ender_addon_pack:confirmed"
     },
-    "temporal_bottle.warn.bass": {
+    "warn.ender_addon_pack:bass": {
       "category": "warn",
       "max_distance": 8,
       "min_distance": 0,
-      "sounds": [ { "name" : "sounds/note/bass", "is3D": false } ]
+      "sounds": [ { "name": "sounds/note/bass", "is3D": false } ],
+      "subtitle": "subtitles.warn.ender_addon_pack:rejected"
     },
-    "temporal_bottle.warn.break": {
+    "warn.ender_addon_pack:break": {
       "category": "warn",
       "max_distance": 8,
       "min_distance": 0,
-      "sounds": [ { "name" : "sounds/random/break", "is3D": false } ]
+      "sounds": [ { "name": "sounds/random/break", "is3D": false } ],
+      "subtitle": "subtitles.warn.ender_addon_pack:canceled"
     },
-    "temporal_bottle.warn.pop": {
+    "warn.ender_addon_pack:pop": {
       "category": "warn",
       "max_distance": 8,
       "min_distance": 0,
-      "sounds": [ { "name" : "sounds/random/pop", "is3D": false } ]
+      "sounds": [ { "name": "sounds/random/pop", "is3D": false } ],
+      "subtitle": "subtitles.warn.ender_addon_pack:pop"
     },
-    "temporal_bottle.warn.orb": {
+    "warn.ender_addon_pack:orb": {
       "category": "warn",
       "max_distance": 8,
       "min_distance": 0,
-      "sounds": [ { "name" : "sounds/random/orb", "is3D": false } ]
+      "sounds": [ { "name": "sounds/random/orb", "is3D": false } ],
+      "subtitle": "subtitles.warn.ender_addon_pack:ping"
     },
-    "temporal_bottle.warn.break_amethyst": {
+    "warn.ender_addon_pack:break_amethyst": {
       "category": "warn",
       "max_distance": 8,
       "min_distance": 0,
       "sounds": [
-        { "name" : "sounds/block/amethyst/break1", "is3D": false },
-        { "name" : "sounds/block/amethyst/break2", "is3D": false },
-        { "name" : "sounds/block/amethyst/break3", "is3D": false },
-        { "name" : "sounds/block/amethyst/break4", "is3D": false }
-      ]
+        { "name": "sounds/block/amethyst/break1", "is3D": false },
+        { "name": "sounds/block/amethyst/break2", "is3D": false },
+        { "name": "sounds/block/amethyst/break3", "is3D": false },
+        { "name": "sounds/block/amethyst/break4", "is3D": false }
+      ],
+      "subtitle": "subtitles.warn.ender_addon_pack:saved"
+    },
+    "warn.ender_addon_pack:enchanting_table": {
+      "category": "warn",
+      "max_distance": 8,
+      "min_distance": 0,
+      "sounds": [
+        { "name": "sounds/block/enchanting_table/enchant1", "is3D": false },
+        { "name": "sounds/block/enchanting_table/enchant2", "is3D": false },
+        { "name": "sounds/block/enchanting_table/enchant3", "is3D": false }
+      ],
+      "subtitle": "subtitles.warn.ender_addon_pack:activate"
+    },
+    "warn.ender_addon_pack:deactive": {
+      "category": "warn",
+      "max_distance": 8,
+      "min_distance": 0,
+      "sounds": [
+        { "name": "sounds/block/beacon/deactivate", "is3D": false, "pitch": 0.95 },
+        { "name": "sounds/block/beacon/deactivate", "is3D": false, "pitch": 1 },
+        { "name": "sounds/block/beacon/deactivate", "is3D": false, "pitch": 1.05 }
+      ],
+      "subtitle": "subtitles.warn.ender_addon_pack:deactiveted"
     }
   }
 }

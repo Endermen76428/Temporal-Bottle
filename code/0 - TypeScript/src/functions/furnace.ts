@@ -1,4 +1,4 @@
-import { world, Block, BlockComponentTypes, Container, ItemStack, Vector3, ItemTypes } from "@minecraft/server"
+import { Block, BlockComponentTypes, Container, ItemStack, ItemTypes, Vector3 } from "@minecraft/server"
 import { furnaceHasRecipe, furnaceRecipeList } from "../lib/variables/recipes/furnaceRecipes"
 import { furnaceFuelList } from "../lib/variables/recipes/fuelInfo"
 import { furnaceFuelStoredAmount } from "../lib/variables/cache"

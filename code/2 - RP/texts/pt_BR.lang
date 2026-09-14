@@ -1,29 +1,34 @@
 ## --------------------------------
-### Commands
+## #region Commands
 ## --------------------------------
 
+commands.temporal_bottle.give_time=Adicione ou defina um tempo em uma garrafa temporal
 warn.temporal_bottle:custom_command.give_time.fail.invalid_item=Item Inválido! Você precisa segurar uma Garrada Temporal na mão.
 warn.temporal_bottle:custom_command.give_time.success.add=Tempo adicionado na Garrafa Temporal.
 warn.temporal_bottle:custom_command.give_time.success.set=Tempo definido na Garrafa Temporal.
+## #endregion
 
 ## --------------------------------
-### Entity
+## #region Entity
 ## --------------------------------
 
 entity.temporal_bottle:temporal_bottle_entity.name=Energia Temporal
+## #endregion
 
 ## --------------------------------
-### Items
+## #region Items
 ## --------------------------------
 
 item.temporal_bottle:temporal_bottle=Garrafa Temporal
+## #endregion
 
 ## --------------------------------
-### Items Subtitle
+## #region Items Lore
 ## --------------------------------
 
 item_subtitle.temporal_bottle:stored_time=§aTempo Guardado %1
 item_subtitle.temporal_bottle:total_time=§7Tempo Total %1
+## #endregion
 
 
 

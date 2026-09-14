@@ -24,7 +24,7 @@ export const startUpCommandFunc: Record<StartUpCommandIds, (origin: CustomComman
 export const startUpCommandHeader: Record<StartUpCommandIds, CustomCommand> = {
   "giveTime": {
     name: "temporal_bottle:givetime",
-    description: "commands.temporal_bottle:give_time.description",
+    description: "commands.temporal_bottle.give_time",
     cheatsRequired: true,
     permissionLevel: CommandPermissionLevel.GameDirectors,
     mandatoryParameters: [

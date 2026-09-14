@@ -1,29 +1,34 @@
 ## --------------------------------
-### Commands
+## #region Commands
 ## --------------------------------
 
+commands.temporal_bottle.give_time=Give or set time to a Temporal Bottle
 warn.temporal_bottle:custom_command.give_time.fail.invalid_item=Invalid Item! You need to hold a Temporal Bottle in your hand.
 warn.temporal_bottle:custom_command.give_time.success.add=Time added to the Temporal Bottle.
 warn.temporal_bottle:custom_command.give_time.success.set=Time setted to the Temporal Bottle.
+## #endregion
 
 ## --------------------------------
-### Entity
+## #region Entity
 ## --------------------------------
 
 entity.temporal_bottle:temporal_bottle_entity.name=Temporal Energy
+## #endregion
 
 ## --------------------------------
-### Items
+## #region Items
 ## --------------------------------
 
 item.temporal_bottle:temporal_bottle=Temporal Bottle
+## #endregion
 
 ## --------------------------------
-### Items Subtitle
+## #region Items Lore
 ## --------------------------------
 
 item_subtitle.temporal_bottle:stored_time=§aStored Time %1
 item_subtitle.temporal_bottle:total_time=§7Total Time %1
+## #endregion
 
 
 

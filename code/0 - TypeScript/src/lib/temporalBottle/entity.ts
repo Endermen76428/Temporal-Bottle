@@ -1,7 +1,7 @@
 import { temporalBottleFuncBrewStand } from "../../functions/brewingStand"
 import { temporalBottleFuncFurnace } from "../../functions/furnace"
-import { world, system, Block, Entity } from "@minecraft/server"
 import { furnaceFuelStoredAmount } from "../variables/cache"
+import { Block, Entity, system } from "@minecraft/server"
 import { temporalBottleBlock } from "./block"
 import { temporalBottleInfo } from "./info"
 
@@ -32,6 +32,8 @@ export const temporalBottleEntity = new class TemporalBottleEntity {
       const execute = accelerationTypeFunc[blockSpeed.type]
       if(execute) execute(block)
     }, tickInterval)
+
+    console.warn(tickInterval)
 
     accelerationRunInterval.set(entity.id, runIntervalId)
   }

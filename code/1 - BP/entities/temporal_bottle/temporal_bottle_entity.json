@@ -7,7 +7,7 @@
       "is_summonable": true,
       "is_experimental": false,
       "properties": {
-        "temporal_bottle:tier": { "type": "int", "range": [0, 999], "default": 0, "client_sync": true }
+        "temporal_bottle:tier": { "type": "int", "range": [0, 16], "default": 0, "client_sync": true }
       }
     },
 

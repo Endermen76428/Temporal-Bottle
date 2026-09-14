@@ -1,18 +1,18 @@
 {
   "format_version": 2,
   "header": {
-    "name": "Temporal Bottle v0.2 (Texture / Alpha)",
+    "name": "Temporal Bottle v0.3 (Texture / Alpha)",
     "description": "pack.description",
     "uuid": "f8d0158d-3e5a-4d80-af33-ede57b05e053",
-    "min_engine_version": [1, 21, 130],
-    "version": [0, 2, 0],
+    "min_engine_version": [1, 26, 30],
+    "version": [0, 3, 0],
     "pack_scope": "world"
   },
   "modules": [
     {
       "type": "resources",
       "uuid": "7960842b-873c-40dc-9f2e-7daf026fc387",
-      "version": [0, 2, 0]
+      "version": [0, 3, 0]
     }
   ],
   "metadata": {
@@ -24,7 +24,7 @@
   "dependencies": [
     {
       "uuid": "2505272e-2b60-4aff-bdf6-90e7de8d13cc",
-      "version": [0, 2, 0]
+      "version": [0, 3, 0]
     }
   ]
 }
