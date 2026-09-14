@@ -1,0 +1,30 @@
+## --------------------------------
+### Commands
+## --------------------------------
+
+warn.temporal_bottle:custom_command.give_time.fail.invalid_item=Item Inválido! Você precisa segurar uma Garrada Temporal na mão.
+warn.temporal_bottle:custom_command.give_time.success.add=Tempo adicionado na Garrafa Temporal.
+warn.temporal_bottle:custom_command.give_time.success.set=Tempo definido na Garrafa Temporal.
+
+## --------------------------------
+### Entity
+## --------------------------------
+
+entity.temporal_bottle:temporal_bottle_entity.name=Energia Temporal
+
+## --------------------------------
+### Items
+## --------------------------------
+
+item.temporal_bottle:temporal_bottle=Garrafa Temporal
+
+## --------------------------------
+### Items Subtitle
+## --------------------------------
+
+item_subtitle.temporal_bottle:stored_time=§aTempo Guardado %1
+item_subtitle.temporal_bottle:total_time=§7Tempo Total %1
+
+
+
+pack.description=Não tem descrição

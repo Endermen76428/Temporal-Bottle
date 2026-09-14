@@ -1,0 +1,43 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "Temporal Bottle v0.2 (Addon / Alpha)",
+    "description": "pack.description",
+    "uuid": "2505272e-2b60-4aff-bdf6-90e7de8d13cc",
+    "min_engine_version": [1, 21, 130],
+    "version": [0, 2, 0]
+  },
+  "modules": [
+    {
+      "type": "data",
+      "uuid": "8dae2e7f-16e9-4b20-b961-41c2856fb501",
+      "version": [0, 2, 0]
+    },
+    {
+      "type": "script",
+      "language": "javascript",
+      "entry": "scripts/temporal_bottle/main.js",
+      "uuid": "4c67e7b7-5d9f-49ab-bd76-1d4c9d971dd7",
+      "version": [0, 2, 0]
+    }
+  ],
+  "metadata": {
+    "product_type": "addon",
+    "authors": ["§bEndermen76428§r & §5Heartiorn§r"],
+    "url": "https://www.curseforge.com/minecraft-bedrock/addons/temporal-bottle"
+  },
+  "dependencies": [
+    {
+      "uuid": "f8d0158d-3e5a-4d80-af33-ede57b05e053",
+      "version": [0, 2, 0]
+    },
+    {
+      "module_name": "@minecraft/server",
+      "version": "2.4.0"
+    },
+    {
+      "module_name": "@minecraft/server-ui",
+      "version": "2.0.0"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "resource_pack_name": "Temporal Bottle",
+  "texture_name": "atlas.items",
+  "texture_data": {
+    "temporal_bottle:time_in_a_bottle": { "textures": "textures/temporal_bottle/items/temporal_bottle" }
+  }
+}

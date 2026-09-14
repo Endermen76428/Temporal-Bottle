@@ -1,0 +1,30 @@
+## --------------------------------
+### Commands
+## --------------------------------
+
+warn.temporal_bottle:custom_command.give_time.fail.invalid_item=Invalid Item! You need to hold a Temporal Bottle in your hand.
+warn.temporal_bottle:custom_command.give_time.success.add=Time added to the Temporal Bottle.
+warn.temporal_bottle:custom_command.give_time.success.set=Time setted to the Temporal Bottle.
+
+## --------------------------------
+### Entity
+## --------------------------------
+
+entity.temporal_bottle:temporal_bottle_entity.name=Temporal Energy
+
+## --------------------------------
+### Items
+## --------------------------------
+
+item.temporal_bottle:temporal_bottle=Temporal Bottle
+
+## --------------------------------
+### Items Subtitle
+## --------------------------------
+
+item_subtitle.temporal_bottle:stored_time=§aStored Time %1
+item_subtitle.temporal_bottle:total_time=§7Total Time %1
+
+
+
+pack.description=Don't have description

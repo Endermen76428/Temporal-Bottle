@@ -1,0 +1,47 @@
+{
+  "format_version" : "1.21.60",
+  "sound_definitions" : {
+    // Warnings
+    "temporal_bottle.warn.levelup": {
+      "category": "warn",
+      "max_distance": 8,
+      "min_distance": 0,
+      "sounds": [ { "name" : "sounds/random/levelup", "is3D": false } ]
+    },
+    "temporal_bottle.warn.bass": {
+      "category": "warn",
+      "max_distance": 8,
+      "min_distance": 0,
+      "sounds": [ { "name" : "sounds/note/bass", "is3D": false } ]
+    },
+    "temporal_bottle.warn.break": {
+      "category": "warn",
+      "max_distance": 8,
+      "min_distance": 0,
+      "sounds": [ { "name" : "sounds/random/break", "is3D": false } ]
+    },
+    "temporal_bottle.warn.pop": {
+      "category": "warn",
+      "max_distance": 8,
+      "min_distance": 0,
+      "sounds": [ { "name" : "sounds/random/pop", "is3D": false } ]
+    },
+    "temporal_bottle.warn.orb": {
+      "category": "warn",
+      "max_distance": 8,
+      "min_distance": 0,
+      "sounds": [ { "name" : "sounds/random/orb", "is3D": false } ]
+    },
+    "temporal_bottle.warn.break_amethyst": {
+      "category": "warn",
+      "max_distance": 8,
+      "min_distance": 0,
+      "sounds": [
+        { "name" : "sounds/block/amethyst/break1", "is3D": false },
+        { "name" : "sounds/block/amethyst/break2", "is3D": false },
+        { "name" : "sounds/block/amethyst/break3", "is3D": false },
+        { "name" : "sounds/block/amethyst/break4", "is3D": false }
+      ]
+    }
+  }
+}
