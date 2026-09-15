@@ -1,5 +1,3 @@
-import { ItemStack, ItemTypes, system } from "@minecraft/server"
-
 export const timeCostByUse = 30 // Base of time cost
 export const maxSpeedTier = 8 // Max amount of acelerations
 

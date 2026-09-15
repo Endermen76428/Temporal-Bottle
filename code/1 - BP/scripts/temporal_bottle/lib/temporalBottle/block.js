@@ -1,7 +1,7 @@
 import { system } from "@minecraft/server";
 export const temporalBottleBlock = new class TemporalBottleBlock {
     getCurrentSpeed(block) {
-        const entities = block.dimension.getEntitiesAtBlockLocation(block).filter(value => value.typeId == "temporal_bottle:temporal_bottle_entity");
+        const entities = block.dimension.getEntitiesAtBlockLocation(block).filter(value => value.typeId == "temporal_bottle:temporal_zone");
         if (entities.length == 0)
             return;
         const entitiesTier = entities.map(value => {
@@ -20,30 +20,14 @@ export const temporalBottleBlock = new class TemporalBottleBlock {
         }
         return highestTier;
     }
-    getBlockTime(blockId) {
-        const furnace = furnaceTimeList[blockId];
-        if (furnace)
-            return { type: "furnace", time: furnace };
-        const hopper = hopperTimeList[blockId];
-        if (hopper)
-            return { type: "hopper", time: hopper };
-        const brewingStand = brewingStandTimeList[blockId];
-        if (brewingStand)
-            return { type: "brewing_stand", time: brewingStand };
-        return;
-    }
 };
-const brewingStandTimeList = {
-    "minecraft:brewing_stand": 30
-};
-const furnaceTimeList = {
-    "minecraft:furnace": 10,
-    "minecraft:blast_furnace": 5,
-    "minecraft:smoker": 5,
-    "minecraft:lit_furnace": 10,
-    "minecraft:lit_blast_furnace": 5,
-    "minecraft:lit_smoker": 5
-};
-const hopperTimeList = {
-    "minecraft:hopper": 2.5
+export const blocksTimeList = {
+    "minecraft:furnace": { type: "furnace", time: 10 },
+    "minecraft:lit_furnace": { type: "furnace", time: 10 },
+    "minecraft:blast_furnace": { type: "furnace", time: 5 },
+    "minecraft:lit_blast_furnace": { type: "furnace", time: 5 },
+    "minecraft:smoker": { type: "furnace", time: 5 },
+    "minecraft:lit_smoker": { type: "furnace", time: 5 },
+    "minecraft:brewing_stand": { type: "brewing_stand", time: 30 },
+    "minecraft:hopper": { type: "hopper", time: 2.5 }
 };

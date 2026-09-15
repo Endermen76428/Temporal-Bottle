@@ -2,7 +2,7 @@
   "format_version": "1.19.30",
   "minecraft:entity": {
     "description": {
-      "identifier": "temporal_bottle:temporal_bottle_entity",
+      "identifier": "temporal_bottle:temporal_zone",
       "is_spawnable": true,
       "is_summonable": true,
       "is_experimental": false,

@@ -1,6 +1,6 @@
-import { world, Block, BlockComponentTypes, Container, ItemComponentTypes, ItemPotionComponent, Potions, ItemStack } from "@minecraft/server"
-import { brewingStandInputOutput } from "../lib/variables/recipes/brewingStandRecipes"
-import { apiItemAmount } from "../lib/item/amount"
+import { Block, BlockComponentTypes, Container, ItemComponentTypes, ItemPotionComponent, ItemStack, Potions } from "@minecraft/server"
+import { brewingStandInputOutput } from "../../lib/variables/recipes/brewingStandRecipes"
+import { apiItemAmount } from "../../lib/item/amount"
 
 export const temporalBottleFuncBrewStand = new class TemporalBottleFuncBrewStand {
   brewing(block: Block): void {

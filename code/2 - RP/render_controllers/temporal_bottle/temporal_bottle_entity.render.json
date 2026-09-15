@@ -1,7 +1,7 @@
 {
   "format_version": "1.8.0",
   "render_controllers": {
-    "controller.render.temporal_bottle.temporal_bottle_entity": {
+    "controller.render.temporal_bottle.temporal_zone": {
       "ignore_lighting": true,
       "arrays": {
         "textures": {

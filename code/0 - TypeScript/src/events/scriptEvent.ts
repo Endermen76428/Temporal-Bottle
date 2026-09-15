@@ -1,4 +1,4 @@
-import { temporalBottleEntity } from "../lib/temporalBottle/entity"
+import { temporalZone } from "../functions/temporalZone"
 import { Block, Entity, system } from "@minecraft/server"
 
 system.afterEvents.scriptEventReceive.subscribe(({id, message, sourceEntity, sourceBlock}) => {
@@ -11,6 +11,6 @@ const scriptEventManager: { [key: string]: (message: string, sourceE?: Entity, s
   "temporal_bottle:start_acceleration": (message, sourceE) => {
     if(!sourceE || !sourceE.isValid) return
 
-    temporalBottleEntity.createInterval(sourceE)
+    temporalZone.createZone(sourceE)
   }
 }

@@ -12,7 +12,7 @@ warn.temporal_bottle:custom_command.give_time.success.set=Tempo definido na Garr
 ## #region Entity
 ## --------------------------------
 
-entity.temporal_bottle:temporal_bottle_entity.name=Energia Temporal
+entity.temporal_bottle:temporal_zone.name=Energia Temporal
 ## #endregion
 
 ## --------------------------------

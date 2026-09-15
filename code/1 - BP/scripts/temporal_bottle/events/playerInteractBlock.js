@@ -1,23 +1,21 @@
 import { temporalBottleBlock } from "../lib/temporalBottle/block";
 import { temporalBottleItem } from "../lib/temporalBottle/bottle";
+import { system, world } from "@minecraft/server";
 import { maxSpeedTier } from "../lib/variables/cache";
-import { world, system } from "@minecraft/server";
 world.beforeEvents.playerInteractWithBlock.subscribe(ev => {
     if (!ev.isFirstEvent)
         return;
-    if (enableTemporalAccelerate(ev))
-        return;
-});
-function enableTemporalAccelerate(ev) {
     const { block, player, itemStack: item } = ev;
-    if (item?.typeId != "temporal_bottle:temporal_bottle")
-        return false;
-    const currentSpeed = temporalBottleBlock.getCurrentSpeed(block);
-    if (!currentSpeed) {
-        if (temporalBottleItem.hasTime(player, 0)) {
+    if (item?.typeId == "temporal_bottle:temporal_bottle")
+        if (enableTemporalAccelerate(block, player))
             ev.cancel = true;
+});
+function enableTemporalAccelerate(block, player) {
+    const currentSpeed = temporalBottleBlock.getCurrentSpeed(block);
+    if (currentSpeed == undefined) {
+        if (temporalBottleItem.hasTime(player, 0)) {
             system.run(() => {
-                block.dimension.spawnEntity("temporal_bottle:temporal_bottle_entity", block.bottomCenter());
+                block.dimension.spawnEntity("temporal_bottle:temporal_zone", block.bottomCenter());
                 temporalBottleItem.decreaseTime(player, 0);
             });
         }
@@ -29,7 +27,6 @@ function enableTemporalAccelerate(ev) {
                 currentSpeed.entity.triggerEvent("temporal_bottle:increase_tier");
                 temporalBottleItem.decreaseTime(player, currentSpeed.tier + 1);
             });
-            ev.cancel = true;
             return true;
         }
     }

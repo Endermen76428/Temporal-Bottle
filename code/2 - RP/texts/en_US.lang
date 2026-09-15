@@ -12,7 +12,7 @@ warn.temporal_bottle:custom_command.give_time.success.set=Time setted to the Tem
 ## #region Entity
 ## --------------------------------
 
-entity.temporal_bottle:temporal_bottle_entity.name=Temporal Energy
+entity.temporal_bottle:temporal_zone.name=Temporal Energy
 ## #endregion
 
 ## --------------------------------

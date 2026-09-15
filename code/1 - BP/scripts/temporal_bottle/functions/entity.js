@@ -1,6 +1,6 @@
-import { temporalBottleFuncBrewStand } from "../../functions/blocks/brewingStand";
-import { temporalBottleFuncFurnace } from "../../functions/blocks/furnace";
-import { blocksTimeList, temporalBottleBlock } from "./block";
+import { temporalBottleFuncBrewStand } from "./blocks/brewingStand";
+import { temporalBottleFuncFurnace } from "./blocks/furnace";
+import { blocksTimeList, temporalBottleBlock } from "../lib/temporalBottle/block";
 export const temporalBottleEntity = new class TemporalBottleEntity {
     createInterval(entity) {
         const block = entity.dimension.getBlock(entity.location);

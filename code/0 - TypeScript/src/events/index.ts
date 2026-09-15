@@ -1,7 +1,7 @@
 import { temporalBottleItem } from "../lib/temporalBottle/bottle"
 import { cachePlayerBottleSlot } from "../lib/variables/cache"
 import { apiInventory } from "../lib/player/inventory"
-import { world, system } from "@minecraft/server"
+import { system, world } from "@minecraft/server"
 import "./customComponent/startUp"
 import "./playerInteractBlock"
 import "./inventoryChange"

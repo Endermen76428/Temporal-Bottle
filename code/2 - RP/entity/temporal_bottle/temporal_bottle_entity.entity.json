@@ -2,7 +2,7 @@
   "format_version": "1.10.0",
   "minecraft:client_entity": {
     "description": {
-      "identifier": "temporal_bottle:temporal_bottle_entity",
+      "identifier": "temporal_bottle:temporal_zone",
       "materials": { "default": "entity_alphatest_one_sided" },
       "textures": {
         "speed_2x": "textures/temporal_bottle/entity/2x",
@@ -14,14 +14,14 @@
         "speed_128x": "textures/temporal_bottle/entity/128x",
         "speed_256x": "textures/temporal_bottle/entity/256x"
       },
-      "geometry": { "default": "geometry.temporal_bottle.temporal_bottle_entity" },
+      "geometry": { "default": "geometry.temporal_bottle.temporal_zone" },
       "scripts": {
         "scale": "1.005",
         "pre_animation": [
           "v.tier = q.property('temporal_bottle:tier');"
         ]
       },
-      "render_controllers": [ "controller.render.temporal_bottle.temporal_bottle_entity" ]
+      "render_controllers": [ "controller.render.temporal_bottle.temporal_zone" ]
     }
   }
 }
