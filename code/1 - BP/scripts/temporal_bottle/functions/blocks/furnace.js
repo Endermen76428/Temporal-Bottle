@@ -49,7 +49,6 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
             }
             const canSmelt = Math.min(output ? (output.maxAmount - output.amount) : 64, input.amount);
             const maxTicks = Math.min(canSmelt * maxProcess, multiplier);
-            console.warn("Min: (", fuelTime, "+", progress, ") <", maxTicks, "=", (fuelTime + progress) < maxTicks, "/// (", canSmelt, ":", canSmelt * maxProcess, ") |", multiplier);
             if ((fuelTime + progress) < maxTicks) {
                 const fuel = inventory.getItem(1);
                 if (fuel == undefined) {
@@ -67,8 +66,6 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
                 }
                 const itemFuelTime = gettedFuelTime * maxProcess;
                 const fuelNeeded = Math.min(fuel.amount, Math.ceil((maxTicks - fuelTime) / itemFuelTime));
-                console.warn("Combustivel Pego:", fuel.amount, "ou", Math.ceil((maxTicks - fuelTime) / itemFuelTime), "=", fuelNeeded);
-                console.warn("( (", maxTicks, "-", fuelTime, ") /", itemFuelTime, ") =", Math.ceil((maxTicks - fuelTime) / itemFuelTime), "ou", fuel.amount, "=", fuelNeeded, "items =>", itemFuelTime * fuelNeeded, "ticks => Current:", fuelTime + itemFuelTime * fuelNeeded);
                 if (fuel.amount - fuelNeeded == 0) {
                     inventory.setItem(1, undefined);
                 }
@@ -81,7 +78,6 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
             const minConsume = Math.min(multiplier, info.fuelTime);
             const totalProgress = info.progress + minConsume;
             const amount = Math.min(canSmelt, Math.floor(totalProgress / maxProcess));
-            console.warn("Gerado:", info.progress, "+", minConsume, "=", totalProgress, "/", maxProcess, "=", amount, "| Sobra P:", totalProgress - amount * maxProcess, "F:", info.fuelTime - minConsume, "/ Consume:", minConsume, "/ Progress:", amount * maxProcess);
             info.progress = totalProgress - amount * maxProcess;
             info.fuelTime -= minConsume;
             if (amount <= 0)

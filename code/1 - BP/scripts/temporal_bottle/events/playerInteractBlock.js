@@ -16,7 +16,6 @@ function enableTemporalAccelerate(block, player) {
         if (temporalBottleItem.hasTime(player, 0)) {
             system.run(() => {
                 const entity = block.dimension.spawnEntity("temporal_bottle:temporal_zone", block.bottomCenter());
-                entity.setProperty("temporal_bottle:tier", maxSpeedTier);
                 temporalBottleItem.decreaseTime(player, 0);
             });
         }
