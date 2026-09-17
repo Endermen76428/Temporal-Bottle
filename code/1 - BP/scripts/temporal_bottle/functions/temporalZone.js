@@ -14,16 +14,18 @@ export const temporalZone = new class TemporalZone {
         const speedTier = temporalBottleBlock.getCurrentSpeed(block);
         if (!speedTier)
             return;
+        let multiplier = 1 << (speedTier.tier + 1);
+        multiplier = multiplier < 0 ? 2147483647 : multiplier;
         const exe = accelerationTypeFunc[blockSpeed.type];
-        exe && exe(entity, block, 1 << (speedTier.tier + 1));
+        exe && exe(entity, block, 1 << (speedTier.tier + 1), blockSpeed.time);
     }
 };
 const accelerationTypeFunc = {
-    "furnace": (entity, block, multiplier) => {
+    "furnace": (entity, block, multiplier, time) => {
         const inventory = block.getComponent(BlockComponentTypes.Inventory)?.container;
         if (inventory == undefined)
             return;
-        temporalBottleFuncFurnace.add(entity, block, inventory, multiplier);
+        temporalBottleFuncFurnace.add(entity, block, inventory, multiplier, time * 20);
         addToGlobalLoop("furnaceAccelerate");
     },
     "brewing_stand": (entity, block, multiplier) => temporalBottleFuncBrewStand.brewing(block)

@@ -7,6 +7,16 @@ world.beforeEvents.playerInteractWithBlock.subscribe(ev => {
   if(!ev.isFirstEvent) return
   const { block, player, itemStack: item } = ev
 
+  // if(block.typeId == "minecraft:furnace"){
+  //   system.run(() => {
+  //     const event = world.afterEvents.playerInventoryItemChange.subscribe(({player, itemStack, beforeItemStack}) => {
+  //       if(itemStack?.typeId == "temporal_bottle:temporal_bottle") return
+  //       console.warn(beforeItemStack?.typeId, ">", itemStack?.typeId)
+  //       world.afterEvents.playerInventoryItemChange.unsubscribe(event)
+  //     })
+  //   })
+  // }
+
   if(item?.typeId == "temporal_bottle:temporal_bottle") if(enableTemporalAccelerate(block, player)) ev.cancel = true
 })
 
@@ -16,7 +26,8 @@ function enableTemporalAccelerate(block: Block, player: Player): boolean {
   if(currentSpeed == undefined){
     if(temporalBottleItem.hasTime(player, 0)){
       system.run(() => {
-        block.dimension.spawnEntity("temporal_bottle:temporal_zone", block.bottomCenter())
+        const entity = block.dimension.spawnEntity("temporal_bottle:temporal_zone", block.bottomCenter())
+        entity.setProperty("temporal_bottle:tier", maxSpeedTier)
         temporalBottleItem.decreaseTime(player, 0)
       })
     }

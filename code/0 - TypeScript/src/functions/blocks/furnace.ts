@@ -1,16 +1,18 @@
 import { furnaceHasRecipe, furnaceRecipeList } from "../../lib/variables/recipes/furnaceRecipes"
-import { Block, Container, Entity, ItemStack, Vector3 } from "@minecraft/server"
+import { Block, Container, Entity, ItemStack } from "@minecraft/server"
 import { furnaceFuelList } from "../../lib/variables/recipes/fuelInfo"
-import { furnaceFuelStoredAmount } from "../../lib/variables/cache"
-import { apiItemAmount } from "../../lib/item/amount"
 import { removeFromGlobalLoop } from "../globalLoop"
+import { apiNumbers } from "../../lib/math/numbers"
+
+// let time = 0
+// let time2 = 0
 
 export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
   private furnacesInfo: { [key: string]: IIntervalInfo } = {}
 
-  add(entity: Entity, block: Block, inventory: Container, multiplier: number): void {
+  add(entity: Entity, block: Block, inventory: Container, multiplier: number, maxProcess: number): void {
     const id = (block.x << 20) ^ (block.z << 10) ^ block.y
-    this.furnacesInfo[id] = { entity, block, inventory, multiplier, fuelTime: 0, progress: 0 }
+    this.furnacesInfo[id] = { entity, block, inventory, multiplier, fuelTime: 0, progress: 0, maxProcess }
   }
 
   update(): void {
@@ -21,7 +23,7 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
     for(let i = 0; i < length; i++){
       const [ key, info ] = furnaces[i] ?? []
       if(key == undefined || info == undefined) continue
-      const { entity, block, inventory, multiplier, fuelTime, progress, gettingRecipe } = info
+      const { entity, block, inventory, multiplier, fuelTime, progress, maxProcess, gettingRecipe } = info
 
       // Remove a backpack da lista quando ela fica inválida
       if(!entity.isValid || !block.isValid || !inventory.isValid){
@@ -32,13 +34,17 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
 
       if(gettingRecipe != undefined) continue
 
-      if(fuelTime > 0) info.fuelTime -= multiplier
-
       const input = inventory.getItem(0)
       if(input == undefined){
-        if(progress > 0){
+        if(progress > 0 || fuelTime > 0){
           info.progress = 0
+          info.fuelTime -= apiNumbers.clamp(info.fuelTime - multiplier, 0, info.fuelTime) // console.warn("Tem que ver um jeito melhor, talvez fazer as const ali em cima virarem let e trabalhar com elas e o info. fica só pra execuções do proximo tick e não desse atual, acho que fica melhor")
         }
+        // if(time2 == 0){
+        //   console.warn((Date.now() - time) / 1000, "segundos")
+        //   time2 = 1
+        //   time = 0
+        // }
         continue
       }
 
@@ -51,6 +57,7 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
       const expectedOutput = furnaceRecipeList[input.typeId]
       if(expectedOutput == undefined) continue
 
+      // Para de executar se ele for um output diferente do esperado
       if(output != undefined && expectedOutput != output.typeId){
         if(progress > 0){
           info.progress = 0
@@ -58,8 +65,12 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
         continue
       }
 
-      // console.warn("Fuel:", fuelTime, "/ Progress:", progress)
-      if(fuelTime <= 0){
+      // Pega a quantia minima de itens que podem ser fundidos tanto pela quantia no input quanto a quantia restante no output
+      const canSmelt = Math.min(output ? (output.maxAmount - output.amount) : 64, input.amount)
+      const maxTicks = Math.min(canSmelt * maxProcess, multiplier)
+
+      // console.warn("Min:", fuelTime, "<", maxTicks, "=", fuelTime < maxTicks, "/// (", canSmelt, ":", canSmelt * maxProcess, ") |", multiplier)
+      if(fuelTime < maxTicks){
         const fuel = inventory.getItem(1)
         if(fuel == undefined){
           if(progress > 0){
@@ -67,6 +78,12 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
           }
           continue
         }
+        // else {
+        //   if(time == 0){
+        //     time = Date.now()
+        //     time2 = 0
+        //   }
+        // }
 
         const gettedFuelTime = furnaceFuelList[fuel.typeId]
         if(gettedFuelTime == undefined){
@@ -76,102 +93,55 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
           continue
         }
 
-        if(fuel.amount -1 == 0){
+        const itemFuelTime = gettedFuelTime * maxProcess
+        // Pega a quantia de combustiveis necessarios para poder executar novamente caso não tenha pega tudo que resta
+        const fuelNeeded = Math.min(fuel.amount, Math.ceil((maxTicks - fuelTime) / itemFuelTime))
+        console.warn("Combustivel Pego:", fuel.amount, "ou", Math.ceil((maxTicks - fuelTime) / itemFuelTime), "=", fuelNeeded)
+        // acho que tem que meter o input.amount tipo ele vai consumir 2 madeira pra esquentar 1 item se colcoar só 1
+        console.warn("( (", maxTicks, "-", fuelTime, ") /", itemFuelTime, ") =", Math.ceil((maxTicks - fuelTime) / itemFuelTime), "ou", fuel.amount, "=", fuelNeeded, "items =>", itemFuelTime * fuelNeeded, "ticks => Current:", fuelTime + itemFuelTime * fuelNeeded)
+
+        if(fuel.amount - fuelNeeded == 0){
           inventory.setItem(1, undefined)
         } else {
-          fuel.amount--
+          fuel.amount -= fuelNeeded
           inventory.setItem(1, fuel)
         }
-        info.fuelTime += gettedFuelTime *200 // 200 ticks = 10s tempo de assar 1 item na fornalha
+        info.fuelTime += itemFuelTime * fuelNeeded // 200 ticks = 10s tempo de assar 1 item na fornalha normal / 100 se for no smoker ou blast
       }
 
-      console.warn(info.progress, "+", multiplier, "=", info.progress + multiplier)
-      info.progress += multiplier
-      // Gera o resultado
-      while(info.progress >= 200){
-        if(output == undefined){
-          output = new ItemStack(expectedOutput)
-        } else {
-          output.amount++
-        }
-        inventory.setItem(2, output)
+      const minConsume = Math.min(multiplier, info.fuelTime)
+      const totalProgress = info.progress + minConsume
+      // Pega o minino entre execuções possiveis por quantiade de itens e pela quantia que deveria ser fundida
+      const amount = Math.min(canSmelt, Math.floor(totalProgress / maxProcess))
+      // console.warn("Gerado:", info.progress, "+", minConsume, "=", totalProgress, "/", maxProcess, "=", amount, "| Sobra P:", totalProgress - amount * maxProcess, "F:", info.fuelTime - minConsume)
+      info.progress = totalProgress - amount * maxProcess
+      info.fuelTime -= minConsume
 
-        // Decremetanta o input
-        if(input.amount -1 == 0){
-          inventory.setItem(0, undefined)
-        } else {
-          input.amount--
-          inventory.setItem(0, input)
-        }
-        info.progress -= 200
-        // info.fuelTime -= 175 // Não é a forma certa
+      if(amount <= 0) continue
+
+      if(output == undefined){
+        output = new ItemStack(expectedOutput, amount)
+      } else {
+        output.amount += amount
       }
+      inventory.setItem(2, output)
+
+      // console.warn("Input B:", input.amount, "-", amount)
+      if(input.amount - amount == 0){
+        inventory.setItem(0, undefined)
+      } else {
+        input.amount -= amount
+        inventory.setItem(0, input)
+      }
+      // console.warn("Input A:", input.amount)
+
+      // if(fuelTime > 0) info.fuelTime -= multiplier // Por hora deixa fora só pra testar
     }
 
     // Desativa o loop se não tiver mais fornalhas
     if(length == invalids){
       removeFromGlobalLoop("furnaceAccelerate")
     }
-
-    // const blockInv = block.getComponent(BlockComponentTypes.Inventory)?.container
-    // if(!blockInv) return
-
-    // // Remove the fuel even without an item on the input slot
-    // const currentFuel = furnaceFuelStoredAmount.get((block.x << 20) ^ (block.y << 10) ^ block.z) ?? 0
-    // furnaceFuelStoredAmount.set((block.x << 20) ^ (block.y << 10) ^ block.z, currentFuel <= 1 ? 0 : currentFuel -1)
-
-    // const inputSlot = blockInv.getItem(0)
-    // if(!inputSlot) return
-
-    // if(!(furnaceHasRecipe[block.typeId.replace("lit_", "")]?.has(inputSlot.typeId) ?? false)) return
-
-    // const expectedOutput = furnaceRecipeList[inputSlot.typeId]
-    // if(!expectedOutput) return
-
-    // const output = blockInv.getItem(2)
-
-    // let outputSlot: false | ItemStack | null = null
-    // if(Array.isArray(expectedOutput)){
-    //   for(const outputId of expectedOutput){
-    //     if(ItemTypes.get(outputId) && (output?.typeId == outputId || output == undefined)){
-    //       outputSlot = apiItemAmount.increase(output ?? outputId, 1)
-    //       break
-    //     }
-    //   }
-    // } else {
-    //   // Cancels the execution if the current output isn't equal to the item that the current input would result in
-    //   if(output?.typeId != expectedOutput && output != undefined) return
-    //   if(ItemTypes.get(output?.typeId ?? expectedOutput)) outputSlot = apiItemAmount.increase(output ?? expectedOutput, 1)
-    // }
-
-    // if(!outputSlot) outputSlot = false
-    // if(outputSlot == false) return
-
-    // const newFuelAmount = this.consumeFuel(block, blockInv, blockInv.getItem(1))
-    // if(newFuelAmount < 1) return
-
-    // const itemInput = apiItemAmount.decrease(inputSlot, 1)
-
-    // blockInv.setItem(0, itemInput)
-    // blockInv.setItem(2, outputSlot)
-  }
-
-  private consumeFuel(pos: Vector3, blockInv: Container, invFuel: ItemStack | undefined): number {
-    const id = (pos.x << 20) ^ (pos.y << 10) ^ pos.z
-    let fuelStored = furnaceFuelStoredAmount.get(id) ?? 0
-
-    if(fuelStored < 1 && invFuel){
-      const fuelTime = furnaceFuelList[invFuel.typeId]
-      if(!fuelTime) return fuelStored
-
-      fuelStored += fuelTime
-      furnaceFuelStoredAmount.set(id, fuelStored)
-
-      const reducedItem = apiItemAmount.decrease(invFuel, 1)
-      blockInv.setItem(1, reducedItem)
-    }
-
-    return fuelStored
   }
 }
 
@@ -182,6 +152,7 @@ interface IIntervalInfo {
   multiplier: number
   fuelTime: number
   progress: number
+  maxProcess: number
 
   gettingRecipe?: Block
 }
