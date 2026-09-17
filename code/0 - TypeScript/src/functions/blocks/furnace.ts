@@ -69,8 +69,8 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
       const canSmelt = Math.min(output ? (output.maxAmount - output.amount) : 64, input.amount)
       const maxTicks = Math.min(canSmelt * maxProcess, multiplier)
 
-      // console.warn("Min:", fuelTime, "<", maxTicks, "=", fuelTime < maxTicks, "/// (", canSmelt, ":", canSmelt * maxProcess, ") |", multiplier)
-      if(fuelTime < maxTicks){
+      console.warn("Min: (", fuelTime, "+", progress, ") <", maxTicks, "=", (fuelTime + progress) < maxTicks, "/// (", canSmelt, ":", canSmelt * maxProcess, ") |", multiplier)
+      if((fuelTime + progress) < maxTicks){
         const fuel = inventory.getItem(1)
         if(fuel == undefined){
           if(progress > 0){
@@ -97,7 +97,6 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
         // Pega a quantia de combustiveis necessarios para poder executar novamente caso não tenha pega tudo que resta
         const fuelNeeded = Math.min(fuel.amount, Math.ceil((maxTicks - fuelTime) / itemFuelTime))
         console.warn("Combustivel Pego:", fuel.amount, "ou", Math.ceil((maxTicks - fuelTime) / itemFuelTime), "=", fuelNeeded)
-        // acho que tem que meter o input.amount tipo ele vai consumir 2 madeira pra esquentar 1 item se colcoar só 1
         console.warn("( (", maxTicks, "-", fuelTime, ") /", itemFuelTime, ") =", Math.ceil((maxTicks - fuelTime) / itemFuelTime), "ou", fuel.amount, "=", fuelNeeded, "items =>", itemFuelTime * fuelNeeded, "ticks => Current:", fuelTime + itemFuelTime * fuelNeeded)
 
         if(fuel.amount - fuelNeeded == 0){
@@ -113,7 +112,7 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
       const totalProgress = info.progress + minConsume
       // Pega o minino entre execuções possiveis por quantiade de itens e pela quantia que deveria ser fundida
       const amount = Math.min(canSmelt, Math.floor(totalProgress / maxProcess))
-      // console.warn("Gerado:", info.progress, "+", minConsume, "=", totalProgress, "/", maxProcess, "=", amount, "| Sobra P:", totalProgress - amount * maxProcess, "F:", info.fuelTime - minConsume)
+      console.warn("Gerado:", info.progress, "+", minConsume, "=", totalProgress, "/", maxProcess, "=", amount, "| Sobra P:", totalProgress - amount * maxProcess, "F:", info.fuelTime - minConsume, "/ Consume:", minConsume, "/ Progress:", amount * maxProcess)
       info.progress = totalProgress - amount * maxProcess
       info.fuelTime -= minConsume
 

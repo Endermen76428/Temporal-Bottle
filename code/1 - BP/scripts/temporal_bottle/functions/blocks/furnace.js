@@ -49,7 +49,8 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
             }
             const canSmelt = Math.min(output ? (output.maxAmount - output.amount) : 64, input.amount);
             const maxTicks = Math.min(canSmelt * maxProcess, multiplier);
-            if (fuelTime < maxTicks) {
+            console.warn("Min: (", fuelTime, "+", progress, ") <", maxTicks, "=", (fuelTime + progress) < maxTicks, "/// (", canSmelt, ":", canSmelt * maxProcess, ") |", multiplier);
+            if ((fuelTime + progress) < maxTicks) {
                 const fuel = inventory.getItem(1);
                 if (fuel == undefined) {
                     if (progress > 0) {
@@ -80,6 +81,7 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
             const minConsume = Math.min(multiplier, info.fuelTime);
             const totalProgress = info.progress + minConsume;
             const amount = Math.min(canSmelt, Math.floor(totalProgress / maxProcess));
+            console.warn("Gerado:", info.progress, "+", minConsume, "=", totalProgress, "/", maxProcess, "=", amount, "| Sobra P:", totalProgress - amount * maxProcess, "F:", info.fuelTime - minConsume, "/ Consume:", minConsume, "/ Progress:", amount * maxProcess);
             info.progress = totalProgress - amount * maxProcess;
             info.fuelTime -= minConsume;
             if (amount <= 0)
