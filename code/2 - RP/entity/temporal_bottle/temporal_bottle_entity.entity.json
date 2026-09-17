@@ -12,7 +12,9 @@
         "speed_32x": "textures/temporal_bottle/entity/32x",
         "speed_64x": "textures/temporal_bottle/entity/64x",
         "speed_128x": "textures/temporal_bottle/entity/128x",
-        "speed_256x": "textures/temporal_bottle/entity/256x"
+        "speed_256x": "textures/temporal_bottle/entity/256x",
+        "speed_512x": "textures/temporal_bottle/entity/512x",
+        "speed_1024x": "textures/temporal_bottle/entity/1024x"
       },
       "geometry": { "default": "geometry.temporal_bottle.temporal_zone" },
       "scripts": {
