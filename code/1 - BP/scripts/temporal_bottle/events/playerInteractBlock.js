@@ -1,6 +1,6 @@
+import { system, world } from "@minecraft/server";
 import { temporalBottleBlock } from "../lib/temporalBottle/block";
 import { temporalBottleItem } from "../lib/temporalBottle/bottle";
-import { system, world } from "@minecraft/server";
 import { maxSpeedTier } from "../lib/variables/cache";
 world.beforeEvents.playerInteractWithBlock.subscribe(ev => {
     if (!ev.isFirstEvent)

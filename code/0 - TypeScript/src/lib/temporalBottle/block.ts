@@ -27,7 +27,7 @@ export const temporalBottleBlock = new class TemporalBottleBlock {
 }
 
 // ---------------------
-// Time in ticks
+// Time in Seconds
 // ---------------------
 export const blocksTimeList: { [key: string]: BlockTime } = {
   "minecraft:furnace": {type: "furnace", time: 10},

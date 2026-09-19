@@ -1,4 +1,4 @@
-import { world, ItemStack, Player, EquipmentSlot, GameMode } from "@minecraft/server"
+import { EquipmentSlot, GameMode, ItemStack, Player } from "@minecraft/server"
 import { cachePlayerBottleSlot } from "../variables/cache"
 import { apiEquippable } from "../player/equippable"
 import { apiInventory } from "../player/inventory"

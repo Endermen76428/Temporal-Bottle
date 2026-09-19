@@ -1,13 +1,13 @@
+const blastFurnaceRecipes = ["minecraft:ancient_debris", "minecraft:chainmail_boots", "minecraft:chainmail_chestplate", "minecraft:chainmail_helmet", "minecraft:chainmail_leggings", "minecraft:coal_ore", "minecraft:copper_axe", "minecraft:copper_boots", "minecraft:copper_chestplate", "minecraft:copper_helmet", "minecraft:copper_hoe", "minecraft:copper_horse_armor", "minecraft:copper_leggings", "minecraft:copper_nautilus_armor", "minecraft:copper_ore", "minecraft:copper_pickaxe", "minecraft:copper_shovel", "minecraft:copper_spear", "minecraft:copper_sword", "minecraft:deepslate_coal_ore", "minecraft:deepslate_copper_ore", "minecraft:deepslate_diamond_ore", "minecraft:deepslate_emerald_ore", "minecraft:deepslate_gold_ore", "minecraft:deepslate_iron_ore", "minecraft:deepslate_lapis_ore", "minecraft:deepslate_redstone_ore", "minecraft:diamond_ore", "minecraft:emerald_ore", "minecraft:gold_ore", "minecraft:golden_axe", "minecraft:golden_boots", "minecraft:golden_chestplate", "minecraft:golden_helmet", "minecraft:golden_hoe", "minecraft:golden_leggings", "minecraft:golden_nautilus_armor", "minecraft:golden_pickaxe", "minecraft:golden_shovel", "minecraft:golden_spear", "minecraft:golden_sword", "minecraft:horsearmorgold", "minecraft:horsearmoriron", "minecraft:iron_axe", "minecraft:iron_boots", "minecraft:iron_chestplate", "minecraft:iron_helmet", "minecraft:iron_hoe", "minecraft:iron_leggings", "minecraft:iron_nautilus_armor", "minecraft:iron_ore", "minecraft:iron_pickaxe", "minecraft:iron_shovel", "minecraft:iron_spear", "minecraft:iron_sword", "minecraft:lapis_ore", "minecraft:nether_gold_ore", "minecraft:quartz_ore", "minecraft:raw_copper", "minecraft:raw_gold", "minecraft:raw_iron", "minecraft:redstone_ore"];
+const smokerRecipes = ["minecraft:beef", "minecraft:chicken", "minecraft:fish", "minecraft:kelp", "minecraft:muttonRaw", "minecraft:porkchop", "minecraft:potato", "minecraft:rabbit", "minecraft:salmon"];
 export const furnaceHasRecipe = {
     "minecraft:furnace": new Set([
-        "minecraft:acacia_leaves", "minecraft:acacia_log", "minecraft:acacia_wood", "minecraft:ancient_debris", "minecraft:azalea_leaves", "minecraft:azalea_leaves_flowered", "minecraft:basalt", "minecraft:beef", "minecraft:birch_leaves", "minecraft:birch_log", "minecraft:birch_wood", "minecraft:black_terracotta", "minecraft:blue_terracotta", "minecraft:brown_terracotta", "minecraft:cactus", "minecraft:chainmail_boots", "minecraft:chainmail_chestplate", "minecraft:chainmail_helmet", "minecraft:chainmail_leggings", "minecraft:cherry_leaves", "minecraft:cherry_log", "minecraft:cherry_wood", "minecraft:chicken", "minecraft:chorus_fruit", "minecraft:clay", "minecraft:clay_ball", "minecraft:coal_ore", "minecraft:cobbled_deepslate", "minecraft:cobblestone", "minecraft:copper_axe", "minecraft:copper_boots", "minecraft:copper_chestplate", "minecraft:copper_helmet", "minecraft:copper_hoe", "minecraft:copper_horse_armor", "minecraft:copper_leggings", "minecraft:copper_nautilus_armor", "minecraft:copper_ore", "minecraft:copper_pickaxe", "minecraft:copper_shovel", "minecraft:copper_spear", "minecraft:copper_sword", "minecraft:cyan_terracotta", "minecraft:dark_oak_leaves", "minecraft:dark_oak_log", "minecraft:dark_oak_wood", "minecraft:deepslate_bricks", "minecraft:deepslate_coal_ore", "minecraft:deepslate_copper_ore", "minecraft:deepslate_diamond_ore", "minecraft:deepslate_emerald_ore", "minecraft:deepslate_gold_ore", "minecraft:deepslate_iron_ore", "minecraft:deepslate_lapis_ore", "minecraft:deepslate_redstone_ore", "minecraft:deepslate_tiles", "minecraft:diamond_ore", "minecraft:emerald_ore", "minecraft:fish", "minecraft:gold_ore", "minecraft:golden_axe", "minecraft:golden_boots", "minecraft:golden_chestplate", "minecraft:golden_helmet", "minecraft:golden_hoe", "minecraft:golden_horse_armor", "minecraft:golden_leggings", "minecraft:golden_nautilus_armor", "minecraft:golden_pickaxe", "minecraft:golden_shovel", "minecraft:golden_spear", "minecraft:golden_sword", "minecraft:gray_terracotta", "minecraft:green_terracotta", "minecraft:iron_axe", "minecraft:iron_boots", "minecraft:iron_chestplate", "minecraft:iron_helmet", "minecraft:iron_hoe", "minecraft:iron_horse_armor", "minecraft:iron_leggings", "minecraft:iron_nautilus_armor", "minecraft:iron_ore", "minecraft:iron_pickaxe", "minecraft:iron_shovel", "minecraft:iron_spear", "minecraft:iron_sword", "minecraft:jungle_leaves", "minecraft:jungle_log", "minecraft:jungle_wood", "minecraft:kelp", "minecraft:lapis_ore", "minecraft:light_blue_terracotta", "minecraft:light_gray_terracotta", "minecraft:lime_terracotta", "minecraft:magenta_terracotta", "minecraft:mangrove_leaves", "minecraft:mangrove_log", "minecraft:mangrove_wood", "minecraft:muttonRaw", "minecraft:nether_brick", "minecraft:nether_gold_ore", "minecraft:netherrack", "minecraft:oak_leaves", "minecraft:oak_log", "minecraft:oak_wood", "minecraft:orange_terracotta", "minecraft:pale_oak_leaves", "minecraft:pale_oak_log", "minecraft:pale_oak_wood", "minecraft:pink_terracotta", "minecraft:polished_blackstone_bricks", "minecraft:porkchop", "minecraft:potato", "minecraft:purple_terracotta", "minecraft:quartz_block", "minecraft:quartz_ore", "minecraft:rabbit", "minecraft:raw_copper", "minecraft:raw_gold", "minecraft:raw_iron", "minecraft:red_sand", "minecraft:red_sandstone", "minecraft:red_terracotta", "minecraft:redstone_ore", "minecraft:resin_clump", "minecraft:salmon", "minecraft:sand", "minecraft:sandstone", "minecraft:sea_pickle", "minecraft:spruce_leaves", "minecraft:spruce_log", "minecraft:spruce_wood", "minecraft:stone", "minecraft:stone_bricks", "minecraft:stripped_acacia_log", "minecraft:stripped_acacia_wood", "minecraft:stripped_birch_wood", "minecraft:stripped_cherry_log", "minecraft:stripped_cherry_wood", "minecraft:stripped_dark_oak_log", "minecraft:stripped_dark_oak_wood", "minecraft:stripped_jungle_log", "minecraft:stripped_jungle_wood", "minecraft:stripped_mangrove_log", "minecraft:stripped_mangrove_wood", "minecraft:stripped_oak_log", "minecraft:stripped_oak_wood", "minecraft:stripped_pale_oak_log", "minecraft:stripped_pale_oak_wood", "minecraft:stripped_spruce_log", "minecraft:stripped_spruce_wood", "minecraft:wet_sponge", "minecraft:white_terracotta", "minecraft:yellow_terracotta"
+        "minecraft:acacia_leaves", "minecraft:acacia_log", "minecraft:acacia_wood", "minecraft:azalea_leaves", "minecraft:azalea_leaves_flowered", "minecraft:basalt", "minecraft:birch_leaves", "minecraft:birch_log", "minecraft:birch_wood", "minecraft:black_terracotta", "minecraft:blue_terracotta", "minecraft:brown_terracotta", "minecraft:cactus", "minecraft:cherry_leaves", "minecraft:cherry_log", "minecraft:cherry_wood", "minecraft:chorus_fruit", "minecraft:clay", "minecraft:clay_ball", "minecraft:cobbled_deepslate", "minecraft:cobblestone", "minecraft:cyan_terracotta", "minecraft:dark_oak_leaves", "minecraft:dark_oak_log", "minecraft:dark_oak_wood", "minecraft:deepslate_bricks", "minecraft:deepslate_tiles", "minecraft:gray_terracotta", "minecraft:green_terracotta", "minecraft:jungle_leaves", "minecraft:jungle_log", "minecraft:jungle_wood", "minecraft:light_blue_terracotta", "minecraft:light_gray_terracotta", "minecraft:lime_terracotta", "minecraft:magenta_terracotta", "minecraft:mangrove_leaves", "minecraft:mangrove_log", "minecraft:mangrove_wood", "minecraft:nether_brick", "minecraft:netherrack", "minecraft:oak_leaves", "minecraft:oak_log", "minecraft:oak_wood", "minecraft:orange_poplar_leaves", "minecraft:orange_terracotta", "minecraft:pale_oak_leaves", "minecraft:pale_oak_log", "minecraft:pale_oak_wood", "minecraft:pink_terracotta", "minecraft:polished_blackstone_bricks", "minecraft:poplar_log", "minecraft:poplar_wood", "minecraft:purple_terracotta", "minecraft:quartz_block", "minecraft:red_poplar_leaves", "minecraft:red_sand", "minecraft:red_sandstone", "minecraft:red_terracotta", "minecraft:resin_clump", "minecraft:sand", "minecraft:sandstone", "minecraft:sea_pickle", "minecraft:spruce_leaves", "minecraft:spruce_log", "minecraft:spruce_wood", "minecraft:stone", "minecraft:stone_bricks", "minecraft:stripped_acacia_log", "minecraft:stripped_acacia_wood", "minecraft:stripped_birch_log", "minecraft:stripped_birch_wood", "minecraft:stripped_cherry_log", "minecraft:stripped_cherry_wood", "minecraft:stripped_dark_oak_log", "minecraft:stripped_dark_oak_wood", "minecraft:stripped_jungle_log", "minecraft:stripped_jungle_wood", "minecraft:stripped_mangrove_log", "minecraft:stripped_mangrove_wood", "minecraft:stripped_oak_log", "minecraft:stripped_oak_wood", "minecraft:stripped_pale_oak_log", "minecraft:stripped_pale_oak_wood", "minecraft:stripped_poplar_log", "minecraft:stripped_poplar_wood", "minecraft:stripped_spruce_log", "minecraft:stripped_spruce_wood", "minecraft:wet_sponge", "minecraft:white_terracotta", "minecraft:yellow_poplar_leaves", "minecraft:yellow_terracotta",
+        ...blastFurnaceRecipes,
+        ...smokerRecipes
     ]),
-    "minecraft:blast_furnace": new Set([
-        "minecraft:ancient_debris", "minecraft:chainmail_boots", "minecraft:chainmail_chestplate", "minecraft:chainmail_helmet", "minecraft:chainmail_leggings", "minecraft:coal_ore", "minecraft:copper_axe", "minecraft:copper_boots", "minecraft:copper_chestplate", "minecraft:copper_helmet", "minecraft:copper_hoe", "minecraft:copper_horse_armor", "minecraft:copper_leggings", "minecraft:copper_nautilus_armor", "minecraft:copper_ore", "minecraft:copper_pickaxe", "minecraft:copper_shovel", "minecraft:copper_spear", "minecraft:copper_sword", "minecraft:deepslate_coal_ore", "minecraft:deepslate_copper_ore", "minecraft:deepslate_diamond_ore", "minecraft:deepslate_emerald_ore", "minecraft:deepslate_gold_ore", "minecraft:deepslate_iron_ore", "minecraft:deepslate_lapis_ore", "minecraft:deepslate_redstone_ore", "minecraft:diamond_ore", "minecraft:emerald_ore", "minecraft:gold_ore", "minecraft:golden_axe", "minecraft:golden_boots", "minecraft:golden_chestplate", "minecraft:golden_helmet", "minecraft:golden_hoe", "minecraft:golden_horse_armor", "minecraft:golden_leggings", "minecraft:golden_nautilus_armor", "minecraft:golden_pickaxe", "minecraft:golden_shovel", "minecraft:golden_spear", "minecraft:golden_sword", "minecraft:iron_axe", "minecraft:iron_boots", "minecraft:iron_chestplate", "minecraft:iron_helmet", "minecraft:iron_hoe", "minecraft:iron_horse_armor", "minecraft:iron_leggings", "minecraft:iron_nautilus_armor", "minecraft:iron_ore", "minecraft:iron_pickaxe", "minecraft:iron_shovel", "minecraft:iron_spear", "minecraft:iron_sword", "minecraft:lapis_ore", "minecraft:nether_gold_ore", "minecraft:quartz_ore", "minecraft:raw_copper", "minecraft:raw_gold", "minecraft:raw_iron", "minecraft:redstone_ore"
-    ]),
-    "minecraft:smoker": new Set([
-        "minecraft:beef", "minecraft:chicken", "minecraft:fish", "minecraft:kelp", "minecraft:muttonRaw", "minecraft:porkchop", "minecraft:potato", "minecraft:rabbit", "minecraft:salmon"
-    ])
+    "minecraft:blast_furnace": new Set(blastFurnaceRecipes),
+    "minecraft:smoker": new Set(smokerRecipes)
 };
 export const furnaceRecipeList = {
     "minecraft:acacia_leaves": "minecraft:leaf_litter",
@@ -75,7 +75,6 @@ export const furnaceRecipeList = {
     "minecraft:golden_chestplate": "minecraft:gold_nugget",
     "minecraft:golden_helmet": "minecraft:gold_nugget",
     "minecraft:golden_hoe": "minecraft:gold_nugget",
-    "minecraft:golden_horse_armor": "minecraft:gold_nugget",
     "minecraft:golden_leggings": "minecraft:gold_nugget",
     "minecraft:golden_nautilus_armor": "minecraft:gold_nugget",
     "minecraft:golden_pickaxe": "minecraft:gold_nugget",
@@ -84,12 +83,13 @@ export const furnaceRecipeList = {
     "minecraft:golden_sword": "minecraft:gold_nugget",
     "minecraft:gray_terracotta": "minecraft:gray_glazed_terracotta",
     "minecraft:green_terracotta": "minecraft:green_glazed_terracotta",
+    "minecraft:horsearmorgold": "minecraft:gold_nugget",
+    "minecraft:horsearmoriron": "minecraft:iron_nugget",
     "minecraft:iron_axe": "minecraft:iron_nugget",
     "minecraft:iron_boots": "minecraft:iron_nugget",
     "minecraft:iron_chestplate": "minecraft:iron_nugget",
     "minecraft:iron_helmet": "minecraft:iron_nugget",
     "minecraft:iron_hoe": "minecraft:iron_nugget",
-    "minecraft:iron_horse_armor": "minecraft:iron_nugget",
     "minecraft:iron_leggings": "minecraft:iron_nugget",
     "minecraft:iron_nautilus_armor": "minecraft:iron_nugget",
     "minecraft:iron_ore": "minecraft:iron_ingot",
@@ -116,12 +116,15 @@ export const furnaceRecipeList = {
     "minecraft:oak_leaves": "minecraft:leaf_litter",
     "minecraft:oak_log": "minecraft:charcoal",
     "minecraft:oak_wood": "minecraft:charcoal",
+    "minecraft:orange_poplar_leaves": "minecraft:leaf_litter",
     "minecraft:orange_terracotta": "minecraft:orange_glazed_terracotta",
     "minecraft:pale_oak_leaves": "minecraft:leaf_litter",
     "minecraft:pale_oak_log": "minecraft:charcoal",
     "minecraft:pale_oak_wood": "minecraft:charcoal",
     "minecraft:pink_terracotta": "minecraft:pink_glazed_terracotta",
     "minecraft:polished_blackstone_bricks": "minecraft:cracked_polished_blackstone_bricks",
+    "minecraft:poplar_log": "minecraft:charcoal",
+    "minecraft:poplar_wood": "minecraft:charcoal",
     "minecraft:porkchop": "minecraft:cooked_porkchop",
     "minecraft:potato": "minecraft:baked_potato",
     "minecraft:purple_terracotta": "minecraft:purple_glazed_terracotta",
@@ -131,6 +134,7 @@ export const furnaceRecipeList = {
     "minecraft:raw_copper": "minecraft:copper_ingot",
     "minecraft:raw_gold": "minecraft:gold_ingot",
     "minecraft:raw_iron": "minecraft:iron_ingot",
+    "minecraft:red_poplar_leaves": "minecraft:leaf_litter",
     "minecraft:red_sand": "minecraft:glass",
     "minecraft:red_sandstone": "minecraft:smooth_red_sandstone",
     "minecraft:red_terracotta": "minecraft:red_glazed_terracotta",
@@ -147,6 +151,7 @@ export const furnaceRecipeList = {
     "minecraft:stone_bricks": "minecraft:cracked_stone_bricks",
     "minecraft:stripped_acacia_log": "minecraft:charcoal",
     "minecraft:stripped_acacia_wood": "minecraft:charcoal",
+    "minecraft:stripped_birch_log": "minecraft:charcoal",
     "minecraft:stripped_birch_wood": "minecraft:charcoal",
     "minecraft:stripped_cherry_log": "minecraft:charcoal",
     "minecraft:stripped_cherry_wood": "minecraft:charcoal",
@@ -160,9 +165,12 @@ export const furnaceRecipeList = {
     "minecraft:stripped_oak_wood": "minecraft:charcoal",
     "minecraft:stripped_pale_oak_log": "minecraft:charcoal",
     "minecraft:stripped_pale_oak_wood": "minecraft:charcoal",
+    "minecraft:stripped_poplar_log": "minecraft:charcoal",
+    "minecraft:stripped_poplar_wood": "minecraft:charcoal",
     "minecraft:stripped_spruce_log": "minecraft:charcoal",
     "minecraft:stripped_spruce_wood": "minecraft:charcoal",
     "minecraft:wet_sponge": "minecraft:sponge",
     "minecraft:white_terracotta": "minecraft:white_glazed_terracotta",
+    "minecraft:yellow_poplar_leaves": "minecraft:leaf_litter",
     "minecraft:yellow_terracotta": "minecraft:yellow_glazed_terracotta"
 };

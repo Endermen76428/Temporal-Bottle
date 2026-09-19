@@ -1,6 +1,6 @@
+import { Block, Player, system, world } from "@minecraft/server"
 import { temporalBottleBlock } from "../lib/temporalBottle/block"
 import { temporalBottleItem } from "../lib/temporalBottle/bottle"
-import { Block, Player, system, world } from "@minecraft/server"
 import { maxSpeedTier } from "../lib/variables/cache"
 
 world.beforeEvents.playerInteractWithBlock.subscribe(ev => {
@@ -8,10 +8,16 @@ world.beforeEvents.playerInteractWithBlock.subscribe(ev => {
   const { block, player, itemStack: item } = ev
 
   // if(block.typeId == "minecraft:furnace"){
+  //   const inv = block.getComponent("inventory")?.container
+  //   if(inv == undefined) return
   //   system.run(() => {
   //     const event = world.afterEvents.playerInventoryItemChange.subscribe(({player, itemStack, beforeItemStack}) => {
   //       if(itemStack?.typeId == "temporal_bottle:temporal_bottle") return
-  //       console.warn(beforeItemStack?.typeId, ">", itemStack?.typeId)
+  //       const inv = block.getComponent("inventory")?.container
+  //       if(inv == undefined) return
+
+  //       const fuel = inv.getItem(1)
+  //       console.warn(beforeItemStack?.typeId, beforeItemStack?.amount, "/", fuel?.typeId, fuel?.amount)
   //       world.afterEvents.playerInventoryItemChange.unsubscribe(event)
   //     })
   //   })
@@ -27,7 +33,7 @@ function enableTemporalAccelerate(block: Block, player: Player): boolean {
     if(temporalBottleItem.hasTime(player, 0)){
       system.run(() => {
         const entity = block.dimension.spawnEntity("temporal_bottle:temporal_zone", block.bottomCenter())
-        // entity.setProperty("temporal_bottle:tier", maxSpeedTier)
+        // entity.setProperty("temporal_bottle:tier", maxSpeedTier -1)
         temporalBottleItem.decreaseTime(player, 0)
       })
     }
