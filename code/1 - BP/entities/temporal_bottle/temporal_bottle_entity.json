@@ -7,7 +7,8 @@
       "is_summonable": true,
       "is_experimental": false,
       "properties": {
-        "temporal_bottle:tier": { "type": "int", "range": [0, 31], "default": 0, "client_sync": true }
+        "temporal_bottle:tier": { "type": "int", "range": [0, 31], "default": 0, "client_sync": true },
+        "temporal_bottle:search": { "type": "bool", "default": false, "client_sync": true }
       }
     },
 
@@ -15,7 +16,9 @@
       "temporal_bottle:despawn": { "minecraft:instant_despawn": {} },
 
       "temporal_bottle:timer": { "minecraft:timer": { "looping": false, "time": 30.05, "time_down_event": { "event": "temporal_bottle:despawn" } } },
-      "temporal_bottle:reset_timer": { "minecraft:timer": { "looping": false, "time": 0.05, "time_down_event": { "event": "temporal_bottle:remove_reset_timer" } } }
+      "temporal_bottle:reset_timer": { "minecraft:timer": { "looping": false, "time": 0.05, "time_down_event": { "event": "temporal_bottle:remove_reset_timer" } } },
+
+      "temporal_bottle:searching_recipe": { "minecraft:timer": { "looping": false, "time": 10.05, "time_down_event": { "event": "temporal_bottle:remove_reset_timer" } } }
     },
 
     "components": {
@@ -37,9 +40,16 @@
 
       "temporal_bottle:despawn": { "add": { "component_groups": [ "temporal_bottle:despawn" ] } },
 
+      "temporal_bottle:search_for_recipe": {
+        "add": { "component_groups": [ "temporal_bottle:searching_recipe" ] },
+        "remove": { "component_groups": [ "temporal_bottle:reset_timer", "temporal_bottle:timer" ] },
+        "set_property": { "temporal_bottle:search": true }
+      },
+
       "temporal_bottle:remove_reset_timer": {
         "add": { "component_groups": [ "temporal_bottle:timer" ] },
-        "remove": { "component_groups": [ "temporal_bottle:reset_timer" ] }
+        "remove": { "component_groups": [ "temporal_bottle:reset_timer", "temporal_bottle:searching_recipe" ] },
+        "set_property": { "temporal_bottle:search": false }
       },
 
       "temporal_bottle:increase_tier": {

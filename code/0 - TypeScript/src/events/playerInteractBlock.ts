@@ -2,6 +2,7 @@ import { Block, Player, system, world } from "@minecraft/server"
 import { temporalBottleBlock } from "../lib/temporalBottle/block"
 import { temporalBottleItem } from "../lib/temporalBottle/bottle"
 import { maxSpeedTier } from "../lib/variables"
+import { apiWarn } from "../lib/player/warn"
 
 world.beforeEvents.playerInteractWithBlock.subscribe(ev => {
   if(!ev.isFirstEvent) return
@@ -41,6 +42,11 @@ function enableTemporalAccelerate(block: Block, player: Player): boolean {
   }
 
   if(currentSpeed.tier +1 < maxSpeedTier){
+    if(currentSpeed.entity.getProperty("temporal_bottle:search") == true){
+      apiWarn.notify(player, "entity.warn.temporal_bottle:temporal_zone.search.can_not_increase", {sound: "warn.ender_addon_pack:bass"})
+      return false
+    }
+
     if(temporalBottleItem.hasTime(player, currentSpeed.tier +1)){
       system.run(() => {
         currentSpeed.entity.triggerEvent("temporal_bottle:increase_tier")

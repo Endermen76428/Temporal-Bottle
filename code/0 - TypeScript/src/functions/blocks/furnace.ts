@@ -1,6 +1,6 @@
 import { furnaceHasRecipe, furnaceRecipeDenyList, furnaceRecipeList } from "../../lib/blocks/furnace/recipes"
 import { BACSFurnaceRecipeDenyScore, BACSFurnaceRecipeScore, coalItem } from "../../lib/variables"
-import { Block, BlockComponentTypes, Container, Entity, ItemStack, system } from "@minecraft/server"
+import { Block, BlockComponentTypes, Container, Entity, ItemStack, system, world } from "@minecraft/server"
 import { furnaceFuelList } from "../../lib/blocks/furnace/fuel"
 import { removeFromGlobalLoop } from "../globalLoop"
 import { apiNumbers } from "../../lib/math/numbers"
@@ -64,8 +64,8 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
       if(expectedOutput == undefined){
         if(furnaceRecipeDenyList[input.typeId] != undefined) continue
 
-        const furnaceBlock = block.dimension.getBlock({x: block.x, y: block.y +2, z: block.z})
-        // const furnaceBlock = block.dimension.getBlock({x: block.x, y: block.dimension.heightRange.min, z: block.z})
+        // const furnaceBlock = block.dimension.getBlock({x: block.x, y: block.y +2, z: block.z})
+        const furnaceBlock = block.dimension.getBlock({x: block.x, y: block.dimension.heightRange.min, z: block.z})
         if(furnaceBlock == undefined || !furnaceBlock.isValid) continue
 
         const blastBlock = furnaceBlock?.north()
@@ -88,14 +88,20 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
         furnaceInv.setItem(0, inputItem), blastInv.setItem(0, inputItem), smokerInv.setItem(0, inputItem)
         furnaceInv.setItem(1, coalItem), blastInv.setItem(1, coalItem), smokerInv.setItem(1, coalItem)
 
+        const tickId = `${furnaceBlock.x},${furnaceBlock.y},${furnaceBlock.z}`
+        world.tickingAreaManager.hasTickingArea(tickId) == false && world.tickingAreaManager.createTickingArea(tickId, {dimension: furnaceBlock.dimension, from: blastBlock.location, to: smokerBlock.location})
+
         system.runTimeout(() => {
           delete info.gettingRecipe
 
+          if(!furnaceBlock.isValid || !blastBlock.isValid || !smokerBlock.isValid) return console.warn("Bloco Invalido")
           if(!furnaceInv.isValid || !blastInv.isValid || !smokerInv.isValid) return console.warn("Container Invalido")
 
           const furnaceOutput = furnaceInv.getItem(2)?.typeId, blastOutput = blastInv.getItem(2)?.typeId, smokerOutput = smokerInv.getItem(2)?.typeId
           furnaceInv.clearAll(), blastInv.clearAll(), smokerInv.clearAll()
           furnaceBlock.setType("minecraft:bedrock"), blastBlock.setType("minecraft:bedrock"), smokerBlock.setType("minecraft:bedrock")
+
+          world.tickingAreaManager.removeTickingArea(tickId)
 
           // Se haver um output ele será adicionado a lista de recipes validas para aquele tipo de bloco e na lista global
           // Caso contrario será colocado na lista de recipes invalidas com o prefixo do bloco
