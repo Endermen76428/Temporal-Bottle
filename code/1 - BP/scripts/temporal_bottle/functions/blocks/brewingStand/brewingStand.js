@@ -1,6 +1,6 @@
 import { BlockComponentTypes, ItemComponentTypes, ItemStack, Potions } from "@minecraft/server";
-import { brewingStandInputOutput } from "../../lib/variables/recipes/brewingStandRecipes";
-import { apiItemAmount } from "../../lib/item/amount";
+import { brewingStandInputOutput } from "./recipes";
+import { apiItemAmount } from "../../../lib/item/amount";
 export const temporalBottleFuncBrewStand = new class TemporalBottleFuncBrewStand {
     brewing(block) {
         const blockInv = block.getComponent(BlockComponentTypes.Inventory)?.container;

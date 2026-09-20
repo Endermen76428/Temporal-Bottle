@@ -1,4 +1,4 @@
-import { cachePlayerBottleSlot } from "../lib/variables/cache"
+import { cachePlayerBottleSlot } from "../lib/variables"
 import { apiInventory } from "../lib/player/inventory"
 import { world, Player } from "@minecraft/server"
 

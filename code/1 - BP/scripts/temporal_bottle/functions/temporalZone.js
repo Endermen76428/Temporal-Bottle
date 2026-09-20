@@ -1,5 +1,5 @@
 import { blocksTimeList, temporalBottleBlock } from "../lib/temporalBottle/block";
-import { temporalBottleFuncBrewStand } from "./blocks/brewingStand";
+import { temporalBottleFuncBrewStand } from "./blocks/brewingStand/brewingStand";
 import { temporalBottleFuncFurnace } from "./blocks/furnace";
 import { BlockComponentTypes } from "@minecraft/server";
 import { addToGlobalLoop } from "./globalLoop";

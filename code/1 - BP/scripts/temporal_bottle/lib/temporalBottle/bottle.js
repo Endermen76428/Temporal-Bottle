@@ -1,8 +1,8 @@
 import { EquipmentSlot, GameMode } from "@minecraft/server";
-import { cachePlayerBottleSlot } from "../variables/cache";
+import { cachePlayerBottleSlot } from "../variables";
 import { apiEquippable } from "../player/equippable";
 import { apiInventory } from "../player/inventory";
-import { timeCostByUse } from "../variables/cache";
+import { timeCostByUse } from "../variables";
 export const temporalBottleItem = new class TemporalBottleItem {
     increaseTime(player) {
         const slot = cachePlayerBottleSlot.get(player.id);

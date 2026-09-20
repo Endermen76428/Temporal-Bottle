@@ -1,6 +1,7 @@
-import { furnaceHasRecipe, furnaceRecipeList } from "../../lib/variables/recipes/furnaceRecipes"
-import { Block, Container, Entity, ItemStack } from "@minecraft/server"
-import { furnaceFuelList } from "../../lib/variables/recipes/fuelInfo"
+import { furnaceHasRecipe, furnaceRecipeDenyList, furnaceRecipeList } from "../../lib/blocks/furnace/recipes"
+import { BACSFurnaceRecipeDenyScore, BACSFurnaceRecipeScore, coalItem } from "../../lib/variables"
+import { Block, BlockComponentTypes, Container, Entity, ItemStack, system } from "@minecraft/server"
+import { furnaceFuelList } from "../../lib/blocks/furnace/fuel"
 import { removeFromGlobalLoop } from "../globalLoop"
 import { apiNumbers } from "../../lib/math/numbers"
 
@@ -12,7 +13,12 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
 
   add(entity: Entity, block: Block, inventory: Container, multiplier: number, maxProcess: number): void {
     const id = (block.x << 20) ^ (block.z << 10) ^ block.y
-    this.furnacesInfo[id] = { entity, block, inventory, multiplier, fuelTime: 0, progress: 0, maxProcess }
+    const oldInfo = this.furnacesInfo[id]
+    if(oldInfo != undefined){
+      oldInfo.multiplier = multiplier
+    } else {
+      this.furnacesInfo[id] = { entity, block, inventory, multiplier, fuelTime: 0, progress: 0, maxProcess }
+    }
   }
 
   update(): void {
@@ -55,7 +61,51 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
 
       // Pega o item que será gerado ao fundir o input atual
       const expectedOutput = furnaceRecipeList[input.typeId]
-      if(expectedOutput == undefined) continue
+      if(expectedOutput == undefined){
+        if(furnaceRecipeDenyList[input.typeId] != undefined) continue
+
+        const furnaceBlock = block.dimension.getBlock({x: block.x, y: block.y +2, z: block.z})
+        // const furnaceBlock = block.dimension.getBlock({x: block.x, y: block.dimension.heightRange.min, z: block.z})
+        if(furnaceBlock == undefined || !furnaceBlock.isValid) continue
+
+        const blastBlock = furnaceBlock?.north()
+        const smokerBlock = furnaceBlock?.south()
+        if(blastBlock == undefined || !blastBlock.isValid) continue
+        if(smokerBlock == undefined || !smokerBlock.isValid) continue
+
+        info.gettingRecipe = furnaceBlock
+        furnaceBlock.setType("minecraft:furnace")
+        blastBlock.setType("minecraft:blast_furnace")
+        smokerBlock.setType("minecraft:smoker")
+
+        const furnaceInv = furnaceBlock.getComponent(BlockComponentTypes.Inventory)?.container
+        const blastInv = blastBlock.getComponent(BlockComponentTypes.Inventory)?.container
+        const smokerInv = smokerBlock.getComponent(BlockComponentTypes.Inventory)?.container
+
+        if(furnaceInv == undefined || blastInv == undefined || smokerInv == undefined) continue
+
+        const inputItem = new ItemStack(input.typeId) // Recria o item mas somente com 1 unidade
+        furnaceInv.setItem(0, inputItem), blastInv.setItem(0, inputItem), smokerInv.setItem(0, inputItem)
+        furnaceInv.setItem(1, coalItem), blastInv.setItem(1, coalItem), smokerInv.setItem(1, coalItem)
+
+        system.runTimeout(() => {
+          delete info.gettingRecipe
+
+          if(!furnaceInv.isValid || !blastInv.isValid || !smokerInv.isValid) return console.warn("Container Invalido")
+
+          const furnaceOutput = furnaceInv.getItem(2)?.typeId, blastOutput = blastInv.getItem(2)?.typeId, smokerOutput = smokerInv.getItem(2)?.typeId
+          furnaceInv.clearAll(), blastInv.clearAll(), smokerInv.clearAll()
+          furnaceBlock.setType("minecraft:bedrock"), blastBlock.setType("minecraft:bedrock"), smokerBlock.setType("minecraft:bedrock")
+
+          // Se haver um output ele será adicionado a lista de recipes validas para aquele tipo de bloco e na lista global
+          // Caso contrario será colocado na lista de recipes invalidas com o prefixo do bloco
+          this.registerNewRecipe("minecraft:furnace", input.typeId, furnaceOutput)
+          this.registerNewRecipe("minecraft:blast_furnace", input.typeId, blastOutput)
+          this.registerNewRecipe("minecraft:smoker", input.typeId, smokerOutput)
+        }, 200)
+
+        continue
+      }
 
       // Para de executar se ele for um output diferente do esperado
       if(output != undefined && expectedOutput != output.typeId){
@@ -137,6 +187,27 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
       removeFromGlobalLoop("furnaceAccelerate")
     }
   }
+
+  private registerNewRecipe(blockId: string, input: string, output?: string): void {
+    const index = furnaceIndex[blockId]
+    if(index == undefined) return
+
+    if(output != undefined){
+      furnaceRecipeList[input] = output
+      furnaceHasRecipe["minecraft:smoker"]?.add(output)
+      BACSFurnaceRecipeScore.setScore(`${input}/${output}`, 0)
+    } else {
+      const id = `${index}/${input}`
+      furnaceRecipeDenyList[id] = true
+      BACSFurnaceRecipeDenyScore.setScore(id, 0)
+    }
+  }
+}
+
+const furnaceIndex: { [key: string]: number } = {
+  "minecraft:furnace": 0,
+  "minecraft:blast_furnace": 1,
+  "minecraft:smoker": 2
 }
 
 interface IIntervalInfo {

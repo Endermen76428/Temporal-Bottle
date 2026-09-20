@@ -1,3 +1,46 @@
+export function BACSLoadFurnaceRecipe(recipe, deny) {
+    const denied = deny.getParticipants();
+    const denyGetted = new Set();
+    for (let i = 0, len = denied.length; i < len; i++) {
+        const id = denied[i]?.displayName;
+        if (id == undefined)
+            continue;
+        if (id[1] != "/")
+            continue;
+        const itemId = id.slice(2);
+        if (denyGetted.has(itemId))
+            continue;
+        denyGetted.add(itemId);
+        for (let i2 = 0; i2 < 3; i2++) {
+            const newId = `${i2}/${itemId}`;
+            if (deny.hasParticipant(newId)) {
+                furnaceRecipeDenyList[newId] = true;
+            }
+            else {
+                const typeId = furnacesByIndex[i2];
+                if (typeId == undefined)
+                    continue;
+                furnaceHasRecipe[typeId]?.add(itemId);
+            }
+        }
+    }
+    denyGetted.clear();
+    const recipes = recipe.getParticipants();
+    for (let i = 0, len = recipes.length; i < len; i++) {
+        const id = recipes[i]?.displayName;
+        if (id == undefined)
+            continue;
+        const [input, output] = id.split("/", 2);
+        if (input == undefined || output == undefined)
+            continue;
+        furnaceRecipeList[input] = output;
+    }
+}
+const furnacesByIndex = [
+    "minecraft:furnace",
+    "minecraft:blast_furnace",
+    "minecraft:smoker"
+];
 const blastFurnaceRecipes = ["minecraft:ancient_debris", "minecraft:chainmail_boots", "minecraft:chainmail_chestplate", "minecraft:chainmail_helmet", "minecraft:chainmail_leggings", "minecraft:coal_ore", "minecraft:copper_axe", "minecraft:copper_boots", "minecraft:copper_chestplate", "minecraft:copper_helmet", "minecraft:copper_hoe", "minecraft:copper_horse_armor", "minecraft:copper_leggings", "minecraft:copper_nautilus_armor", "minecraft:copper_ore", "minecraft:copper_pickaxe", "minecraft:copper_shovel", "minecraft:copper_spear", "minecraft:copper_sword", "minecraft:deepslate_coal_ore", "minecraft:deepslate_copper_ore", "minecraft:deepslate_diamond_ore", "minecraft:deepslate_emerald_ore", "minecraft:deepslate_gold_ore", "minecraft:deepslate_iron_ore", "minecraft:deepslate_lapis_ore", "minecraft:deepslate_redstone_ore", "minecraft:diamond_ore", "minecraft:emerald_ore", "minecraft:gold_ore", "minecraft:golden_axe", "minecraft:golden_boots", "minecraft:golden_chestplate", "minecraft:golden_helmet", "minecraft:golden_hoe", "minecraft:golden_leggings", "minecraft:golden_nautilus_armor", "minecraft:golden_pickaxe", "minecraft:golden_shovel", "minecraft:golden_spear", "minecraft:golden_sword", "minecraft:horsearmorgold", "minecraft:horsearmoriron", "minecraft:iron_axe", "minecraft:iron_boots", "minecraft:iron_chestplate", "minecraft:iron_helmet", "minecraft:iron_hoe", "minecraft:iron_leggings", "minecraft:iron_nautilus_armor", "minecraft:iron_ore", "minecraft:iron_pickaxe", "minecraft:iron_shovel", "minecraft:iron_spear", "minecraft:iron_sword", "minecraft:lapis_ore", "minecraft:nether_gold_ore", "minecraft:quartz_ore", "minecraft:raw_copper", "minecraft:raw_gold", "minecraft:raw_iron", "minecraft:redstone_ore"];
 const smokerRecipes = ["minecraft:beef", "minecraft:chicken", "minecraft:fish", "minecraft:kelp", "minecraft:muttonRaw", "minecraft:porkchop", "minecraft:potato", "minecraft:rabbit", "minecraft:salmon"];
 export const furnaceHasRecipe = {
@@ -174,3 +217,4 @@ export const furnaceRecipeList = {
     "minecraft:yellow_poplar_leaves": "minecraft:leaf_litter",
     "minecraft:yellow_terracotta": "minecraft:yellow_glazed_terracotta"
 };
+export const furnaceRecipeDenyList = {};

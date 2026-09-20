@@ -1,4 +1,4 @@
-import { cachePlayerBottleSlot } from "../lib/variables/cache";
+import { cachePlayerBottleSlot } from "../lib/variables";
 import { apiInventory } from "../lib/player/inventory";
 import { world } from "@minecraft/server";
 world.afterEvents.playerInventoryItemChange.subscribe(({ player, slot, beforeItemStack: oldItem, itemStack: newItem }) => {
