@@ -1,6 +1,6 @@
 import { furnaceHasRecipe, furnaceRecipeDenyList, furnaceRecipeList } from "../../lib/blocks/furnace/recipes"
-import { BACSFurnaceRecipeDenyScore, BACSFurnaceRecipeScore, coalItem } from "../../lib/variables"
 import { Block, BlockComponentTypes, Container, Entity, ItemStack, system, world } from "@minecraft/server"
+import { BACSFurnaceRecipeDenyScore, BACSFurnaceRecipeScore, coalItem } from "../../lib/variables"
 import { furnaceFuelList } from "../../lib/blocks/furnace/fuel"
 import { removeFromGlobalLoop } from "../globalLoop"
 import { apiNumbers } from "../../lib/math/numbers"
@@ -39,6 +39,7 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
       }
 
       if(gettingRecipe != undefined) continue
+      // console.warn("Fazer um sistema para pegar todos os temporal zone e reativa-las ao executar o /reload, seila fazer um array, pois ai ele reseta sempre nesses caso, talvez funcione")
 
       const input = inventory.getItem(0)
       if(input == undefined){
@@ -64,8 +65,8 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
       if(expectedOutput == undefined){
         if(furnaceRecipeDenyList[input.typeId] != undefined) continue
 
-        // const furnaceBlock = block.dimension.getBlock({x: block.x, y: block.y +2, z: block.z})
-        const furnaceBlock = block.dimension.getBlock({x: block.x, y: block.dimension.heightRange.min, z: block.z})
+        const furnaceBlock = block.dimension.getBlock({x: block.x, y: block.y +2, z: block.z})
+        // const furnaceBlock = block.dimension.getBlock({x: block.x, y: block.dimension.heightRange.min, z: block.z})
         if(furnaceBlock == undefined || !furnaceBlock.isValid) continue
 
         const blastBlock = furnaceBlock?.north()
@@ -126,7 +127,7 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
       const maxTicks = Math.min(canSmelt * maxProcess, multiplier)
 
       // console.warn("Min: (", fuelTime, "+", progress, ") <", maxTicks, "=", (fuelTime + progress) < maxTicks, "/// (", canSmelt, ":", canSmelt * maxProcess, ") |", multiplier)
-      if((fuelTime + progress) < maxTicks){
+      if((fuelTime + progress) < maxTicks || fuelTime <= 0){
         const fuel = inventory.getItem(1)
         if(fuel == undefined){
           if(progress > 0){
@@ -167,7 +168,7 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
       const totalProgress = info.progress + minConsume
       // Pega o minino entre execuções possiveis por quantiade de itens e pela quantia que deveria ser fundida
       const amount = Math.min(canSmelt, Math.floor(totalProgress / maxProcess))
-      // console.warn("Gerado:", info.progress, "+", minConsume, "=", totalProgress, "/", maxProcess, "=", amount, "| Sobra P:", totalProgress - amount * maxProcess, "F:", info.fuelTime - minConsume, "/ Consume:", minConsume, "/ Progress:", amount * maxProcess)
+      console.warn("Gerado:", info.progress, "+", minConsume, "=", totalProgress, "/", maxProcess, "=", amount, "| Sobra P:", totalProgress - amount * maxProcess, "F:", info.fuelTime - minConsume, "/ Consume:", minConsume, "/ Progress:", amount * maxProcess)
       info.progress = totalProgress - amount * maxProcess
       info.fuelTime -= minConsume
 

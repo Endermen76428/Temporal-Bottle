@@ -1,6 +1,6 @@
 import { furnaceHasRecipe, furnaceRecipeDenyList, furnaceRecipeList } from "../../lib/blocks/furnace/recipes";
-import { BACSFurnaceRecipeDenyScore, BACSFurnaceRecipeScore, coalItem } from "../../lib/variables";
 import { BlockComponentTypes, ItemStack, system, world } from "@minecraft/server";
+import { BACSFurnaceRecipeDenyScore, BACSFurnaceRecipeScore, coalItem } from "../../lib/variables";
 import { furnaceFuelList } from "../../lib/blocks/furnace/fuel";
 import { removeFromGlobalLoop } from "../globalLoop";
 import { apiNumbers } from "../../lib/math/numbers";
@@ -49,7 +49,7 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
             if (expectedOutput == undefined) {
                 if (furnaceRecipeDenyList[input.typeId] != undefined)
                     continue;
-                const furnaceBlock = block.dimension.getBlock({ x: block.x, y: block.dimension.heightRange.min, z: block.z });
+                const furnaceBlock = block.dimension.getBlock({ x: block.x, y: block.y + 2, z: block.z });
                 if (furnaceBlock == undefined || !furnaceBlock.isValid)
                     continue;
                 const blastBlock = furnaceBlock?.north();
@@ -96,7 +96,7 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
             }
             const canSmelt = Math.min(output ? (output.maxAmount - output.amount) : 64, input.amount);
             const maxTicks = Math.min(canSmelt * maxProcess, multiplier);
-            if ((fuelTime + progress) < maxTicks) {
+            if ((fuelTime + progress) < maxTicks || fuelTime <= 0) {
                 const fuel = inventory.getItem(1);
                 if (fuel == undefined) {
                     if (progress > 0) {
@@ -125,6 +125,7 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
             const minConsume = Math.min(multiplier, info.fuelTime);
             const totalProgress = info.progress + minConsume;
             const amount = Math.min(canSmelt, Math.floor(totalProgress / maxProcess));
+            console.warn("Gerado:", info.progress, "+", minConsume, "=", totalProgress, "/", maxProcess, "=", amount, "| Sobra P:", totalProgress - amount * maxProcess, "F:", info.fuelTime - minConsume, "/ Consume:", minConsume, "/ Progress:", amount * maxProcess);
             info.progress = totalProgress - amount * maxProcess;
             info.fuelTime -= minConsume;
             if (amount <= 0)

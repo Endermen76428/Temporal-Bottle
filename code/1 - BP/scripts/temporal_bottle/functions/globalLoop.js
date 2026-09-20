@@ -1,5 +1,5 @@
-import { system } from "@minecraft/server";
 import { temporalBottleFuncFurnace } from "./blocks/furnace";
+import { system } from "@minecraft/server";
 let enabledLoop = false;
 const enabledFunctions = {
     furnaceAccelerate: false,
