@@ -1,4 +1,4 @@
-import { world, system, Player, MolangVariableMap, RawMessage, Vector3 } from "@minecraft/server"
+import { MolangVariableMap, Player, RawMessage, system, Vector3, world } from "@minecraft/server"
 
 export const apiWarn = new class apiWarn {
   notify(player: Player, message: Message, options?: NotifyOptions): void {
@@ -22,7 +22,7 @@ const notifyTypes = new class notifyTypes {
 
   "chat"(player: Player, message: Message): void { player.sendMessage(typeof message == "string" ? {translate: message} : message) }
 
-  "action_bar"(player: Player, message: Message): void { player.onScreenDisplay.setActionBar(typeof message == "string" ? {translate: message} : message) }
+  "actionbar"(player: Player, message: Message): void { player.onScreenDisplay.setActionBar(typeof message == "string" ? {translate: message} : message) }
 
   "title"(player: Player, message: Message): void { player.onScreenDisplay.setTitle(typeof message == "string" ? {translate: message} : message) }
 }
@@ -30,7 +30,7 @@ const notifyTypes = new class notifyTypes {
 type Message = string | RawMessage
 
 interface NotifyOptions {
-  type?: "chat" | "action_bar" | "title"
+  type?: "chat" | "actionbar" | "title"
   sound?: string
   volume?: number
   delaySound?: number

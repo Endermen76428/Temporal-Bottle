@@ -1,4 +1,11 @@
 ## --------------------------------
+## #region BACS
+## --------------------------------
+
+bacs.warn.temporal_bottle:furnace.start_search=[§aBACS§r]> %1 não possui uma receita registrada no Tempo, aguarde 10s enquanto procuramos.
+## #endregion
+
+## --------------------------------
 ## #region Commands
 ## --------------------------------
 

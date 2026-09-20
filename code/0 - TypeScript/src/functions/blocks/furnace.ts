@@ -4,6 +4,7 @@ import { BACSFurnaceRecipeDenyScore, BACSFurnaceRecipeScore, coalItem } from "..
 import { furnaceFuelList } from "../../lib/blocks/furnace/fuel"
 import { removeFromGlobalLoop } from "../globalLoop"
 import { apiNumbers } from "../../lib/math/numbers"
+import { apiWarn } from "../../lib/player/warn"
 
 // let time = 0
 // let time2 = 0
@@ -65,8 +66,10 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
       if(expectedOutput == undefined){
         if(furnaceRecipeDenyList[input.typeId] != undefined) continue
 
-        const furnaceBlock = block.dimension.getBlock({x: block.x, y: block.y +2, z: block.z})
-        // const furnaceBlock = block.dimension.getBlock({x: block.x, y: block.dimension.heightRange.min, z: block.z})
+        entity.triggerEvent("temporal_bottle:search_for_recipe")
+
+        // const furnaceBlock = block.dimension.getBlock({x: block.x, y: block.y +2, z: block.z})
+        const furnaceBlock = block.dimension.getBlock({x: block.x, y: block.dimension.heightRange.min, z: block.z})
         if(furnaceBlock == undefined || !furnaceBlock.isValid) continue
 
         const blastBlock = furnaceBlock?.north()
@@ -92,11 +95,22 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
         const tickId = `${furnaceBlock.x},${furnaceBlock.y},${furnaceBlock.z}`
         world.tickingAreaManager.hasTickingArea(tickId) == false && world.tickingAreaManager.createTickingArea(tickId, {dimension: furnaceBlock.dimension, from: blastBlock.location, to: smokerBlock.location})
 
+        let players = entity.dimension.getPlayers({location: entity.location, maxDistance: 10})
+        for(let p = 0, pLen = players.length; p < pLen; p++){
+          const player = players[p]
+          if(player != undefined) apiWarn.notify(player, "bacs.warn.temporal_bottle:furnace.start_search", {sound: "warn.ender_addon_pack:pop"})
+        }
+
         system.runTimeout(() => {
           delete info.gettingRecipe
 
-          if(!furnaceBlock.isValid || !blastBlock.isValid || !smokerBlock.isValid) return console.warn("Bloco Invalido")
-          if(!furnaceInv.isValid || !blastInv.isValid || !smokerInv.isValid) return console.warn("Container Invalido")
+          if(!furnaceBlock.isValid || !blastBlock.isValid || !smokerBlock.isValid || !furnaceInv.isValid || !blastInv.isValid || !smokerInv.isValid){
+            for(let p = 0, pLen = players.length; p < pLen; p++){
+              const player = players[p]
+              if(player != undefined) apiWarn.notify(player, "bacs.warn.temporal_bottle:furnace.invalid_block", {sound: "warn.ender_addon_pack:break"})
+            }
+            return
+          }
 
           const furnaceOutput = furnaceInv.getItem(2)?.typeId, blastOutput = blastInv.getItem(2)?.typeId, smokerOutput = smokerInv.getItem(2)?.typeId
           furnaceInv.clearAll(), blastInv.clearAll(), smokerInv.clearAll()
@@ -109,6 +123,10 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
           this.registerNewRecipe("minecraft:furnace", input.typeId, furnaceOutput)
           this.registerNewRecipe("minecraft:blast_furnace", input.typeId, blastOutput)
           this.registerNewRecipe("minecraft:smoker", input.typeId, smokerOutput)
+          for(let p = 0, pLen = players.length; p < pLen; p++){
+            const player = players[p]
+            if(player != undefined) apiWarn.notify(player, "bacs.warn.temporal_bottle:furnace.find_recipe", {sound: "warn.ender_addon_pack:levelup"})
+          }
         }, 200)
 
         continue
@@ -168,7 +186,7 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
       const totalProgress = info.progress + minConsume
       // Pega o minino entre execuções possiveis por quantiade de itens e pela quantia que deveria ser fundida
       const amount = Math.min(canSmelt, Math.floor(totalProgress / maxProcess))
-      console.warn("Gerado:", info.progress, "+", minConsume, "=", totalProgress, "/", maxProcess, "=", amount, "| Sobra P:", totalProgress - amount * maxProcess, "F:", info.fuelTime - minConsume, "/ Consume:", minConsume, "/ Progress:", amount * maxProcess)
+      // console.warn("Gerado:", info.progress, "+", minConsume, "=", totalProgress, "/", maxProcess, "=", amount, "| Sobra P:", totalProgress - amount * maxProcess, "F:", info.fuelTime - minConsume, "/ Consume:", minConsume, "/ Progress:", amount * maxProcess)
       info.progress = totalProgress - amount * maxProcess
       info.fuelTime -= minConsume
 

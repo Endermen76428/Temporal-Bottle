@@ -1,4 +1,4 @@
-import { EquipmentSlot, EntityComponentTypes } from "@minecraft/server";
+import { EntityComponentTypes, EquipmentSlot } from "@minecraft/server";
 export const apiEquippable = new class apiEquippable {
     getItem(entity, ids) {
         const equippable = entity.getComponent(EntityComponentTypes.Equippable);

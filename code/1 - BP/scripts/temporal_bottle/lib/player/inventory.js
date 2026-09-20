@@ -1,4 +1,4 @@
-import { ItemStack, EntityComponentTypes } from "@minecraft/server";
+import { EntityComponentTypes, ItemStack } from "@minecraft/server";
 export const apiInventory = new class apiInventory {
     addItem(entity, itemId, amount = 1) {
         const inventory = entity.getComponent(EntityComponentTypes.Inventory)?.container;

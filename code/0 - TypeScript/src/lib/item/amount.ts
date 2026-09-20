@@ -1,4 +1,4 @@
-import { world, ItemStack } from "@minecraft/server"
+import { ItemStack } from "@minecraft/server"
 import { apiNumbers } from "../math/numbers"
 
 export const apiItemAmount = new class ApiItemAmount {

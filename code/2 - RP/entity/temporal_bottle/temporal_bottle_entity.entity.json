@@ -18,9 +18,10 @@
       },
       "geometry": { "default": "geometry.temporal_bottle.temporal_zone" },
       "scripts": {
-        "scale": "1.005",
+        "scale": "v.searching ? 2 : 1.005",
         "pre_animation": [
-          "v.tier = q.property('temporal_bottle:tier');"
+          "v.tier = q.property('temporal_bottle:tier');",
+          "v.searching = q.property('temporal_bottle:search');"
         ]
       },
       "render_controllers": [ "controller.render.temporal_bottle.temporal_zone" ]

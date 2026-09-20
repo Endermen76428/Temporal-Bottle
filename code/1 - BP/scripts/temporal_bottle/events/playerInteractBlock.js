@@ -25,7 +25,7 @@ function enableTemporalAccelerate(block, player) {
     if (currentSpeed.tier + 1 < maxSpeedTier) {
         if (currentSpeed.entity.getProperty("temporal_bottle:search") == true) {
             apiWarn.notify(player, "entity.warn.temporal_bottle:temporal_zone.search.can_not_increase", { sound: "warn.ender_addon_pack:bass" });
-            return false;
+            return true;
         }
         if (temporalBottleItem.hasTime(player, currentSpeed.tier + 1)) {
             system.run(() => {
