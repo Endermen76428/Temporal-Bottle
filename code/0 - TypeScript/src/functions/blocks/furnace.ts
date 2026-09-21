@@ -125,7 +125,7 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
           this.registerNewRecipe("minecraft:smoker", input.typeId, smokerOutput)
           for(let p = 0, pLen = players.length; p < pLen; p++){
             const player = players[p]
-            if(player != undefined) apiWarn.notify(player, "bacs.warn.temporal_bottle:furnace.find_recipe", {sound: "warn.ender_addon_pack:levelup"})
+            if(player != undefined) apiWarn.notify(player, "bacs.warn.temporal_bottle:furnace.found_recipe", {sound: "warn.ender_addon_pack:levelup"})
           }
         }, 200)
 

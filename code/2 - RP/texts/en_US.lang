@@ -2,7 +2,8 @@
 ## #region BACS
 ## --------------------------------
 
-bacs.warn.temporal_bottle:furnace.start_search=[§aBACS§r]> %1 don't have a recipe registered at this time, please wait 10 seconds while we search.
+bacs.warn.temporal_bottle:furnace.start_search=[§aBACS§r]> %1 don't have a recipe registered at the Time, please wait 10 seconds while we search.
+bacs.warn.temporal_bottle:furnace.invalid_block=[§cBACS§r]> Something unexpected interfered with the search.
 ## #endregion
 
 ## --------------------------------

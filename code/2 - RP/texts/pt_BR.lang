@@ -3,6 +3,7 @@
 ## --------------------------------
 
 bacs.warn.temporal_bottle:furnace.start_search=[§aBACS§r]> %1 não possui uma receita registrada no Tempo, aguarde 10s enquanto procuramos.
+bacs.warn.temporal_bottle:furnace.invalid_block=[§cBACS§r]> Algo inesperado interferiu na procura.
 ## #endregion
 
 ## --------------------------------
