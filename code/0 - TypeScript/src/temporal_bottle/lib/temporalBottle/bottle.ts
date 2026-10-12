@@ -59,7 +59,6 @@ export const temporalBottleItem = new class TemporalBottleItem {
     let currentTime = item.getDynamicProperty("bottle:time")
     if(typeof currentTime != "number") currentTime = 0
 
-    console.warn("Has?", timeCostByUse * (1 << tier), "=>", currentTime)
     return currentTime >= timeCostByUse * (1 << tier)
   }
 

@@ -9,6 +9,7 @@ export const startUpCommandFunc: Record<StartUpCommandIds, (origin: CustomComman
     if(!(player instanceof Player)) return
 
     system.run(() => { BACSRecipes(player) })
+    return { status: Status.Success }
   },
 
   "giveTime": ({sourceEntity: player}, functionType, timeAmount) => {

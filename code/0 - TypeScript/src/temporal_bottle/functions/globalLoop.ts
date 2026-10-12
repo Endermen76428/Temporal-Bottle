@@ -12,7 +12,6 @@ function loop(tick: number): void {
   // Cancela o loop global
   if(enabledLoop == false) return
 
-  // console.warn("Tick:", tick)
   if(enabledFunctions.furnaceAccelerate) temporalBottleFuncFurnace.update()
   if(enabledFunctions.brewingStandAccelerate) console.warn("Suporte Poção")
 

@@ -1,4 +1,5 @@
 import { ActionFormData } from "@minecraft/server-ui";
+import { furnaceRecipeList } from "../../temporal_bottle/lib/blocks/furnace/recipes";
 export function BACSRecipes(player) {
     new ActionFormData()
         .title("ui.bacs:recipes.title")
@@ -7,6 +8,8 @@ export function BACSRecipes(player) {
         .show(player).then(({ canceled, selection }) => {
         if (canceled || selection == undefined)
             return;
-        console.warn(selection);
+        if (selection == 0) {
+            const items = Object.entries(furnaceRecipeList);
+        }
     });
 }

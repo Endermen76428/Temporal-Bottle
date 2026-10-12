@@ -6,9 +6,6 @@ import { apiNumbers } from "../../../0-lib/math/numbers"
 import { apiWarn } from "../../../0-lib/player/warn"
 import { removeFromGlobalLoop } from "../globalLoop"
 
-// let time = 0
-// let time2 = 0
-
 export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
   private furnacesInfo: { [key: string]: IIntervalInfo } = {}
 
@@ -48,11 +45,6 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
           info.progress = 0
           info.fuelTime -= apiNumbers.clamp(info.fuelTime - multiplier, 0, info.fuelTime) // console.warn("Tem que ver um jeito melhor, talvez fazer as const ali em cima virarem let e trabalhar com elas e o info. fica só pra execuções do proximo tick e não desse atual, acho que fica melhor")
         }
-        // if(time2 == 0){
-        //   console.warn((Date.now() - time) / 1000, "segundos")
-        //   time2 = 1
-        //   time = 0
-        // }
         continue
       }
 

@@ -8,22 +8,6 @@ world.beforeEvents.playerInteractWithBlock.subscribe(ev => {
   if(!ev.isFirstEvent) return
   const { block, player, itemStack: item } = ev
 
-  // if(block.typeId == "minecraft:furnace"){
-  //   const inv = block.getComponent("inventory")?.container
-  //   if(inv == undefined) return
-  //   system.run(() => {
-  //     const event = world.afterEvents.playerInventoryItemChange.subscribe(({player, itemStack, beforeItemStack}) => {
-  //       if(itemStack?.typeId == "temporal_bottle:temporal_bottle") return
-  //       const inv = block.getComponent("inventory")?.container
-  //       if(inv == undefined) return
-
-  //       const fuel = inv.getItem(1)
-  //       console.warn(beforeItemStack?.typeId, beforeItemStack?.amount, "/", fuel?.typeId, fuel?.amount)
-  //       world.afterEvents.playerInventoryItemChange.unsubscribe(event)
-  //     })
-  //   })
-  // }
-
   if(item?.typeId == "temporal_bottle:temporal_bottle") if(enableTemporalAccelerate(block, player)) ev.cancel = true
 })
 

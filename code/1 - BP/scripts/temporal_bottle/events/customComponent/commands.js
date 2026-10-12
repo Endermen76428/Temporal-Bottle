@@ -8,6 +8,7 @@ export const startUpCommandFunc = {
         if (!(player instanceof Player))
             return;
         system.run(() => { BACSRecipes(player); });
+        return { status: Status.Success };
     },
     "giveTime": ({ sourceEntity: player }, functionType, timeAmount) => {
         if (!player || !(player instanceof Player) || typeof functionType != "string" || typeof timeAmount != "number")
