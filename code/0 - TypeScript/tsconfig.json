@@ -6,7 +6,7 @@
     "lib": ["ES2021", "DOM"],
 
     "rootDir": "./src",
-    "outDir": "../1 - BP/scripts/temporal_bottle",
+    "outDir": "../1 - BP/scripts",
 
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,

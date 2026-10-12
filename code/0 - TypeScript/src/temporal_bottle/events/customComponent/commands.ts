@@ -1,9 +1,16 @@
-import { world, system, CommandPermissionLevel, CustomCommand, CustomCommandOrigin, CustomCommandParamType, CustomCommandResult, CustomCommandStatus as Status, EquipmentSlot, Player } from "@minecraft/server"
+import { CommandPermissionLevel, CustomCommand, CustomCommandOrigin, CustomCommandParamType, CustomCommandResult, CustomCommandStatus as Status, EquipmentSlot, Player, system } from "@minecraft/server"
 import { temporalBottleItem } from "../../lib/temporalBottle/bottle"
+import { BACSRecipes } from "../../../1-bacs/recipes/command"
 import { apiEquippable } from "../../lib/player/equippable"
-import { apiNumbers } from "../../lib/math/numbers"
+import { apiNumbers } from "../../../0-lib/math/numbers"
 
 export const startUpCommandFunc: Record<StartUpCommandIds, (origin: CustomCommandOrigin, ...args: any[]) => CustomCommandResult | undefined> = {
+  "recipes": ({sourceEntity: player}) => {
+    if(!(player instanceof Player)) return
+
+    system.run(() => { BACSRecipes(player) })
+  },
+
   "giveTime": ({sourceEntity: player}, functionType, timeAmount) => {
     if(!player || !(player instanceof Player) || typeof functionType != "string" || typeof timeAmount != "number") return { status: Status.Failure }
 
@@ -22,6 +29,13 @@ export const startUpCommandFunc: Record<StartUpCommandIds, (origin: CustomComman
 }
 
 export const startUpCommandHeader: Record<StartUpCommandIds, CustomCommand> = {
+  "recipes": {
+    name: "temporal_bottle:bacs_recipes",
+    description: "commands.bacs.recipes",
+    cheatsRequired: false,
+    permissionLevel: CommandPermissionLevel.Any
+  },
+
   "giveTime": {
     name: "temporal_bottle:givetime",
     description: "commands.temporal_bottle.give_time",
@@ -34,4 +48,4 @@ export const startUpCommandHeader: Record<StartUpCommandIds, CustomCommand> = {
   }
 }
 
-type StartUpCommandIds = "giveTime"
+type StartUpCommandIds = "giveTime" | "recipes"

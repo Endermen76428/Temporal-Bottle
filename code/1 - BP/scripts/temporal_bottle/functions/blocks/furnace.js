@@ -2,9 +2,9 @@ import { furnaceHasRecipe, furnaceRecipeDenyList, furnaceRecipeList } from "../.
 import { BlockComponentTypes, ItemStack, system, world } from "@minecraft/server";
 import { BACSFurnaceRecipeDenyScore, BACSFurnaceRecipeScore, coalItem } from "../../lib/variables";
 import { furnaceFuelList } from "../../lib/blocks/furnace/fuel";
+import { apiNumbers } from "../../../0-lib/math/numbers";
+import { apiWarn } from "../../../0-lib/player/warn";
 import { removeFromGlobalLoop } from "../globalLoop";
-import { apiNumbers } from "../../lib/math/numbers";
-import { apiWarn } from "../../lib/player/warn";
 export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
     constructor() {
         this.furnacesInfo = {};
@@ -171,7 +171,7 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
             return;
         if (output != undefined) {
             furnaceRecipeList[input] = output;
-            furnaceHasRecipe["minecraft:smoker"]?.add(output);
+            furnaceHasRecipe[blockId]?.add(input);
             BACSFurnaceRecipeScore.setScore(`${input}/${output}`, 0);
         }
         else {

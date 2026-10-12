@@ -3,4 +3,5 @@ import { system } from "@minecraft/server";
 system.beforeEvents.startup.subscribe(({ customCommandRegistry: customC }) => {
     customC.registerEnum("temporal_bottle:function", ["add", "set"]);
     customC.registerCommand(startUpCommandHeader.giveTime, startUpCommandFunc.giveTime);
+    customC.registerCommand(startUpCommandHeader.recipes, startUpCommandFunc.recipes);
 });

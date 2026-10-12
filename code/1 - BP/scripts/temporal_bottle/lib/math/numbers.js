@@ -1,4 +1,4 @@
-export const apiNumbers = new class apiNumbers {
+export const a = new class apiNumbers {
     clamp(value, min, max) { return Math.min(Math.max(value, min), max); }
     isOutRange(value, min, max) { return value < min || value > max; }
     random(range) {

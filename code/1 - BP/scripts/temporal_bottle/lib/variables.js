@@ -1,7 +1,7 @@
 import { ItemStack, system, world } from "@minecraft/server";
 import { BACSLoadFurnaceRecipe } from "./blocks/furnace/recipes";
 import { temporalBottleItem } from "./temporalBottle/bottle";
-import { apiScoreboard } from "./math/scoreboard";
+import { apiScoreboard } from "../../0-lib/math/scoreboard";
 import { apiInventory } from "./player/inventory";
 export const timeCostByUse = 30;
 export const maxSpeedTier = 10;

@@ -1,5 +1,5 @@
-import { temporalZone } from "../functions/temporalZone";
 import { system } from "@minecraft/server";
+import { temporalZone } from "../functions/temporalZone";
 system.afterEvents.scriptEventReceive.subscribe(({ id, message, sourceEntity, sourceBlock }) => {
     const execute = scriptEventManager[id];
     if (execute)
