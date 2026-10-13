@@ -15,7 +15,9 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
     if(oldInfo != undefined){
       oldInfo.multiplier = multiplier
     } else {
-      this.furnacesInfo[id] = { entity, block, inventory, multiplier, fuelTime: 0, progress: 0, maxProcess }
+      const index = furnaceIndex[block.typeId]
+      if(index == undefined) return
+      this.furnacesInfo[id] = { entity, block, index, inventory, multiplier, fuelTime: 0, progress: 0, maxProcess }
     }
   }
 
@@ -27,7 +29,7 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
     for(let i = 0; i < length; i++){
       const [ key, info ] = furnaces[i] ?? []
       if(key == undefined || info == undefined) continue
-      const { entity, block, inventory, multiplier, fuelTime, progress, maxProcess, gettingRecipe } = info
+      const { entity, block, index, inventory, multiplier, fuelTime, progress, maxProcess, gettingRecipe } = info
 
       // Remove a backpack da lista quando ela fica inválida
       if(!entity.isValid || !block.isValid || !inventory.isValid){
@@ -56,7 +58,7 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
       // Pega o item que será gerado ao fundir o input atual
       const expectedOutput = furnaceRecipeList[input.typeId]
       if(expectedOutput == undefined){
-        if(furnaceRecipeDenyList[input.typeId] != undefined) continue
+        if(furnaceRecipeDenyList[`${index}/${input.typeId}`] != undefined) continue
 
         entity.triggerEvent("temporal_bottle:search_for_recipe")
 
@@ -123,6 +125,8 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
 
         continue
       }
+
+      if(furnaceRecipeDenyList[`${index}/${input.typeId}`]) continue
 
       // Para de executar se ele for um output diferente do esperado
       if(output != undefined && expectedOutput != output.typeId){
@@ -230,6 +234,7 @@ const furnaceIndex: { [key: string]: number } = {
 interface IIntervalInfo {
   entity: Entity
   block: Block
+  index: number
   inventory: Container
   multiplier: number
   fuelTime: number

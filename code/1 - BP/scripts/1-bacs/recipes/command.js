@@ -1,15 +1,82 @@
+import { furnaceRecipeDenyList, furnaceRecipeList } from "../../temporal_bottle/lib/blocks/furnace/recipes";
+import { BACSFurnaceRecipeDenyScore, BACSFurnaceRecipeScore } from "../../temporal_bottle/lib/variables";
 import { ActionFormData } from "@minecraft/server-ui";
-import { furnaceRecipeList } from "../../temporal_bottle/lib/blocks/furnace/recipes";
+import { apiNumbers } from "../../0-lib/math/numbers";
 export function BACSRecipes(player) {
+    const tempSet = new Set();
+    const items = Object.entries(furnaceRecipeList);
+    const denyItems = Object.keys(furnaceRecipeDenyList);
+    for (let i = 0, len = denyItems.length; i < len; i++) {
+        const item = denyItems[i];
+        if (item) {
+            const id = item.slice(2);
+            if (furnaceRecipeList[id] || tempSet.has(id))
+                continue;
+            tempSet.add(id);
+            items.push([id, undefined]), console.warn(id);
+        }
+    }
+    allowedRecipes(player, items.sort((a, b) => {
+        const aVanilla = a[0].startsWith("minecraft:");
+        const bVanilla = b[0].startsWith("minecraft:");
+        if (aVanilla !== bVanilla)
+            return aVanilla ? 1 : -1;
+        return a[0].localeCompare(b[0]);
+    }), Math.floor(items.length * 0.02));
+    return;
     new ActionFormData()
-        .title("ui.bacs:recipes.title")
-        .button("ui.bacs:recipes.allowed")
-        .button("ui.bacs:recipes.denied")
+        .title("ui.bacs:recipes.furnace.title")
+        .button("ui.bacs:recipes.furnace.allowed")
+        .button("ui.bacs:recipes.furnace.denied")
         .show(player).then(({ canceled, selection }) => {
         if (canceled || selection == undefined)
             return;
         if (selection == 0) {
-            const items = Object.entries(furnaceRecipeList);
+            const items = Object.entries(furnaceRecipeList)
+                .sort((a, b) => {
+                if (a[0].startsWith("minecraft:"))
+                    return 1;
+                if (b[0].startsWith("minecraft:"))
+                    return -1;
+                return a[0].localeCompare(b[0]);
+            });
+            allowedRecipes(player, items, Math.floor(items.length * 0.02));
+            return;
         }
+        if (selection == 1) {
+            const items = Object.keys(furnaceRecipeDenyList);
+        }
+    });
+}
+function allowedRecipes(player, items, length, section = 0) {
+    const form = new ActionFormData()
+        .title("ui.bacs:recipes.furnace.title")
+        .body(`${section + 1}/${length + 1}`)
+        .button("ui.bacs:pages.next")
+        .button("ui.bacs:pages.previous");
+    for (let i = 0; i < 50; i++) {
+        const item = items[section * 50 + i];
+        if (item == undefined)
+            break;
+        form.button(item[0]);
+    }
+    form.button("ui.bacs:pages.next")
+        .show(player).then(({ canceled, selection }) => {
+        if (canceled || selection == undefined)
+            return;
+        if (selection < 2 || selection == 52)
+            return allowedRecipes(player, items, length, apiNumbers.wrapRange(section + (selection == 0 || selection == 52 ? 1 : -1), 0, length));
+        const item = items[section * 50 + selection - 2];
+        if (item == undefined)
+            return;
+        delete furnaceRecipeList[item[0]];
+        delete furnaceRecipeDenyList[`0/${item[0]}`];
+        delete furnaceRecipeDenyList[`1/${item[0]}`];
+        delete furnaceRecipeDenyList[`2/${item[0]}`];
+        item[1] && console.warn(JSON.stringify(item));
+        item[1] && BACSFurnaceRecipeScore.removeParticipant(`${item[0]}/${item[1]}`);
+        BACSFurnaceRecipeDenyScore.removeParticipant(`0/${item[0]}`);
+        BACSFurnaceRecipeDenyScore.removeParticipant(`1/${item[0]}`);
+        BACSFurnaceRecipeDenyScore.removeParticipant(`2/${item[0]}`);
     });
 }

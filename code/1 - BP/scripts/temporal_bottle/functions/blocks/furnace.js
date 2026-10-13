@@ -16,7 +16,10 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
             oldInfo.multiplier = multiplier;
         }
         else {
-            this.furnacesInfo[id] = { entity, block, inventory, multiplier, fuelTime: 0, progress: 0, maxProcess };
+            const index = furnaceIndex[block.typeId];
+            if (index == undefined)
+                return;
+            this.furnacesInfo[id] = { entity, block, index, inventory, multiplier, fuelTime: 0, progress: 0, maxProcess };
         }
     }
     update() {
@@ -27,7 +30,7 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
             const [key, info] = furnaces[i] ?? [];
             if (key == undefined || info == undefined)
                 continue;
-            const { entity, block, inventory, multiplier, fuelTime, progress, maxProcess, gettingRecipe } = info;
+            const { entity, block, index, inventory, multiplier, fuelTime, progress, maxProcess, gettingRecipe } = info;
             if (!entity.isValid || !block.isValid || !inventory.isValid) {
                 invalids++;
                 delete this.furnacesInfo[key];
@@ -48,7 +51,7 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
                 continue;
             const expectedOutput = furnaceRecipeList[input.typeId];
             if (expectedOutput == undefined) {
-                if (furnaceRecipeDenyList[input.typeId] != undefined)
+                if (furnaceRecipeDenyList[`${index}/${input.typeId}`] != undefined)
                     continue;
                 entity.triggerEvent("temporal_bottle:search_for_recipe");
                 const furnaceBlock = block.dimension.getBlock({ x: block.x, y: block.dimension.heightRange.min, z: block.z });
@@ -105,6 +108,8 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
                 }, 200);
                 continue;
             }
+            if (furnaceRecipeDenyList[`${index}/${input.typeId}`])
+                continue;
             if (output != undefined && expectedOutput != output.typeId) {
                 if (progress > 0) {
                     info.progress = 0;

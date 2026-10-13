@@ -152,7 +152,7 @@ export const furnaceRecipeList = {
     "minecraft:mangrove_leaves": "minecraft:leaf_litter",
     "minecraft:mangrove_log": "minecraft:charcoal",
     "minecraft:mangrove_wood": "minecraft:charcoal",
-    "minecraft:muttonRaw": "minecraft:muttonCooked",
+    "minecraft:mutton": "minecraft:mutton_cooked",
     "minecraft:nether_brick": "minecraft:cracked_nether_bricks",
     "minecraft:nether_gold_ore": "minecraft:gold_ingot",
     "minecraft:netherrack": "minecraft:netherbrick",
