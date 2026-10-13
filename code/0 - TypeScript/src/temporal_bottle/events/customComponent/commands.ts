@@ -31,7 +31,7 @@ export const startUpCommandFunc: Record<StartUpCommandIds, (origin: CustomComman
 
 export const startUpCommandHeader: Record<StartUpCommandIds, CustomCommand> = {
   "recipes": {
-    name: "temporal_bottle:bacs_recipes",
+    name: "temporal_bottle:bacsrecipes",
     description: "commands.bacs.recipes",
     cheatsRequired: false,
     permissionLevel: CommandPermissionLevel.Any

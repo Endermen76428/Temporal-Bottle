@@ -58,6 +58,14 @@ subtitles.warn.temporal_bottle:recipe_finished=Recipe Search Finished
 ## #endregion
 
 ## --------------------------------------------------
+## #region Warning
+## --------------------------------------------------
+
+### Entity
+entity.warn.temporal_bottle:temporal_zone.search.can_not_increase=§cYou cannot increase acceleration during a search.
+## #endregion
+
+## --------------------------------------------------
 ## #region Temporary
 ## --------------------------------------------------
 

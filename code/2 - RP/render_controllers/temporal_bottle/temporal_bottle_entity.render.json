@@ -10,7 +10,26 @@
       },
       "geometry": "Geometry.default",
       "materials": [ { "*": "Material.default" } ],
-      "textures": [ "Array.tier[v.tier]" ]
+      "textures": [ "v.searching ? Texture.search_background : Array.tier[v.tier]" ],
+      "part_visibility": [
+        { "*": true },
+        { "1": false },
+        { "2": false },
+        { "3": false },
+        { "4": false },
+        { "5": false },
+        { "6": false }
+      ]
+    },
+    "controller.render.temporal_bottle.temporal_zone.searching": {
+      "ignore_lighting": true,
+      "geometry": "Geometry.default",
+      "materials": [ { "*": "Material.default" } ],
+      "textures": [ "Texture.search_timer" ],
+      "part_visibility": [
+        { "*": true },
+        { "all": false }
+      ]
     }
   }
 }

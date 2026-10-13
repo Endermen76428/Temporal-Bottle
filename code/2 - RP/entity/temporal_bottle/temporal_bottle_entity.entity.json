@@ -14,17 +14,24 @@
         "speed_128x": "textures/temporal_bottle/entity/128x",
         "speed_256x": "textures/temporal_bottle/entity/256x",
         "speed_512x": "textures/temporal_bottle/entity/512x",
-        "speed_1024x": "textures/temporal_bottle/entity/1024x"
+        "speed_1024x": "textures/temporal_bottle/entity/1024x",
+        "search_background": "textures/temporal_bottle/entity/search/search_background",
+        "search_timer": "textures/temporal_bottle/entity/search/search_timer"
       },
       "geometry": { "default": "geometry.temporal_bottle.temporal_zone" },
       "scripts": {
-        "scale": "v.searching ? 1.25 : 1.005",
+        "scale": "1.005",
         "pre_animation": [
           "v.tier = q.property('temporal_bottle:tier');",
           "v.searching = q.property('temporal_bottle:search');"
-        ]
+        ],
+        "animate": [ { "searching": "v.searching" } ]
       },
-      "render_controllers": [ "controller.render.temporal_bottle.temporal_zone" ]
+      "animations": { "searching": "animation.temporal_bottle.temporal_zone.timer" },
+      "render_controllers": [
+        "controller.render.temporal_bottle.temporal_zone",
+        { "controller.render.temporal_bottle.temporal_zone.searching": "v.searching" }
+      ]
     }
   }
 }

@@ -58,6 +58,14 @@ subtitles.warn.temporal_bottle:recipe_finished=Finalizado Procura de Receita
 ## #endregion
 
 ## --------------------------------------------------
+## #region Warn
+## --------------------------------------------------
+
+### Entity
+entity.warn.temporal_bottle:temporal_zone.search.can_not_increase=§cVocê não pode aumentar a aceleração durante uma procura.
+## #endregion
+
+## --------------------------------------------------
 ## #region Temporary
 ## --------------------------------------------------
 

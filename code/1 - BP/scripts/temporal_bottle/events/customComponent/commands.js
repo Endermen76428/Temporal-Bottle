@@ -27,7 +27,7 @@ export const startUpCommandFunc = {
 };
 export const startUpCommandHeader = {
     "recipes": {
-        name: "temporal_bottle:bacs_recipes",
+        name: "temporal_bottle:bacsrecipes",
         description: "commands.bacs.recipes",
         cheatsRequired: false,
         permissionLevel: CommandPermissionLevel.Any

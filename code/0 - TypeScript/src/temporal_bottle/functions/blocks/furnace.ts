@@ -225,8 +225,11 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
 
 const furnaceIndex: { [key: string]: number } = {
   "minecraft:furnace": 0,
+  "minecraft:lit_furnace": 0,
   "minecraft:blast_furnace": 1,
-  "minecraft:smoker": 2
+  "minecraft:lit_blast_furnace": 1,
+  "minecraft:smoker": 2,
+  "minecraft:lit_smoker": 2
 }
 
 const compatibleAddonsTranslation: { [key: string]: true } = {
