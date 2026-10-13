@@ -4,7 +4,7 @@ import { ActionFormData } from "@minecraft/server-ui"
 import { apiNumbers } from "../../0-lib/math/numbers"
 import { Player } from "@minecraft/server"
 
-export function BACSRecipes(player: Player): void {
+export function BACSRecipes(player: Player, section = 0): void {
   const tempSet = new Set<string>()
 
   const items: TRecipesItemsList = Object.entries(furnaceRecipeList)
@@ -27,38 +27,16 @@ export function BACSRecipes(player: Player): void {
     if (aVanilla !== bVanilla) return aVanilla ? 1 : -1
 
     return a[0].localeCompare(b[0])
-  }), Math.floor(items.length * 0.02))
+  }), Math.floor(items.length * 0.02), section)
   return
-
-  new ActionFormData()
-  .title("ui.bacs:recipes.furnace.title")
-  .button("ui.bacs:recipes.furnace.allowed")
-  .button("ui.bacs:recipes.furnace.denied")
-  .show(player).then(({canceled, selection}) => {
-    if(canceled || selection == undefined) return
-
-    if(selection == 0){
-      const items = Object.entries(furnaceRecipeList)
-      .sort((a, b) => {
-        if(a[0].startsWith("minecraft:")) return 1
-        if(b[0].startsWith("minecraft:")) return -1
-        return a[0].localeCompare(b[0])
-      })
-      allowedRecipes(player, items, Math.floor(items.length * 0.02))
-      return
-    }
-    if(selection == 1){
-      const items = Object.keys(furnaceRecipeDenyList)
-    }
-  })
 }
 
 function allowedRecipes(player: Player, items: TRecipesItemsList, length: number, section = 0): void {
   const form = new ActionFormData()
   .title("ui.bacs:recipes.furnace.title")
-  .body(`${section +1}/${length +1}`)
-  .button("ui.bacs:pages.next")
-  .button("ui.bacs:pages.previous")
+  .body({rawtext:[{translate:"ui.bacs:recipes.furnace.delete.body"},{text:`${section +1}/${length +1}`}]})
+  .button("ui.bacs:pages.next", "textures/BACS/general/next_page")
+  .button("ui.bacs:pages.previous", "textures/BACS/general/previous_page")
 
   for(let i = 0; i < 50; i++){
     const item = items[section *50 + i]
@@ -67,7 +45,7 @@ function allowedRecipes(player: Player, items: TRecipesItemsList, length: number
     form.button(item[0])
   }
 
-  form.button("ui.bacs:pages.next")
+  form.button("ui.bacs:pages.next", "textures/BACS/general/next_page")
   .show(player).then(({canceled, selection}) => {
     if(canceled || selection == undefined) return
 
@@ -83,6 +61,8 @@ function allowedRecipes(player: Player, items: TRecipesItemsList, length: number
     BACSFurnaceRecipeDenyScore.removeParticipant(`0/${item[0]}`)
     BACSFurnaceRecipeDenyScore.removeParticipant(`1/${item[0]}`)
     BACSFurnaceRecipeDenyScore.removeParticipant(`2/${item[0]}`)
+
+    BACSRecipes(player, section)
   })
 }
 

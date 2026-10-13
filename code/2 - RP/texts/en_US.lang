@@ -2,8 +2,18 @@
 ## #region BACS
 ## --------------------------------
 
+### Warns
 bacs.warn.temporal_bottle:furnace.start_search=[§aBACS§r]> §e%1§r don't have a recipe registered at the Time, please wait 10 seconds while we search.
 bacs.warn.temporal_bottle:furnace.invalid_block=[§cBACS§r]> Something unexpected interfered with the search.
+
+### UI
+## General
+ui.bacs:pages.next=Next Page
+ui.bacs:pages.previous=Previous Page
+
+## Furnace
+ui.bacs:recipes.furnace.title=Furnace Recipes
+ui.bacs:recipes.furnace.delete.body=Select a registered furnace recipe to delete from the BACS Database:\n
 ## #endregion
 
 ## --------------------------------
