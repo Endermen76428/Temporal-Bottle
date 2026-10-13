@@ -1,6 +1,13 @@
 {
   "format_version" : "1.21.60",
   "sound_definitions" : {
+    "warn.temporal_bottle:recipe_finished": {
+      "category": "system",
+      "max_distance": 8,
+      "min_distance": 0,
+      "sounds": [ { "name": "sounds/random/levelup", "is3D": false } ],
+      "subtitle": "subtitles.warn.temporal_bottle:recipe_finished"
+    },
     // Warnings
     "warn.ender_addon_pack:levelup": {
       "category": "warn",

@@ -13,7 +13,7 @@ export function BACSRecipes(player) {
             if (furnaceRecipeList[id] || tempSet.has(id))
                 continue;
             tempSet.add(id);
-            items.push([id, undefined]), console.warn(id);
+            items.push([id, undefined]);
         }
     }
     allowedRecipes(player, items.sort((a, b) => {
@@ -73,7 +73,6 @@ function allowedRecipes(player, items, length, section = 0) {
         delete furnaceRecipeDenyList[`0/${item[0]}`];
         delete furnaceRecipeDenyList[`1/${item[0]}`];
         delete furnaceRecipeDenyList[`2/${item[0]}`];
-        item[1] && console.warn(JSON.stringify(item));
         item[1] && BACSFurnaceRecipeScore.removeParticipant(`${item[0]}/${item[1]}`);
         BACSFurnaceRecipeDenyScore.removeParticipant(`0/${item[0]}`);
         BACSFurnaceRecipeDenyScore.removeParticipant(`1/${item[0]}`);

@@ -92,7 +92,9 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
         let players = entity.dimension.getPlayers({location: entity.location, maxDistance: 10})
         for(let p = 0, pLen = players.length; p < pLen; p++){
           const player = players[p]
-          if(player != undefined) apiWarn.notify(player, "bacs.warn.temporal_bottle:furnace.start_search", {sound: "warn.ender_addon_pack:pop"})
+          console.warn("Parts:", JSON.stringify(input.typeId.split(":", 1)))
+          const addonId = input.typeId.split(":", 1)[0] ?? ""
+          if(player != undefined) apiWarn.notify(player, {translate: "bacs.warn.temporal_bottle:furnace.start_search", with: {rawtext:[{translate: input.localizationKey + (compatibleAddonsTranslation[addonId] ? ".bacs" : "")}]}}, {sound: "warn.ender_addon_pack:pop"})
         }
 
         system.runTimeout(() => {
@@ -117,10 +119,7 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
           this.registerNewRecipe("minecraft:furnace", input.typeId, furnaceOutput)
           this.registerNewRecipe("minecraft:blast_furnace", input.typeId, blastOutput)
           this.registerNewRecipe("minecraft:smoker", input.typeId, smokerOutput)
-          for(let p = 0, pLen = players.length; p < pLen; p++){
-            const player = players[p]
-            if(player != undefined) apiWarn.notify(player, "bacs.warn.temporal_bottle:furnace.found_recipe", {sound: "warn.ender_addon_pack:levelup"})
-          }
+          block.dimension.playSound("warn.temporal_bottle:recipe_finished", block.center())
         }, 200)
 
         continue
@@ -229,6 +228,11 @@ const furnaceIndex: { [key: string]: number } = {
   "minecraft:furnace": 0,
   "minecraft:blast_furnace": 1,
   "minecraft:smoker": 2
+}
+
+const compatibleAddonsTranslation: { [key: string]: true } = {
+  "digital_miner": true,
+  "travel_backpack": true
 }
 
 interface IIntervalInfo {

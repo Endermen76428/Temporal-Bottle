@@ -16,7 +16,7 @@ export function BACSRecipes(player: Player): void {
       const id = item.slice(2)
       if(furnaceRecipeList[id] || tempSet.has(id)) continue
       tempSet.add(id)
-      items.push([id, undefined]), console.warn(id)
+      items.push([id, undefined])
     }
   }
 
@@ -79,7 +79,6 @@ function allowedRecipes(player: Player, items: TRecipesItemsList, length: number
     delete furnaceRecipeDenyList[`0/${item[0]}`]
     delete furnaceRecipeDenyList[`1/${item[0]}`]
     delete furnaceRecipeDenyList[`2/${item[0]}`]
-    item[1] && console.warn(JSON.stringify(item))
     item[1] && BACSFurnaceRecipeScore.removeParticipant(`${item[0]}/${item[1]}`)
     BACSFurnaceRecipeDenyScore.removeParticipant(`0/${item[0]}`)
     BACSFurnaceRecipeDenyScore.removeParticipant(`1/${item[0]}`)

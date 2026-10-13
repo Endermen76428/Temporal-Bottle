@@ -2,7 +2,7 @@
 ## #region BACS
 ## --------------------------------
 
-bacs.warn.temporal_bottle:furnace.start_search=[§aBACS§r]> %1 não possui uma receita registrada no Tempo, aguarde 10s enquanto procuramos.
+bacs.warn.temporal_bottle:furnace.start_search=[§aBACS§r]> §e%1§r não possui uma receita registrada no Tempo, aguarde 10s enquanto procuramos.
 bacs.warn.temporal_bottle:furnace.invalid_block=[§cBACS§r]> Algo inesperado interferiu na procura.
 ## #endregion
 
@@ -37,6 +37,66 @@ item.temporal_bottle:temporal_bottle=Garrafa Temporal
 
 item_subtitle.temporal_bottle:stored_time=§aTempo Guardado %1
 item_subtitle.temporal_bottle:total_time=§7Tempo Total %1
+## #endregion
+
+## --------------------------------------------------
+## #region Sounds
+## --------------------------------------------------
+
+### System
+subtitles.warn.temporal_bottle:recipe_finished=Finalizado Procura de Receita
+## #endregion
+
+## --------------------------------------------------
+## #region Temporary
+## --------------------------------------------------
+
+### Digital Miner
+tile.digital_miner:digital_miner.name.bacs=Mineradora Digital
+tile.digital_miner:light_generator.name.bacs=Gerador de Luz
+tile.digital_miner:diamond_glass.name.bacs=Vidro Diamantado
+tile.digital_miner:steel_block.name.bacs=Bloco de Aço
+item.digital_miner:digital_processor.bacs=Processador Digital
+item.digital_miner:advanced_circuit.bacs=Circuito Avançado
+item.digital_miner:laser_drill.bacs=Broca a Laser
+item.digital_miner:machine_engine.bacs=Motor de Máquina
+item.digital_miner:monitor.bacs=Monitor
+item.digital_miner:integrated_circuit.bacs=Circuito Integrado
+item.digital_miner:capacitor.bacs=Capacitor
+item.digital_miner:digital_miner.bacs=Digital Miner
+item.digital_miner:diamond_dust.bacs=Pó de Diamante
+item.digital_miner:diamond_plate.bacs=Placa de Diamante
+item.digital_miner:coal_dust.bacs=Pó de Carvão
+item.digital_miner:iron_dust.bacs=Pó de Ferro
+item.digital_miner:gold_dust.bacs=Pó de Ouro
+item.digital_miner:gold_plate.bacs=Placa de Ouro
+item.digital_miner:redstone_enriched_quartz.bacs=Quartzo Enriquecido com Redstone
+item.digital_miner:steel_dust.bacs=Pó de Aço
+item.digital_miner:steel_ingot.bacs=Barra de Aço
+item.digital_miner:steel_nugget.bacs=Pepita de Aço
+item.digital_miner:steel_plate.bacs=Placa de Aço
+item.digital_miner:guidebook.bacs=Livro Guia
+item.digital_miner:hammer.bacs=Martelo
+item.digital_miner:ore_scanner.bacs=Scanner de Minérios
+item.digital_miner:upgrade_template.bacs=Molde de Melhoria
+item.digital_miner:speed_upgrade_1.bacs=Melhoria de Velocidade Nível 1
+item.digital_miner:speed_upgrade_2.bacs=Melhoria de Velocidade Nível 2
+item.digital_miner:speed_upgrade_3.bacs=Melhoria de Velocidade Nível 3
+item.digital_miner:speed_upgrade_4.bacs=Melhoria de Velocidade Nível 4
+item.digital_miner:stack_upgrade_1.bacs=Melhoria de Pilha Nível 1
+item.digital_miner:stack_upgrade_2.bacs=Melhoria de Pilha Nível 2
+item.digital_miner:stack_upgrade_3.bacs=Melhoria de Pilha Nível 3
+item.digital_miner:stack_upgrade_4.bacs=Melhoria de Pilha Nível 4
+item.digital_miner:energy_upgrade_1.bacs=Melhoria de Energia Nível 1
+item.digital_miner:energy_upgrade_2.bacs=Melhoria de Energia Nível 2
+item.digital_miner:energy_upgrade_3.bacs=Melhoria de Energia Nível 3
+item.digital_miner:energy_upgrade_4.bacs=Melhoria de Energia Nível 4
+item.digital_miner:fortune_upgrade_1.bacs=Melhoria de Fortuna Nível 1
+item.digital_miner:fortune_upgrade_2.bacs=Melhoria de Fortuna Nível 2
+item.digital_miner:fortune_upgrade_3.bacs=Melhoria de Fortuna Nível 3
+item.digital_miner:fortune_upgrade_4.bacs=Melhoria de Fortuna Nível 4
+item.digital_miner:silk_touch_upgrade_1.bacs=Melhoria de Toque Suave
+item.digital_miner:anchor_upgrade_1.bacs=Melhoria de Âncora
 ## #endregion
 
 
