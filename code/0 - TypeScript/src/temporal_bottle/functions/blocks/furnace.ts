@@ -60,7 +60,7 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
       if(expectedOutput == undefined){
         if(furnaceRecipeDenyList[`${index}/${input.typeId}`] != undefined) continue
 
-        entity.triggerEvent("temporal_bottle:search_for_recipe")
+        entity.triggerEvent("temporal_bottle:search_furnace_recipe")
 
         // const furnaceBlock = block.dimension.getBlock({x: block.x, y: block.y +2, z: block.z})
         const furnaceBlock = block.dimension.getBlock({x: block.x, y: block.dimension.heightRange.min, z: block.z})

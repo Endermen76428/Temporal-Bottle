@@ -25,12 +25,18 @@
           "v.tier = q.property('temporal_bottle:tier');",
           "v.searching = q.property('temporal_bottle:search');"
         ],
-        "animate": [ { "searching": "v.searching" } ]
+        "animate": [
+          { "search_10": "v.searching == 1" },
+          { "search_20": "v.searching == 2" }
+        ]
       },
-      "animations": { "searching": "animation.temporal_bottle.temporal_zone.timer" },
+      "animations": {
+        "search_10": "animation.temporal_bottle.temporal_zone.timer.10",
+        "search_20": "animation.temporal_bottle.temporal_zone.timer.20"
+      },
       "render_controllers": [
         "controller.render.temporal_bottle.temporal_zone",
-        { "controller.render.temporal_bottle.temporal_zone.searching": "v.searching" }
+        { "controller.render.temporal_bottle.temporal_zone.searching": "v.searching > 0" }
       ]
     }
   }

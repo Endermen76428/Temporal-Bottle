@@ -1,7 +1,7 @@
 {
   "format_version": "1.8.0",
   "animations": {
-    "animation.temporal_bottle.temporal_zone.timer": {
+    "animation.temporal_bottle.temporal_zone.timer.10": {
       "loop": "hold_on_last_frame",
       "animation_length": 10,
       "bones": {
@@ -11,6 +11,18 @@
         "4": { "rotation": { "0.0": [0, 0, 0], "10.0": [360, 0, 0] } },
         "5": { "rotation": { "0.0": [0, 0, 0], "10.0": [0, 360, 0] } },
         "6": { "rotation": { "0.0": [0, 0, 0], "10.0": [0, -360, 0] } }
+      }
+    },
+    "animation.temporal_bottle.temporal_zone.timer.20": {
+      "loop": "hold_on_last_frame",
+      "animation_length": 20,
+      "bones": {
+        "1": { "rotation": { "0.0": [0, 0, 0], "20.0": [0, 0, 360] } },
+        "2": { "rotation": { "0.0": [0, 0, 0], "20.0": [-360, 0, 0] } },
+        "3": { "rotation": { "0.0": [0, 0, 0], "20.0": [0, 0, -360] } },
+        "4": { "rotation": { "0.0": [0, 0, 0], "20.0": [360, 0, 0] } },
+        "5": { "rotation": { "0.0": [0, 0, 0], "20.0": [0, 360, 0] } },
+        "6": { "rotation": { "0.0": [0, 0, 0], "20.0": [0, -360, 0] } }
       }
     }
   }

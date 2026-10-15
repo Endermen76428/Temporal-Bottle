@@ -10,7 +10,7 @@
       },
       "geometry": "Geometry.default",
       "materials": [ { "*": "Material.default" } ],
-      "textures": [ "v.searching ? Texture.search_background : Array.tier[v.tier]" ],
+      "textures": [ "v.searching > 0 ? Texture.search_background : Array.tier[v.tier]" ],
       "part_visibility": [
         { "*": true },
         { "1": false },
