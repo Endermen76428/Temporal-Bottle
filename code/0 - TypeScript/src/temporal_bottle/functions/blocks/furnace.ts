@@ -93,7 +93,7 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
         for(let p = 0, pLen = players.length; p < pLen; p++){
           const player = players[p]
           const addonId = input.typeId.split(":", 1)[0] ?? ""
-          if(player != undefined) apiWarn.notify(player, {translate: "bacs.warn.temporal_bottle:furnace.start_search", with: {rawtext:[{translate: input.localizationKey + (compatibleAddonsTranslation[addonId] ? ".bacs" : "")}]}}, {sound: "warn.ender_addon_pack:pop"})
+          if(player != undefined) apiWarn.notify(player, {translate: "bacs.warn.temporal_bottle:furnace.start_search.10", with: {rawtext:[{translate: input.localizationKey + (compatibleAddonsTranslation[addonId] ? ".bacs" : "")}]}}, {sound: "warn.ender_addon_pack:pop"})
         }
 
         system.runTimeout(() => {

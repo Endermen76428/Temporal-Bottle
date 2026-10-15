@@ -3,7 +3,8 @@
 ## --------------------------------
 
 ### Warns
-bacs.warn.temporal_bottle:furnace.start_search=[§aBACS§r]> §e%1§r don't have a recipe registered at the Time, please wait 10 seconds while we search.
+bacs.warn.temporal_bottle:furnace.start_search.10=[§aBACS§r]> §e%1§r don't have a recipe registered at the Time, please wait 10s while we search.
+bacs.warn.temporal_bottle:furnace.start_search.20=[§aBACS§r]> §e%1§r don't have a recipe registered at the Time, please wait 20s while we search.
 bacs.warn.temporal_bottle:furnace.invalid_block=[§cBACS§r]> Something unexpected interfered with the search.
 
 ### UI
