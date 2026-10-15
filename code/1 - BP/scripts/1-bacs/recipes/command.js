@@ -1,5 +1,5 @@
-import { furnaceRecipeDenyList, furnaceRecipeList } from "../../temporal_bottle/lib/blocks/furnace/recipes";
-import { BACSFurnaceRecipeDenyScore, BACSFurnaceRecipeScore } from "../../temporal_bottle/lib/variables";
+import { furnaceRecipeDenyList, furnaceRecipeList } from "../../1-bacs/recipes/furnace/recipes";
+import { BACSFurnaceRecipeDenyScore, BACSFurnaceRecipeScore } from "../../1-bacs/recipes/variables";
 import { ActionFormData } from "@minecraft/server-ui";
 import { apiNumbers } from "../../0-lib/math/numbers";
 export function BACSRecipes(player, section = 0) {

@@ -1,10 +1,11 @@
-import { BACSFurnaceRecipeDenyScore, BACSFurnaceRecipeScore, coalItem, compatibleAddonsTranslation } from "../../lib/variables";
-import { furnaceHasRecipe, furnaceRecipeDenyList, furnaceRecipeList } from "../../lib/blocks/furnace/recipes";
+import { compatibleAddonsTranslation, BACSFurnaceRecipeScore, BACSFurnaceRecipeDenyScore } from "../../../1-bacs/recipes/variables";
+import { furnaceRecipeList, furnaceRecipeDenyList, furnaceHasRecipe } from "../../../1-bacs/recipes/furnace/recipes";
 import { BlockComponentTypes, ItemStack, system, world } from "@minecraft/server";
-import { furnaceFuelList } from "../../lib/blocks/furnace/fuel";
+import { furnaceFuelList } from "../../../1-bacs/recipes/furnace/fuel";
 import { apiNumbers } from "../../../0-lib/math/numbers";
 import { apiWarn } from "../../../0-lib/player/warn";
 import { removeFromGlobalLoop } from "../globalLoop";
+import { coalItem } from "../../lib/variables";
 export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
     constructor() {
         this.furnacesInfo = {};

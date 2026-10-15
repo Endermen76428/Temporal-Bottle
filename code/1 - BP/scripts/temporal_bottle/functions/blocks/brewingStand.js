@@ -1,6 +1,6 @@
 import { ItemComponentTypes, ItemStack, Potions } from "@minecraft/server";
+import { brewingStandRecipeList } from "../../../1-bacs/recipes/brewingStand/recipes";
 import { removeFromGlobalLoop } from "../globalLoop";
-import { brewingStandRecipeList } from "../../lib/blocks/brewingStand/recipes";
 export const temporalBottleFuncBrewingStand = new class TemporalBottleFuncBrewingStand {
     constructor() {
         this.brewingStandsInfo = {};

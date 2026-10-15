@@ -1,10 +1,6 @@
-import { Block, BlockComponentTypes, Container, Entity, ItemComponentTypes, ItemPotionComponent, ItemStack, Potions, system, world } from "@minecraft/server"
-import { coalItem, compatibleAddonsTranslation } from "../../lib/variables"
-import { furnaceFuelList } from "../../lib/blocks/furnace/fuel"
-import { apiNumbers } from "../../../0-lib/math/numbers"
-import { apiWarn } from "../../../0-lib/player/warn"
+import { Block, Container, Entity, ItemComponentTypes, ItemPotionComponent, ItemStack, Potions } from "@minecraft/server"
+import { brewingStandRecipeList } from "../../../1-bacs/recipes/brewingStand/recipes"
 import { removeFromGlobalLoop } from "../globalLoop"
-import { brewingStandRecipeDenyList, brewingStandRecipeList } from "../../lib/blocks/brewingStand/recipes"
 
 export const temporalBottleFuncBrewingStand = new class TemporalBottleFuncBrewingStand {
   private brewingStandsInfo: { [key: string]: IIntervalInfo } = {}
