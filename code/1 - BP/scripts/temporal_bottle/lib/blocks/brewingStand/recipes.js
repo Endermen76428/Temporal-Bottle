@@ -1,4 +1,25 @@
-export const brewingStandInputOutput = {
+export function BACSLoadBrewingStandRecipe(recipe, deny) {
+    const denied = deny.getParticipants();
+    const denyGetted = new Set();
+    for (let i = 0, len = denied.length; i < len; i++) {
+        const id = denied[i]?.displayName;
+        if (id == undefined)
+            continue;
+        brewingStandRecipeDenyList[id] = true;
+    }
+    denyGetted.clear();
+    const recipes = recipe.getParticipants();
+    for (let i = 0, len = recipes.length; i < len; i++) {
+        const id = recipes[i]?.displayName;
+        if (id == undefined)
+            continue;
+        const [reagent, input, output] = id.split("/", 3);
+        if (reagent == undefined || input == undefined || output == undefined)
+            continue;
+        brewingStandRecipeList[reagent + "/" + input] = output;
+    }
+}
+export const brewingStandRecipeList = {
     "minecraft:awkward/minecraft:blaze_powder": "minecraft:strength",
     "minecraft:awkward/minecraft:breeze_rod": "minecraft:wind_charged",
     "minecraft:awkward/minecraft:fermented_spider_eye": "minecraft:weakness",
@@ -68,12 +89,6 @@ export const brewingStandInputOutput = {
     "minecraft:water/minecraft:stone": "minecraft:mundane",
     "minecraft:water/minecraft:sugar": "minecraft:mundane",
     "minecraft:water/minecraft:web": "minecraft:mundane",
-    "minecraft:weakness/minecraft:redstone": "minecraft:long_weakness",
-    "minecraft:potion/minecraft:obsidian": "mutant:chemical_x",
-    "minecraft:splash_potion/minecraft:obsidian": "mutant:chemical_x",
-    "minecraft:potion/minecraft:amethyst_shard": "bv:recall_potion",
-    "mbl_ts:fizzy_water/mbl_ts:dried_nether_wart": "mbl_ts:vial_of_netherwart_solution",
-    "mbl_ts:bottle_of_water_dirty_4/mbl_ts:sweet_yeast_mix": "mbl_ts:fizzy_water",
-    "minecraft:potion/mbl_ts:zombie_heart": "mbl_ts:bottle_of_zombie_goo",
-    "mbl_ts:bottle_of_zombie_goo/mbl_ts:vial_of_netherwart_solution": "mbl_ts:zombie_vaccine"
+    "minecraft:weakness/minecraft:redstone": "minecraft:long_weakness"
 };
+export const brewingStandRecipeDenyList = {};

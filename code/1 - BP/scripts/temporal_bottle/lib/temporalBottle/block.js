@@ -28,6 +28,6 @@ export const blocksTimeList = {
     "minecraft:lit_blast_furnace": { type: "furnace", time: 5 },
     "minecraft:smoker": { type: "furnace", time: 5 },
     "minecraft:lit_smoker": { type: "furnace", time: 5 },
-    "minecraft:brewing_stand": { type: "brewing_stand", time: 30 },
+    "minecraft:brewing_stand": { type: "brewing_stand", time: 20 },
     "minecraft:hopper": { type: "hopper", time: 2.5 }
 };

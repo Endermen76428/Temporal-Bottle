@@ -1,6 +1,6 @@
 import { blocksTimeList, temporalBottleBlock } from "../lib/temporalBottle/block"
-import { temporalBottleFuncBrewStand } from "./blocks/brewingStand/brewingStand"
 import { Block, BlockComponentTypes, Entity } from "@minecraft/server"
+import { temporalBottleFuncBrewingStand } from "./blocks/brewingStand"
 import { temporalBottleFuncFurnace } from "./blocks/furnace"
 import { addToGlobalLoop } from "./globalLoop"
 
@@ -32,5 +32,11 @@ const accelerationTypeFunc: { [key: string]: (entity: Entity, block: Block, mult
     addToGlobalLoop("furnaceAccelerate")
   },
 
-  "brewing_stand": (entity, block, multiplier) => temporalBottleFuncBrewStand.brewing(block)
+  "brewing_stand": (entity, block, multiplier, time) => {
+    const inventory = block.getComponent(BlockComponentTypes.Inventory)?.container
+    if(inventory == undefined) return
+
+    temporalBottleFuncBrewingStand.add(entity, block, inventory, multiplier, time *20) // Transforma o tempo de duração da ação em ticks
+    addToGlobalLoop("brewingStandAccelerate")
+  }
 }

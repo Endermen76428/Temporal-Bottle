@@ -1,6 +1,6 @@
 import { blocksTimeList, temporalBottleBlock } from "../lib/temporalBottle/block";
-import { temporalBottleFuncBrewStand } from "./blocks/brewingStand/brewingStand";
 import { BlockComponentTypes } from "@minecraft/server";
+import { temporalBottleFuncBrewingStand } from "./blocks/brewingStand";
 import { temporalBottleFuncFurnace } from "./blocks/furnace";
 import { addToGlobalLoop } from "./globalLoop";
 export const temporalZone = new class TemporalZone {
@@ -28,5 +28,11 @@ const accelerationTypeFunc = {
         temporalBottleFuncFurnace.add(entity, block, inventory, multiplier, time * 20);
         addToGlobalLoop("furnaceAccelerate");
     },
-    "brewing_stand": (entity, block, multiplier) => temporalBottleFuncBrewStand.brewing(block)
+    "brewing_stand": (entity, block, multiplier, time) => {
+        const inventory = block.getComponent(BlockComponentTypes.Inventory)?.container;
+        if (inventory == undefined)
+            return;
+        temporalBottleFuncBrewingStand.add(entity, block, inventory, multiplier, time * 20);
+        addToGlobalLoop("brewingStandAccelerate");
+    }
 };

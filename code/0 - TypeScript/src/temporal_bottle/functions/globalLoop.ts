@@ -1,3 +1,4 @@
+import { temporalBottleFuncBrewingStand } from "./blocks/brewingStand"
 import { temporalBottleFuncFurnace } from "./blocks/furnace"
 import { system } from "@minecraft/server"
 
@@ -13,7 +14,7 @@ function loop(tick: number): void {
   if(enabledLoop == false) return
 
   if(enabledFunctions.furnaceAccelerate) temporalBottleFuncFurnace.update()
-  if(enabledFunctions.brewingStandAccelerate) console.warn("Suporte Poção")
+  if(enabledFunctions.brewingStandAccelerate) temporalBottleFuncBrewingStand.update()
 
   // Reinicia o Loop no proximo tick
   system.run(() => { loop(tick == 19 ? 0 : tick +1) })

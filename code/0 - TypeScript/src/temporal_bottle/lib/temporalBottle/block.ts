@@ -37,7 +37,7 @@ export const blocksTimeList: { [key: string]: BlockTime } = {
   "minecraft:smoker": {type: "furnace", time: 5},
   "minecraft:lit_smoker": {type: "furnace", time: 5},
 
-  "minecraft:brewing_stand": {type: "brewing_stand", time: 30},
+  "minecraft:brewing_stand": {type: "brewing_stand", time: 20},
 
   "minecraft:hopper": {type: "hopper", time: 2.5} // 2.5 itens por segundo = 1 item a cada 8 ticks
 }

@@ -1,3 +1,4 @@
+import { temporalBottleFuncBrewingStand } from "./blocks/brewingStand";
 import { temporalBottleFuncFurnace } from "./blocks/furnace";
 import { system } from "@minecraft/server";
 let enabledLoop = false;
@@ -11,7 +12,7 @@ function loop(tick) {
     if (enabledFunctions.furnaceAccelerate)
         temporalBottleFuncFurnace.update();
     if (enabledFunctions.brewingStandAccelerate)
-        console.warn("Suporte Poção");
+        temporalBottleFuncBrewingStand.update();
     system.run(() => { loop(tick == 19 ? 0 : tick + 1); });
 }
 export function addToGlobalLoop(type) {

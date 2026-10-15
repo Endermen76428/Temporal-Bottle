@@ -1,4 +1,5 @@
 import { ItemStack, system, world } from "@minecraft/server";
+import { BACSLoadBrewingStandRecipe } from "./blocks/brewingStand/recipes";
 import { BACSLoadFurnaceRecipe } from "./blocks/furnace/recipes";
 import { temporalBottleItem } from "./temporalBottle/bottle";
 import { apiScoreboard } from "../../0-lib/math/scoreboard";
@@ -11,6 +12,12 @@ export let furnaceReloadScore;
 export let furnaceRecipeScore;
 export let BACSFurnaceRecipeScore;
 export let BACSFurnaceRecipeDenyScore;
+export let BACSBrewingStandRecipeScore;
+export let BACSBrewingStandRecipeDenyScore;
+export const compatibleAddonsTranslation = {
+    "digital_miner": true,
+    "travel_backpack": true
+};
 system.run(() => {
     const players = world.getPlayers();
     for (let p = 0, pLen = players.length; p < pLen; p++) {
@@ -27,7 +34,10 @@ system.run(() => {
     coalItem = new ItemStack("minecraft:coal");
     BACSFurnaceRecipeScore = apiScoreboard.getObj("BACS:furnace_recipes");
     BACSFurnaceRecipeDenyScore = apiScoreboard.getObj("BACS:furnace_recipes_deny");
+    BACSBrewingStandRecipeScore = apiScoreboard.getObj("BACS:brewing_stand_recipes");
+    BACSBrewingStandRecipeDenyScore = apiScoreboard.getObj("BACS:brewing_stand_recipes_deny");
     BACSLoadFurnaceRecipe(BACSFurnaceRecipeScore, BACSFurnaceRecipeDenyScore);
+    BACSLoadBrewingStandRecipe(BACSBrewingStandRecipeScore, BACSBrewingStandRecipeDenyScore);
 });
 system.runInterval(() => {
     for (const player of world.getPlayers({ tags: ["has_temporal_bottle"] })) {

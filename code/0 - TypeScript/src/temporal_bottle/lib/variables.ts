@@ -1,4 +1,5 @@
 import { ItemStack, ScoreboardObjective, system, world } from "@minecraft/server"
+import { BACSLoadBrewingStandRecipe } from "./blocks/brewingStand/recipes"
 import { BACSLoadFurnaceRecipe } from "./blocks/furnace/recipes"
 import { temporalBottleItem } from "./temporalBottle/bottle"
 import { apiScoreboard } from "../../0-lib/math/scoreboard"
@@ -16,6 +17,13 @@ export let furnaceReloadScore: ScoreboardObjective
 export let furnaceRecipeScore: ScoreboardObjective
 export let BACSFurnaceRecipeScore: ScoreboardObjective
 export let BACSFurnaceRecipeDenyScore: ScoreboardObjective
+export let BACSBrewingStandRecipeScore: ScoreboardObjective
+export let BACSBrewingStandRecipeDenyScore: ScoreboardObjective
+
+export const compatibleAddonsTranslation: { [key: string]: true } = {
+  "digital_miner": true,
+  "travel_backpack": true
+}
 
 system.run(() => {
   const players = world.getPlayers()
@@ -38,8 +46,11 @@ system.run(() => {
   // furnaceRecipeScore = apiScoreboard.getObj("travel_backpack:furnace_r")
   BACSFurnaceRecipeScore = apiScoreboard.getObj("BACS:furnace_recipes")
   BACSFurnaceRecipeDenyScore = apiScoreboard.getObj("BACS:furnace_recipes_deny")
+  BACSBrewingStandRecipeScore = apiScoreboard.getObj("BACS:brewing_stand_recipes")
+  BACSBrewingStandRecipeDenyScore = apiScoreboard.getObj("BACS:brewing_stand_recipes_deny")
 
   BACSLoadFurnaceRecipe(BACSFurnaceRecipeScore, BACSFurnaceRecipeDenyScore)
+  BACSLoadBrewingStandRecipe(BACSBrewingStandRecipeScore, BACSBrewingStandRecipeDenyScore)
 })
 
 system.runInterval(() => {

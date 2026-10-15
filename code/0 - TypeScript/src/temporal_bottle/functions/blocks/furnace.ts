@@ -1,6 +1,6 @@
+import { BACSFurnaceRecipeDenyScore, BACSFurnaceRecipeScore, coalItem, compatibleAddonsTranslation } from "../../lib/variables"
 import { furnaceHasRecipe, furnaceRecipeDenyList, furnaceRecipeList } from "../../lib/blocks/furnace/recipes"
 import { Block, BlockComponentTypes, Container, Entity, ItemStack, system, world } from "@minecraft/server"
-import { BACSFurnaceRecipeDenyScore, BACSFurnaceRecipeScore, coalItem } from "../../lib/variables"
 import { furnaceFuelList } from "../../lib/blocks/furnace/fuel"
 import { apiNumbers } from "../../../0-lib/math/numbers"
 import { apiWarn } from "../../../0-lib/player/warn"
@@ -147,12 +147,6 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
           }
           continue
         }
-        // else {
-        //   if(time == 0){
-        //     time = Date.now()
-        //     time2 = 0
-        //   }
-        // }
 
         const gettedFuelTime = furnaceFuelList[fuel.typeId]
         if(gettedFuelTime == undefined){
@@ -230,11 +224,6 @@ const furnaceIndex: { [key: string]: number } = {
   "minecraft:lit_blast_furnace": 1,
   "minecraft:smoker": 2,
   "minecraft:lit_smoker": 2
-}
-
-const compatibleAddonsTranslation: { [key: string]: true } = {
-  "digital_miner": true,
-  "travel_backpack": true
 }
 
 interface IIntervalInfo {
