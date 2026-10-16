@@ -1,13 +1,13 @@
 import { CommandPermissionLevel, CustomCommandParamType, CustomCommandStatus as Status, EquipmentSlot, Player, system } from "@minecraft/server";
+import { BACSCommandRecipes } from "../../../1-bacs/recipes/commands/manager";
 import { temporalBottleItem } from "../../lib/temporalBottle/bottle";
-import { BACSRecipes } from "../../../1-bacs/recipes/command";
 import { apiEquippable } from "../../lib/player/equippable";
 import { apiNumbers } from "../../../0-lib/math/numbers";
 export const startUpCommandFunc = {
     "recipes": ({ sourceEntity: player }) => {
         if (!(player instanceof Player))
             return;
-        system.run(() => { BACSRecipes(player); });
+        system.run(() => { BACSCommandRecipes(player); });
         return { status: Status.Success };
     },
     "giveTime": ({ sourceEntity: player }, functionType, timeAmount) => {

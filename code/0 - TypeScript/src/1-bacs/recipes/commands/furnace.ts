@@ -1,10 +1,10 @@
-import { furnaceRecipeDenyList, furnaceRecipeList } from "../../1-bacs/recipes/furnace/recipes"
-import { BACSFurnaceRecipeDenyScore, BACSFurnaceRecipeScore } from "../../1-bacs/recipes/variables"
+import { furnaceRecipeDenyList, furnaceRecipeList } from "../furnace/recipes"
+import { BACSFurnaceRecipeDenyScore, BACSFurnaceRecipeScore } from "../variables"
 import { ActionFormData } from "@minecraft/server-ui"
-import { apiNumbers } from "../../0-lib/math/numbers"
+import { apiNumbers } from "../../../0-lib/math/numbers"
 import { Player } from "@minecraft/server"
 
-export function BACSRecipes(player: Player, section = 0): void {
+export function BACSCommandFurnaceRecipe(player: Player, section = 0): void {
   const tempSet = new Set<string>()
 
   const items: TRecipesItemsList = Object.entries(furnaceRecipeList)
@@ -62,7 +62,7 @@ function allowedRecipes(player: Player, items: TRecipesItemsList, length: number
     BACSFurnaceRecipeDenyScore.removeParticipant(`1/${item[0]}`)
     BACSFurnaceRecipeDenyScore.removeParticipant(`2/${item[0]}`)
 
-    BACSRecipes(player, section)
+    BACSCommandFurnaceRecipe(player, section)
   })
 }
 

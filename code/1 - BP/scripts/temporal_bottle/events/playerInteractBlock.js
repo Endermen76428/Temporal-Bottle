@@ -16,14 +16,14 @@ function enableTemporalAccelerate(block, player) {
     if (currentSpeed == undefined) {
         if (temporalBottleItem.hasTime(player, 0)) {
             system.run(() => {
-                const entity = block.dimension.spawnEntity("temporal_bottle:temporal_zone", block.bottomCenter());
+                block.dimension.spawnEntity("temporal_bottle:temporal_zone", block.bottomCenter());
                 temporalBottleItem.decreaseTime(player, 0);
             });
         }
         return true;
     }
     if (currentSpeed.tier + 1 < maxSpeedTier) {
-        if (currentSpeed.entity.getProperty("temporal_bottle:search") == true) {
+        if (currentSpeed.entity.getProperty("temporal_bottle:search") != 0) {
             apiWarn.notify(player, "entity.warn.temporal_bottle:temporal_zone.search.can_not_increase", { sound: "warn.ender_addon_pack:bass" });
             return true;
         }

@@ -1,6 +1,8 @@
-import { Block, Container, Entity, ItemComponentTypes, ItemPotionComponent, ItemStack, Potions } from "@minecraft/server"
-import { brewingStandRecipeList } from "../../../1-bacs/recipes/brewingStand/recipes"
+import { Block, BlockComponentTypes, Container, Entity, ItemComponentTypes, ItemPotionComponent, ItemStack, ItemTypes, Potions, system, world } from "@minecraft/server"
+import { brewingStandRecipeDenyList, brewingStandRecipeList } from "../../../1-bacs/recipes/brewingStand/recipes"
+import { BACSBrewingStandRecipeDenyScore, BACSBrewingStandRecipeScore, compatibleAddonsTranslation } from "../../../1-bacs/recipes/variables"
 import { removeFromGlobalLoop } from "../globalLoop"
+import { apiWarn } from "../../../0-lib/player/warn"
 
 export const temporalBottleFuncBrewingStand = new class TemporalBottleFuncBrewingStand {
   private brewingStandsInfo: { [key: string]: IIntervalInfo } = {}
@@ -33,7 +35,6 @@ export const temporalBottleFuncBrewingStand = new class TemporalBottleFuncBrewin
       }
 
       if(gettingRecipe != undefined) continue
-      // console.warn("Fazer um sistema para pegar todos os temporal zone e reativa-las ao executar o /reload, seila fazer um array, pois ai ele reseta sempre nesses caso, talvez funcione")
 
       const input = inventory.getItem(0)
       if(input == undefined){
@@ -49,13 +50,79 @@ export const temporalBottleFuncBrewingStand = new class TemporalBottleFuncBrewin
 
         if(slotBase == undefined) continue
 
-        const addonRecipeId = brewingStandRecipeList[slotBase?.typeId + "/" + input.typeId]
         const base = slotBase?.getComponent(ItemComponentTypes.Potion)
-        const vanillaRecipeId = brewingStandRecipeList[base?.potionEffectType.id + "/" + input.typeId]
+
+        const potionId = base?.potionEffectType.id + "/" + input.typeId
+        const vanillaRecipeId = brewingStandRecipeList[potionId]
+        const potionAddonId = slotBase?.typeId + "/" + input.typeId
+        const addonRecipeId = brewingStandRecipeList[potionAddonId]
+
+        // Se qualquer uma das recipes estiver na lista de negação ignora
+        if(brewingStandRecipeDenyList[potionId] == true || brewingStandRecipeDenyList[potionAddonId] == true) continue
+
         if(addonRecipeId != undefined || (base && thrownType && base.potionDeliveryType.id == transformDeliveryRequirements[thrownType]) || vanillaRecipeId != undefined){
           hasValidPotion = true
           break
         }
+
+        // let brewBlock = block.dimension.getBlock({x: block.x, y: block.y +2, z: block.z})
+        let brewBlock = block.dimension.getBlock({x: block.x, y: block.dimension.heightRange.min, z: block.z})
+        for(let i2 = 0; i2 < 2; i2++){ if(brewBlock?.typeId == "minecraft:brewing_stand") brewBlock = brewBlock.east(1) }
+        if(brewBlock == undefined) continue
+        world.structureManager.place("mystructure:temporal_bottle/brewing_stand", block.dimension, brewBlock.location)
+
+        info.gettingRecipe = brewBlock
+        entity.triggerEvent("temporal_bottle:search_brewing_stand_recipe")
+
+        const brewInv = brewBlock.getComponent(BlockComponentTypes.Inventory)?.container
+        if(brewInv == undefined) continue
+
+        brewInv.setItem(0, new ItemStack(input.typeId))
+        brewInv.setItem(1, slotBase)
+
+        const tickId = `${brewBlock.x},${brewBlock.y},${brewBlock.z}`
+        world.tickingAreaManager.hasTickingArea(tickId) == false && world.tickingAreaManager.createTickingArea(tickId, {dimension: brewBlock.dimension, from: brewBlock, to: brewBlock})
+
+        let players = entity.dimension.getPlayers({location: entity.location, maxDistance: 10})
+        for(let p = 0, pLen = players.length; p < pLen; p++){
+          const player = players[p]
+          const inputAddonId = input.typeId.split(":", 1)[0] ?? ""
+          const baseAddonId = slotBase.typeId.split(":", 1)[0] ?? ""
+          if(player != undefined) apiWarn.notify(player, {translate: "bacs.warn.temporal_bottle:furnace.start_search.20", with: {rawtext:[
+            {translate: input.localizationKey + (compatibleAddonsTranslation[inputAddonId] ? ".bacs" : "")},
+            {translate: base?.potionEffectType.id ?? (slotBase.localizationKey + (compatibleAddonsTranslation[baseAddonId] ? ".bacs" : ""))}
+          ]}}, {sound: "warn.ender_addon_pack:pop"})
+        }
+
+        system.runTimeout(() => {
+          delete info.gettingRecipe
+
+          if(brewBlock.isValid == false || brewInv.isValid == false){
+            players = entity.dimension.getPlayers({location: entity.location, maxDistance: 10})
+            for(let p = 0, pLen = players.length; p < pLen; p++){
+              const player = players[p]
+              if(player != undefined) apiWarn.notify(player, "bacs.warn.temporal_bottle:furnace.invalid_block", {sound: "warn.ender_addon_pack:break"})
+            }
+            return
+          }
+
+          const output = brewInv.getItem(1)
+
+          brewInv.clearAll()
+          brewBlock.setType("minecraft:bedrock")
+
+          world.tickingAreaManager.removeTickingArea(tickId)
+
+          if(output == undefined) return console.warn("§4Falha critica!")
+          const resultBase = base?.potionEffectType.id ?? slotBase.typeId
+
+          if(output.typeId != slotBase.typeId){
+            this.registerNewRecipe(resultBase, input.typeId, output.typeId != slotBase.typeId ? output.typeId : undefined)
+          } else {
+            this.registerNewRecipe(resultBase, input.typeId)
+          }
+          block.dimension.playSound("warn.temporal_bottle:recipe_finished", block.center())
+        }, 401) // Tempo do suporte de poções vanilla executar
       }
 
       // Se alguma poção pode ser gerada no futuro, o progresso será aumentado
@@ -69,29 +136,32 @@ export const temporalBottleFuncBrewingStand = new class TemporalBottleFuncBrewin
           const slotBase = inventory.getItem(i +1)
           if(slotBase == undefined) continue
 
+          // Verifica se a poção é vanilla
+          const base = slotBase?.getComponent(ItemComponentTypes.Potion)
+          const vanillaRecipeId = brewingStandRecipeList[base?.potionEffectType.id + "/" + input.typeId]
+          if(base && vanillaRecipeId != undefined){
+            if(ItemTypes.get(vanillaRecipeId) != undefined){
+              inventory.setItem(i +1, new ItemStack(vanillaRecipeId))
+            } else {
+              inventory.setItem(i +1, Potions.resolve(vanillaRecipeId, base.potionDeliveryType))
+            }
+            transformed = true
+            continue
+          }
+
+          // verificar se a fabricação será uma transformação de tipo
+          if(thrownType && base?.potionDeliveryType.id == transformDeliveryRequirements[thrownType]){
+            this.transformDeliveryType(inventory, base, i +1, thrownType)
+            transformed = true
+            continue
+          }
+
           // Verifia se a poção gerada é de addon
           const addonRecipeId = brewingStandRecipeList[slotBase?.typeId + "/" + input.typeId]
           if(addonRecipeId != undefined){
             inventory.setItem(i +1, new ItemStack(addonRecipeId))
             transformed = true
             continue
-          }
-
-          const base = slotBase?.getComponent(ItemComponentTypes.Potion)
-          if(!base) continue
-
-          // verificar se a fabricação será uma transformação de tipo
-          if(thrownType && base.potionDeliveryType.id == transformDeliveryRequirements[thrownType]){
-            this.transformDeliveryType(inventory, base, i +1, thrownType)
-            transformed = true
-            continue
-          }
-
-          // Verifica se a poção é vanilla
-          const vanillaRecipeId = brewingStandRecipeList[base?.potionEffectType.id + "/" + input.typeId]
-          if(vanillaRecipeId != undefined){
-            inventory.setItem(i +1, Potions.resolve(vanillaRecipeId, base.potionDeliveryType))
-            transformed = true
           }
         }
 
@@ -106,75 +176,6 @@ export const temporalBottleFuncBrewingStand = new class TemporalBottleFuncBrewin
           }
         }
       }
-
-      // Pega o item que será gerado ao fundir o input atual
-      // const expectedOutput = brewingStandRecipeList[input.typeId]
-      // if(expectedOutput == undefined){
-      //   if(furnaceRecipeDenyList[`${index}/${input.typeId}`] != undefined) continue
-
-      //   entity.triggerEvent("temporal_bottle:search_furnace_recipe")
-
-      //   // const furnaceBlock = block.dimension.getBlock({x: block.x, y: block.y +2, z: block.z})
-      //   const furnaceBlock = block.dimension.getBlock({x: block.x, y: block.dimension.heightRange.min, z: block.z})
-      //   if(furnaceBlock == undefined || !furnaceBlock.isValid) continue
-
-      //   const blastBlock = furnaceBlock?.north()
-      //   const smokerBlock = furnaceBlock?.south()
-      //   if(blastBlock == undefined || !blastBlock.isValid) continue
-      //   if(smokerBlock == undefined || !smokerBlock.isValid) continue
-
-      //   info.gettingRecipe = furnaceBlock
-      //   furnaceBlock.setType("minecraft:furnace")
-      //   blastBlock.setType("minecraft:blast_furnace")
-      //   smokerBlock.setType("minecraft:smoker")
-
-      //   const furnaceInv = furnaceBlock.getComponent(BlockComponentTypes.Inventory)?.container
-      //   const blastInv = blastBlock.getComponent(BlockComponentTypes.Inventory)?.container
-      //   const smokerInv = smokerBlock.getComponent(BlockComponentTypes.Inventory)?.container
-
-      //   if(furnaceInv == undefined || blastInv == undefined || smokerInv == undefined) continue
-
-      //   const inputItem = new ItemStack(input.typeId) // Recria o item mas somente com 1 unidade
-      //   furnaceInv.setItem(0, inputItem), blastInv.setItem(0, inputItem), smokerInv.setItem(0, inputItem)
-      //   furnaceInv.setItem(1, coalItem), blastInv.setItem(1, coalItem), smokerInv.setItem(1, coalItem)
-
-      //   const tickId = `${furnaceBlock.x},${furnaceBlock.y},${furnaceBlock.z}`
-      //   world.tickingAreaManager.hasTickingArea(tickId) == false && world.tickingAreaManager.createTickingArea(tickId, {dimension: furnaceBlock.dimension, from: blastBlock.location, to: smokerBlock.location})
-
-      //   let players = entity.dimension.getPlayers({location: entity.location, maxDistance: 10})
-      //   for(let p = 0, pLen = players.length; p < pLen; p++){
-      //     const player = players[p]
-      //     const addonId = input.typeId.split(":", 1)[0] ?? ""
-      //     if(player != undefined) apiWarn.notify(player, {translate: "bacs.warn.temporal_bottle:furnace.start_search.20", with: {rawtext:[{translate: input.localizationKey + (compatibleAddonsTranslation[addonId] ? ".bacs" : "")}]}}, {sound: "warn.ender_addon_pack:pop"})
-      //   }
-
-      //   system.runTimeout(() => {
-      //     delete info.gettingRecipe
-
-      //     if(!furnaceBlock.isValid || !blastBlock.isValid || !smokerBlock.isValid || !furnaceInv.isValid || !blastInv.isValid || !smokerInv.isValid){
-      //       for(let p = 0, pLen = players.length; p < pLen; p++){
-      //         const player = players[p]
-      //         if(player != undefined) apiWarn.notify(player, "bacs.warn.temporal_bottle:furnace.invalid_block", {sound: "warn.ender_addon_pack:break"})
-      //       }
-      //       return
-      //     }
-
-      //     const furnaceOutput = furnaceInv.getItem(2)?.typeId, blastOutput = blastInv.getItem(2)?.typeId, smokerOutput = smokerInv.getItem(2)?.typeId
-      //     furnaceInv.clearAll(), blastInv.clearAll(), smokerInv.clearAll()
-      //     furnaceBlock.setType("minecraft:bedrock"), blastBlock.setType("minecraft:bedrock"), smokerBlock.setType("minecraft:bedrock")
-
-      //     world.tickingAreaManager.removeTickingArea(tickId)
-
-      //     // Se haver um output ele será adicionado a lista de recipes validas para aquele tipo de bloco e na lista global
-      //     // Caso contrario será colocado na lista de recipes invalidas com o prefixo do bloco
-      //     this.registerNewRecipe("minecraft:furnace", input.typeId, furnaceOutput)
-      //     this.registerNewRecipe("minecraft:blast_furnace", input.typeId, blastOutput)
-      //     this.registerNewRecipe("minecraft:smoker", input.typeId, smokerOutput)
-      //     block.dimension.playSound("warn.temporal_bottle:recipe_finished", block.center())
-      //   }, 200)
-
-      //   continue
-      // }
     }
 
     // Desativa o loop se não tiver mais Suportes de Poções
@@ -187,19 +188,17 @@ export const temporalBottleFuncBrewingStand = new class TemporalBottleFuncBrewin
     inventory.setItem(index, Potions.resolve(potion.potionEffectType, type))
   }
 
-  private registerNewRecipe(blockId: string, input: string, output?: string): void {
-    // const index = furnaceIndex[blockId]
-    // if(index == undefined) return
-
-    // if(output != undefined){
-    //   furnaceRecipeList[input] = output
-    //   furnaceHasRecipe[blockId]?.add(input)
-    //   BACSFurnaceRecipeScore.setScore(`${input}/${output}`, 0)
-    // } else {
-    //   const id = `${index}/${input}`
-    //   furnaceRecipeDenyList[id] = true
-    //   BACSFurnaceRecipeDenyScore.setScore(id, 0)
-    // }
+  private registerNewRecipe(base: string, reagent: string, output?: string): void {
+    if(output != undefined){
+      brewingStandRecipeList[`${base}/${reagent}`] = output
+      BACSBrewingStandRecipeScore.setScore(`${base}/${reagent}/${output}`, 0)
+      // Adicionar o output como a base, para ele não inciar novamente o sistema de pesquisa, já que isso nunca ocorre no vanilla
+      brewingStandRecipeDenyList[`${output}/${reagent}`] = true
+      BACSBrewingStandRecipeDenyScore.setScore(`${output}/${reagent}`, 0)
+    } else {
+      brewingStandRecipeDenyList[`${base}/${reagent}`] = true
+      BACSBrewingStandRecipeDenyScore.setScore(`${base}/${reagent}`, 0)
+    }
   }
 }
 

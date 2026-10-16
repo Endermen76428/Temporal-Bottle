@@ -88,6 +88,7 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
                 system.runTimeout(() => {
                     delete info.gettingRecipe;
                     if (!furnaceBlock.isValid || !blastBlock.isValid || !smokerBlock.isValid || !furnaceInv.isValid || !blastInv.isValid || !smokerInv.isValid) {
+                        players = entity.dimension.getPlayers({ location: entity.location, maxDistance: 10 });
                         for (let p = 0, pLen = players.length; p < pLen; p++) {
                             const player = players[p];
                             if (player != undefined)

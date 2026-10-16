@@ -4,7 +4,7 @@
 
 ### Warns
 bacs.warn.temporal_bottle:furnace.start_search.10=[§aBACS§r]> §e%1§r não possui uma receita registrada no Tempo, aguarde 10s enquanto procuramos.
-bacs.warn.temporal_bottle:furnace.start_search.20=[§aBACS§r]> §e%1§r não possui uma receita registrada no Tempo, aguarde 20s enquanto procuramos.
+bacs.warn.temporal_bottle:furnace.start_search.20=[§aBACS§r]> §e%1§r + §e%2§r não possui uma receita registrada no Tempo, aguarde 20s enquanto procuramos.
 bacs.warn.temporal_bottle:furnace.invalid_block=[§cBACS§r]> Algo inesperado interferiu na procura.
 
 ### UI
