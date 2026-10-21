@@ -7,6 +7,8 @@ import { apiWarn } from "../../../0-lib/player/warn"
 import { removeFromGlobalLoop } from "../globalLoop"
 import { coalItem } from "../../lib/variables"
 
+const tempGettingRecipeTarget = new Set<string>() // Item Id
+
 export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
   private furnacesInfo: { [key: string]: IIntervalInfo } = {}
 
@@ -40,13 +42,12 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
       }
 
       if(gettingRecipe != undefined) continue
-      // console.warn("Fazer um sistema para pegar todos os temporal zone e reativa-las ao executar o /reload, seila fazer um array, pois ai ele reseta sempre nesses caso, talvez funcione")
 
       const input = inventory.getItem(0)
       if(input == undefined){
         if(progress > 0 || fuelTime > 0){
           info.progress = 0
-          info.fuelTime -= apiNumbers.clamp(info.fuelTime - multiplier, 0, info.fuelTime) // console.warn("Tem que ver um jeito melhor, talvez fazer as const ali em cima virarem let e trabalhar com elas e o info. fica só pra execuções do proximo tick e não desse atual, acho que fica melhor")
+          info.fuelTime -= apiNumbers.clamp(info.fuelTime - multiplier, 0, info.fuelTime)
         }
         continue
       }
@@ -59,12 +60,28 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
       // Pega o item que será gerado ao fundir o input atual
       const expectedOutput = furnaceRecipeList[input.typeId]
       if(expectedOutput == undefined){
+        // Se está na lista de receitas negadas ele pula a execução
         if(furnaceRecipeDenyList[`${index}/${input.typeId}`] != undefined) continue
 
+        // Se outra fornalha no mundo já está procurando por essa recipe não é necessesario procurar novamente, mas a animação de procura será executada ainda
+        if(tempGettingRecipeTarget.has(input.typeId)){
+          if(gettingRecipe == undefined){
+            entity.triggerEvent("temporal_bottle:search_furnace_recipe")
+            info.gettingRecipe = block
+            system.runTimeout(() => {
+              delete info.gettingRecipe
+            }, 200)
+          }
+          continue
+        }
+
+        tempGettingRecipeTarget.add(input.typeId)
         entity.triggerEvent("temporal_bottle:search_furnace_recipe")
 
-        // const furnaceBlock = block.dimension.getBlock({x: block.x, y: block.y +2, z: block.z})
-        const furnaceBlock = block.dimension.getBlock({x: block.x, y: block.dimension.heightRange.min, z: block.z})
+        // let furnaceBlock = block.dimension.getBlock({x: block.x, y: block.y +2, z: block.z})
+        // for(let i2 = 0; i2 < 5; i2++){ if(furnaceBlock && furnaceBlock?.typeId != "minecraft:air"){ furnaceBlock = furnaceBlock.east(1); break } }
+        let furnaceBlock = block.dimension.getBlock({x: block.x, y: block.dimension.heightRange.min, z: block.z})
+        for(let i2 = 0; i2 < 5; i2++){ if(furnaceBlock && furnaceBlock?.typeId != "minecraft:bedrock"){ furnaceBlock = furnaceBlock.east(1); break } }
         if(furnaceBlock == undefined || !furnaceBlock.isValid) continue
 
         const blastBlock = furnaceBlock?.north()
@@ -99,6 +116,7 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
 
         system.runTimeout(() => {
           delete info.gettingRecipe
+          tempGettingRecipeTarget.delete(input.typeId)
 
           if(!furnaceBlock.isValid || !blastBlock.isValid || !smokerBlock.isValid || !furnaceInv.isValid || !blastInv.isValid || !smokerInv.isValid){
             players = entity.dimension.getPlayers({location: entity.location, maxDistance: 10})

@@ -1,5 +1,6 @@
 import { ItemStack, ScoreboardObjective, system, world } from "@minecraft/server"
 import { temporalBottleItem } from "./temporalBottle/bottle"
+import { apiScoreboard } from "../../0-lib/math/scoreboard"
 import { apiInventory } from "./player/inventory"
 
 export const timeCostByUse = 30 // Base of time cost
@@ -11,15 +12,18 @@ export const cachePlayerBottleSlot = new Map<string, number>() // Player Id > Sl
 export let coalItem: ItemStack
 
 export let furnaceReloadScore: ScoreboardObjective
-export let furnaceRecipeScore: ScoreboardObjective
 
 system.run(() => {
+  furnaceReloadScore = apiScoreboard.getObj("temporal_bottle:furnace")
+
+  coalItem = new ItemStack("minecraft:coal")
+
   const players = world.getPlayers()
   for(let p = 0, pLen = players.length; p < pLen; p++){
     const player = players[p]
     if(player == undefined) continue
 
-    player.dimension.getEntities({type: "temporal_bottle:temporal_zone"}).forEach(e => e.remove()) // console.warn("Coisa dev remove depois")
+    // player.dimension.getEntities({type: "temporal_bottle:temporal_zone"}).forEach(e => e.remove())
 
     const item = apiInventory.getItem(player, "temporal_bottle:temporal_bottle")
     if(item){
@@ -27,8 +31,6 @@ system.run(() => {
       cachePlayerBottleSlot.set(player.id, item.slot)
     }
   }
-
-  coalItem = new ItemStack("minecraft:coal")
 })
 
 system.runInterval(() => {

@@ -35,8 +35,8 @@ export function removeFromGlobalLoop<T extends keyof IEnabledFunctions>(type: T)
   const values = Object.values(enabledFunctions)
   let disable = true
   for(let i = 0, len = values.length; i < len; i++){
+    // Se qualquer uma das funções ainda estiver ativas ele vai manter o loop ligado
     if(values[i] == true){
-      // Se qualquer uma das funções ainda estiver ativas ele vai manter o loop ligado
       disable = false
       break
     }

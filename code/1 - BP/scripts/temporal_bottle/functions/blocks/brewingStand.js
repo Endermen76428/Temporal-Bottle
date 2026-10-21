@@ -99,7 +99,7 @@ export const temporalBottleFuncBrewingStand = new class TemporalBottleFuncBrewin
                     brewBlock.setType("minecraft:bedrock");
                     world.tickingAreaManager.removeTickingArea(tickId);
                     if (output == undefined)
-                        return console.warn("§4Falha critica!");
+                        return console.warn("§4Critial Fail!");
                     const resultBase = base?.potionEffectType.id ?? slotBase.typeId;
                     if (output.typeId != slotBase.typeId) {
                         this.registerNewRecipe(resultBase, input.typeId, output.typeId != slotBase.typeId ? output.typeId : undefined);

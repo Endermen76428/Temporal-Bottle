@@ -18,8 +18,8 @@
       "temporal_bottle:timer": { "minecraft:timer": { "looping": false, "time": 30.05, "time_down_event": { "event": "temporal_bottle:despawn" } } },
       "temporal_bottle:reset_timer": { "minecraft:timer": { "looping": false, "time": 0.05, "time_down_event": { "event": "temporal_bottle:remove_reset_timer" } } },
 
-      "temporal_bottle:searching_recipe_furnace": { "minecraft:timer": { "looping": false, "time": 10.05, "time_down_event": { "event": "temporal_bottle:remove_reset_timer" } } },
-      "temporal_bottle:searching_recipe_brewing_stand": { "minecraft:timer": { "looping": false, "time": 20.05, "time_down_event": { "event": "temporal_bottle:remove_reset_timer" } } }
+      "temporal_bottle:searching_recipe_furnace": { "minecraft:timer": { "looping": false, "time": 10, "time_down_event": { "event": "temporal_bottle:finished_search" } } },
+      "temporal_bottle:searching_recipe_brewing_stand": { "minecraft:timer": { "looping": false, "time": 20, "time_down_event": { "event": "temporal_bottle:finished_search" } } }
     },
 
     "components": {
@@ -51,10 +51,14 @@
         "remove": { "component_groups": [ "temporal_bottle:reset_timer", "temporal_bottle:timer", "temporal_bottle:searching_recipe_furnace" ] },
         "set_property": { "temporal_bottle:search": 2 }
       },
+      "temporal_bottle:finished_search": {
+        "add": { "component_groups": [ "temporal_bottle:reset_timer" ] },
+        "remove": { "component_groups": [ "temporal_bottle:timer", "temporal_bottle:searching_recipe_furnace", "temporal_bottle:searching_recipe_brewing_stand" ] }
+      },
 
       "temporal_bottle:remove_reset_timer": {
         "add": { "component_groups": [ "temporal_bottle:timer" ] },
-        "remove": { "component_groups": [ "temporal_bottle:reset_timer", "temporal_bottle:searching_recipe_furnace", "temporal_bottle:searching_recipe_brewing_stand" ] },
+        "remove": { "component_groups": [ "temporal_bottle:reset_timer" ] },
         "set_property": { "temporal_bottle:search": 0 }
       },
 

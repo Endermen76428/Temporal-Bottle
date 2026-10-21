@@ -6,6 +6,7 @@ import { apiNumbers } from "../../../0-lib/math/numbers";
 import { apiWarn } from "../../../0-lib/player/warn";
 import { removeFromGlobalLoop } from "../globalLoop";
 import { coalItem } from "../../lib/variables";
+const tempGettingRecipeTarget = new Set();
 export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
     constructor() {
         this.furnacesInfo = {};
@@ -54,8 +55,25 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
             if (expectedOutput == undefined) {
                 if (furnaceRecipeDenyList[`${index}/${input.typeId}`] != undefined)
                     continue;
+                if (tempGettingRecipeTarget.has(input.typeId)) {
+                    if (gettingRecipe == undefined) {
+                        entity.triggerEvent("temporal_bottle:search_furnace_recipe");
+                        info.gettingRecipe = block;
+                        system.runTimeout(() => {
+                            delete info.gettingRecipe;
+                        }, 200);
+                    }
+                    continue;
+                }
+                tempGettingRecipeTarget.add(input.typeId);
                 entity.triggerEvent("temporal_bottle:search_furnace_recipe");
-                const furnaceBlock = block.dimension.getBlock({ x: block.x, y: block.dimension.heightRange.min, z: block.z });
+                let furnaceBlock = block.dimension.getBlock({ x: block.x, y: block.dimension.heightRange.min, z: block.z });
+                for (let i2 = 0; i2 < 5; i2++) {
+                    if (furnaceBlock && furnaceBlock?.typeId != "minecraft:bedrock") {
+                        furnaceBlock = furnaceBlock.east(1);
+                        break;
+                    }
+                }
                 if (furnaceBlock == undefined || !furnaceBlock.isValid)
                     continue;
                 const blastBlock = furnaceBlock?.north();
@@ -87,6 +105,7 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
                 }
                 system.runTimeout(() => {
                     delete info.gettingRecipe;
+                    tempGettingRecipeTarget.delete(input.typeId);
                     if (!furnaceBlock.isValid || !blastBlock.isValid || !smokerBlock.isValid || !furnaceInv.isValid || !blastInv.isValid || !smokerInv.isValid) {
                         players = entity.dimension.getPlayers({ location: entity.location, maxDistance: 10 });
                         for (let p = 0, pLen = players.length; p < pLen; p++) {

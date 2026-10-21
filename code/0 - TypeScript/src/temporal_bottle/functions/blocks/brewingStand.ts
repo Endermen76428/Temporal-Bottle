@@ -113,7 +113,7 @@ export const temporalBottleFuncBrewingStand = new class TemporalBottleFuncBrewin
 
           world.tickingAreaManager.removeTickingArea(tickId)
 
-          if(output == undefined) return console.warn("§4Falha critica!")
+          if(output == undefined) return console.warn("§4Critial Fail!")
           const resultBase = base?.potionEffectType.id ?? slotBase.typeId
 
           if(output.typeId != slotBase.typeId){

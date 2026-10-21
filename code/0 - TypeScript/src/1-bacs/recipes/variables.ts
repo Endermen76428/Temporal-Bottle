@@ -14,8 +14,6 @@ export const compatibleAddonsTranslation: { [key: string]: true } = {
 }
 
 system.run(() => {
-  // furnaceReloadScore = apiScoreboard.getObj("travel_backpack:furnace")
-  // furnaceRecipeScore = apiScoreboard.getObj("travel_backpack:furnace_r")
   BACSFurnaceRecipeScore = apiScoreboard.getObj("BACS:furnace_recipes")
   BACSFurnaceRecipeDenyScore = apiScoreboard.getObj("BACS:furnace_recipes_deny")
   BACSBrewingStandRecipeScore = apiScoreboard.getObj("BACS:brewing_stand_recipes")
