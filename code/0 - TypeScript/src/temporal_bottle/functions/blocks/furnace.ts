@@ -1,10 +1,10 @@
 import { compatibleAddonsTranslation, BACSFurnaceRecipeScore, BACSFurnaceRecipeDenyScore } from "../../../1-bacs/recipes/variables"
 import { furnaceRecipeList, furnaceRecipeDenyList, furnaceHasRecipe } from "../../../1-bacs/recipes/furnace/recipes"
 import { Block, BlockComponentTypes, Container, Entity, ItemStack, system, world } from "@minecraft/server"
+import { BACSLoopFunctions, removeFromGlobalLoop } from "../../../1-bacs/globalLoop"
 import { furnaceFuelList } from "../../../1-bacs/recipes/furnace/fuel"
 import { apiNumbers } from "../../../0-lib/math/numbers"
 import { apiWarn } from "../../../0-lib/player/warn"
-import { removeFromGlobalLoop } from "../globalLoop"
 import { coalItem } from "../../lib/variables"
 
 const tempGettingRecipeTarget = new Set<string>() // Item Id
@@ -236,6 +236,7 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
     }
   }
 }
+BACSLoopFunctions["temporalBottleFurnace"] = temporalBottleFuncFurnace.update
 
 const furnaceIndex: { [key: string]: number } = {
   "minecraft:furnace": 0,

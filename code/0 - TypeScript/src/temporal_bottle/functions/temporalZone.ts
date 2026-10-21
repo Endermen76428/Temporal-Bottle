@@ -2,7 +2,7 @@ import { blocksTimeList, temporalBottleBlock } from "../lib/temporalBottle/block
 import { Block, BlockComponentTypes, Entity } from "@minecraft/server"
 import { temporalBottleFuncBrewingStand } from "./blocks/brewingStand"
 import { temporalBottleFuncFurnace } from "./blocks/furnace"
-import { addToGlobalLoop } from "./globalLoop"
+import { addToGlobalLoop } from "../../1-bacs/globalLoop"
 
 export const temporalZone = new class TemporalZone {
   createZone(entity: Entity): void {

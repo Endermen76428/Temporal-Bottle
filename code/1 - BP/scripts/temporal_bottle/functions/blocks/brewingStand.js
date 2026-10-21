@@ -1,7 +1,7 @@
 import { BlockComponentTypes, ItemComponentTypes, ItemStack, ItemTypes, Potions, system, world } from "@minecraft/server";
-import { brewingStandRecipeDenyList, brewingStandRecipeList } from "../../../1-bacs/recipes/brewingStand/recipes";
 import { BACSBrewingStandRecipeDenyScore, BACSBrewingStandRecipeScore, compatibleAddonsTranslation } from "../../../1-bacs/recipes/variables";
-import { removeFromGlobalLoop } from "../globalLoop";
+import { brewingStandRecipeDenyList, brewingStandRecipeList } from "../../../1-bacs/recipes/brewingStand/recipes";
+import { BACSLoopFunctions, removeFromGlobalLoop } from "../../../1-bacs/globalLoop";
 import { apiWarn } from "../../../0-lib/player/warn";
 export const temporalBottleFuncBrewingStand = new class TemporalBottleFuncBrewingStand {
     constructor() {
@@ -175,6 +175,7 @@ export const temporalBottleFuncBrewingStand = new class TemporalBottleFuncBrewin
         }
     }
 };
+BACSLoopFunctions["temporalBottleBrewingStand"] = temporalBottleFuncBrewingStand.update;
 const transformDeliveryRequirements = {
     "ThrownSplash": "Consume",
     "ThrownLingering": "ThrownSplash"
