@@ -1,29 +1,37 @@
+import { temporalBottleFuncBrewingStand } from "../temporal_bottle/functions/blocks/brewingStand";
+import { temporalBottleFuncFurnace } from "../temporal_bottle/functions/blocks/furnace";
 import { system } from "@minecraft/server";
 let enabledLoop = false;
-const enabledFunctions = {};
+const enabledFunctions = {
+    temporalBottleFurnace: false,
+    temporalBottleBrewingStand: false
+};
 function loop(tick) {
     if (enabledLoop == false)
         return;
-    const updateFunctions = Object.values(enabledFunctions);
-    for (let i = 0, len = updateFunctions.length; i < len; i++) {
-        const exe = updateFunctions[i];
-        exe && exe();
-    }
+    if (enabledFunctions.temporalBottleFurnace)
+        temporalBottleFuncFurnace.update();
+    if (enabledFunctions.temporalBottleBrewingStand)
+        temporalBottleFuncBrewingStand.update();
     system.run(() => { loop(tick == 19 ? 0 : tick + 1); });
 }
 export function addToGlobalLoop(type) {
-    const loopExe = BACSLoopFunctions[type];
-    if (loopExe == undefined)
-        return;
-    enabledFunctions[type] = loopExe;
+    enabledFunctions[type] = true;
     if (enabledLoop == false) {
         enabledLoop = true;
         loop(0);
     }
 }
 export function removeFromGlobalLoop(type) {
-    delete enabledFunctions[type];
-    if (Object.keys(enabledFunctions).length < 1)
+    enabledFunctions[type] = false;
+    const values = Object.values(enabledFunctions);
+    let disable = true;
+    for (let i = 0, len = values.length; i < len; i++) {
+        if (values[i] == true) {
+            disable = false;
+            break;
+        }
+    }
+    if (disable)
         enabledLoop = false;
 }
-export const BACSLoopFunctions = {};

@@ -1,29 +1,28 @@
-// import { BACSLoopFunctions } from "./loopList"
+import { temporalBottleFuncBrewingStand } from "../temporal_bottle/functions/blocks/brewingStand"
+import { temporalBottleFuncFurnace } from "../temporal_bottle/functions/blocks/furnace"
 import { system } from "@minecraft/server"
 
 let enabledLoop = false
-const enabledFunctions: { [key: string]: () => void } = {}
+const enabledFunctions: IEnabledFunctions = {
+  // Temporal Bottle
+  temporalBottleFurnace: false,
+  temporalBottleBrewingStand: false
+}
 
 function loop(tick: number): void {
   // Cancela o loop global
   if(enabledLoop == false) return
 
-  // Executa as updates dos loops
-  const updateFunctions = Object.values(enabledFunctions)
-  for(let i = 0, len = updateFunctions.length; i < len; i++){
-    const exe = updateFunctions[i]
-    exe && exe()
-  }
+  // Temporal Bottle
+  if(enabledFunctions.temporalBottleFurnace) temporalBottleFuncFurnace.update()
+  if(enabledFunctions.temporalBottleBrewingStand) temporalBottleFuncBrewingStand.update()
 
   // Reinicia o Loop no proximo tick
   system.run(() => { loop(tick == 19 ? 0 : tick +1) })
 }
 
-export function addToGlobalLoop(type: string): void {
-  const loopExe = BACSLoopFunctions[type]
-  if(loopExe == undefined) return
-
-  enabledFunctions[type] = loopExe
+export function addToGlobalLoop<T extends keyof IEnabledFunctions>(type: T): void {
+  enabledFunctions[type] = true
 
   if(enabledLoop == false){
     enabledLoop = true
@@ -31,12 +30,24 @@ export function addToGlobalLoop(type: string): void {
   }
 }
 
-export function removeFromGlobalLoop(type: string): void {
-  delete enabledFunctions[type]
+export function removeFromGlobalLoop<T extends keyof IEnabledFunctions>(type: T): void {
+  enabledFunctions[type] = false
 
-  // Se não existir mais nenhum um loop ativo ele desativa o loop global
-  if(Object.keys(enabledFunctions).length < 1) enabledLoop = false
+  const values = Object.values(enabledFunctions)
+  let disable = true
+  for(let i = 0, len = values.length; i < len; i++){
+    // Se qualquer uma das funções ainda estiver ativas ele vai manter o loop ligado
+    if(values[i] == true){
+      disable = false
+      break
+    }
+  }
+
+  if(disable) enabledLoop = false
 }
 
-// A inicialização das funções é feita dentro do arquivo do proprio loop, pois o minecraft pode tentar inicializar esse arquivo de loop global antes dos arquivos de funções gerando erros
-export const BACSLoopFunctions: { [key: string]: () => void } = {}
+interface IEnabledFunctions {
+  // temporal Bottle
+  temporalBottleFurnace: boolean
+  temporalBottleBrewingStand: boolean
+}

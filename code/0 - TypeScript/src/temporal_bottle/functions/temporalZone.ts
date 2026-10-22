@@ -29,7 +29,7 @@ const accelerationTypeFunc: { [key: string]: (entity: Entity, block: Block, mult
     if(inventory == undefined) return
 
     temporalBottleFuncFurnace.add(entity, block, inventory, multiplier, time *20) // Transforma o tempo de duração da ação em ticks
-    addToGlobalLoop("furnaceAccelerate")
+    addToGlobalLoop("temporalBottleFurnace")
   },
 
   "brewing_stand": (entity, block, multiplier, time) => {
@@ -37,6 +37,6 @@ const accelerationTypeFunc: { [key: string]: (entity: Entity, block: Block, mult
     if(inventory == undefined) return
 
     temporalBottleFuncBrewingStand.add(entity, block, inventory, multiplier, time *20) // Transforma o tempo de duração da ação em ticks
-    addToGlobalLoop("brewingStandAccelerate")
+    addToGlobalLoop("temporalBottleBrewingStand")
   }
 }

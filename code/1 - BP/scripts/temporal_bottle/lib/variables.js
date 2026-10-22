@@ -15,6 +15,7 @@ system.run(() => {
         const player = players[p];
         if (player == undefined)
             continue;
+        player.dimension.getEntities({ type: "temporal_bottle:temporal_zone" }).forEach(e => e.remove());
         const item = apiInventory.getItem(player, "temporal_bottle:temporal_bottle");
         if (item) {
             player.addTag("has_temporal_bottle");

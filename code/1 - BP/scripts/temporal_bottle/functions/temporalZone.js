@@ -26,13 +26,13 @@ const accelerationTypeFunc = {
         if (inventory == undefined)
             return;
         temporalBottleFuncFurnace.add(entity, block, inventory, multiplier, time * 20);
-        addToGlobalLoop("furnaceAccelerate");
+        addToGlobalLoop("temporalBottleFurnace");
     },
     "brewing_stand": (entity, block, multiplier, time) => {
         const inventory = block.getComponent(BlockComponentTypes.Inventory)?.container;
         if (inventory == undefined)
             return;
         temporalBottleFuncBrewingStand.add(entity, block, inventory, multiplier, time * 20);
-        addToGlobalLoop("brewingStandAccelerate");
+        addToGlobalLoop("temporalBottleBrewingStand");
     }
 };

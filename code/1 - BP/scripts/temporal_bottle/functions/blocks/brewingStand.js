@@ -1,24 +1,22 @@
 import { BlockComponentTypes, ItemComponentTypes, ItemStack, ItemTypes, Potions, system, world } from "@minecraft/server";
 import { BACSBrewingStandRecipeDenyScore, BACSBrewingStandRecipeScore, compatibleAddonsTranslation } from "../../../1-bacs/recipes/variables";
 import { brewingStandRecipeDenyList, brewingStandRecipeList } from "../../../1-bacs/recipes/brewingStand/recipes";
-import { BACSLoopFunctions, removeFromGlobalLoop } from "../../../1-bacs/globalLoop";
+import { removeFromGlobalLoop } from "../../../1-bacs/globalLoop";
 import { apiWarn } from "../../../0-lib/player/warn";
+const brewingStandsInfo = {};
 export const temporalBottleFuncBrewingStand = new class TemporalBottleFuncBrewingStand {
-    constructor() {
-        this.brewingStandsInfo = {};
-    }
     add(entity, block, inventory, multiplier, maxProcess) {
         const id = (block.x << 20) ^ (block.z << 10) ^ block.y;
-        const oldInfo = this.brewingStandsInfo[id];
+        const oldInfo = brewingStandsInfo[id];
         if (oldInfo != undefined) {
             oldInfo.multiplier = multiplier;
         }
         else {
-            this.brewingStandsInfo[id] = { entity, block, inventory, multiplier, progress: 0, maxProcess };
+            brewingStandsInfo[id] = { entity, block, inventory, multiplier, progress: 0, maxProcess };
         }
     }
     update() {
-        const brewingStands = Object.entries(this.brewingStandsInfo);
+        const brewingStands = Object.entries(brewingStandsInfo);
         const length = brewingStands.length;
         let invalids = 0;
         for (let i = 0; i < length; i++) {
@@ -28,7 +26,7 @@ export const temporalBottleFuncBrewingStand = new class TemporalBottleFuncBrewin
             const { entity, block, inventory, multiplier, progress, maxProcess, gettingRecipe } = info;
             if (!entity.isValid || !block.isValid || !inventory.isValid) {
                 invalids++;
-                delete this.brewingStandsInfo[key];
+                delete brewingStandsInfo[key];
                 continue;
             }
             if (gettingRecipe != undefined)
@@ -156,7 +154,7 @@ export const temporalBottleFuncBrewingStand = new class TemporalBottleFuncBrewin
             }
         }
         if (length == invalids) {
-            removeFromGlobalLoop("brewingStandAccelerate");
+            removeFromGlobalLoop("temporalBottleBrewingStand");
         }
     }
     transformDeliveryType(inventory, potion, index, type) {
@@ -175,7 +173,6 @@ export const temporalBottleFuncBrewingStand = new class TemporalBottleFuncBrewin
         }
     }
 };
-BACSLoopFunctions["temporalBottleBrewingStand"] = temporalBottleFuncBrewingStand.update;
 const transformDeliveryRequirements = {
     "ThrownSplash": "Consume",
     "ThrownLingering": "ThrownSplash"

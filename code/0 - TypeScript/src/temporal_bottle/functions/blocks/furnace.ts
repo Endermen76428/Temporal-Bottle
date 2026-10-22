@@ -1,31 +1,30 @@
 import { compatibleAddonsTranslation, BACSFurnaceRecipeScore, BACSFurnaceRecipeDenyScore } from "../../../1-bacs/recipes/variables"
 import { furnaceRecipeList, furnaceRecipeDenyList, furnaceHasRecipe } from "../../../1-bacs/recipes/furnace/recipes"
 import { Block, BlockComponentTypes, Container, Entity, ItemStack, system, world } from "@minecraft/server"
-import { BACSLoopFunctions, removeFromGlobalLoop } from "../../../1-bacs/globalLoop"
 import { furnaceFuelList } from "../../../1-bacs/recipes/furnace/fuel"
+import { removeFromGlobalLoop } from "../../../1-bacs/globalLoop"
 import { apiNumbers } from "../../../0-lib/math/numbers"
 import { apiWarn } from "../../../0-lib/player/warn"
 import { coalItem } from "../../lib/variables"
 
 const tempGettingRecipeTarget = new Set<string>() // Item Id
+const furnacesInfo: { [key: string]: IIntervalInfo } = {}
 
 export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
-  private furnacesInfo: { [key: string]: IIntervalInfo } = {}
-
   add(entity: Entity, block: Block, inventory: Container, multiplier: number, maxProcess: number): void {
     const id = (block.x << 20) ^ (block.z << 10) ^ block.y
-    const oldInfo = this.furnacesInfo[id]
+    const oldInfo = furnacesInfo[id]
     if(oldInfo != undefined){
       oldInfo.multiplier = multiplier
     } else {
       const index = furnaceIndex[block.typeId]
       if(index == undefined) return
-      this.furnacesInfo[id] = { entity, block, index, inventory, multiplier, fuelTime: 0, progress: 0, maxProcess }
+      furnacesInfo[id] = { entity, block, index, inventory, multiplier, fuelTime: 0, progress: 0, maxProcess }
     }
   }
 
   update(): void {
-    const furnaces = Object.entries(this.furnacesInfo)
+    const furnaces = Object.entries(furnacesInfo)
     const length = furnaces.length
     let invalids = 0
 
@@ -37,7 +36,7 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
       // Remove a backpack da lista quando ela fica inválida
       if(!entity.isValid || !block.isValid || !inventory.isValid){
         invalids++
-        delete this.furnacesInfo[key]
+        delete furnacesInfo[key]
         continue
       }
 
@@ -217,7 +216,7 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
 
     // Desativa o loop se não tiver mais fornalhas
     if(length == invalids){
-      removeFromGlobalLoop("furnaceAccelerate")
+      removeFromGlobalLoop("temporalBottleFurnace")
     }
   }
 
@@ -236,7 +235,6 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
     }
   }
 }
-BACSLoopFunctions["temporalBottleFurnace"] = temporalBottleFuncFurnace.update
 
 const furnaceIndex: { [key: string]: number } = {
   "minecraft:furnace": 0,

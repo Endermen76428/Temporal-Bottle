@@ -1,19 +1,17 @@
 import { compatibleAddonsTranslation, BACSFurnaceRecipeScore, BACSFurnaceRecipeDenyScore } from "../../../1-bacs/recipes/variables";
 import { furnaceRecipeList, furnaceRecipeDenyList, furnaceHasRecipe } from "../../../1-bacs/recipes/furnace/recipes";
 import { BlockComponentTypes, ItemStack, system, world } from "@minecraft/server";
-import { BACSLoopFunctions, removeFromGlobalLoop } from "../../../1-bacs/globalLoop";
 import { furnaceFuelList } from "../../../1-bacs/recipes/furnace/fuel";
+import { removeFromGlobalLoop } from "../../../1-bacs/globalLoop";
 import { apiNumbers } from "../../../0-lib/math/numbers";
 import { apiWarn } from "../../../0-lib/player/warn";
 import { coalItem } from "../../lib/variables";
 const tempGettingRecipeTarget = new Set();
+const furnacesInfo = {};
 export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
-    constructor() {
-        this.furnacesInfo = {};
-    }
     add(entity, block, inventory, multiplier, maxProcess) {
         const id = (block.x << 20) ^ (block.z << 10) ^ block.y;
-        const oldInfo = this.furnacesInfo[id];
+        const oldInfo = furnacesInfo[id];
         if (oldInfo != undefined) {
             oldInfo.multiplier = multiplier;
         }
@@ -21,11 +19,11 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
             const index = furnaceIndex[block.typeId];
             if (index == undefined)
                 return;
-            this.furnacesInfo[id] = { entity, block, index, inventory, multiplier, fuelTime: 0, progress: 0, maxProcess };
+            furnacesInfo[id] = { entity, block, index, inventory, multiplier, fuelTime: 0, progress: 0, maxProcess };
         }
     }
     update() {
-        const furnaces = Object.entries(this.furnacesInfo);
+        const furnaces = Object.entries(furnacesInfo);
         const length = furnaces.length;
         let invalids = 0;
         for (let i = 0; i < length; i++) {
@@ -35,7 +33,7 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
             const { entity, block, index, inventory, multiplier, fuelTime, progress, maxProcess, gettingRecipe } = info;
             if (!entity.isValid || !block.isValid || !inventory.isValid) {
                 invalids++;
-                delete this.furnacesInfo[key];
+                delete furnacesInfo[key];
                 continue;
             }
             if (gettingRecipe != undefined)
@@ -185,7 +183,7 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
             }
         }
         if (length == invalids) {
-            removeFromGlobalLoop("furnaceAccelerate");
+            removeFromGlobalLoop("temporalBottleFurnace");
         }
     }
     registerNewRecipe(blockId, input, output) {
@@ -204,7 +202,6 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
         }
     }
 };
-BACSLoopFunctions["temporalBottleFurnace"] = temporalBottleFuncFurnace.update;
 const furnaceIndex = {
     "minecraft:furnace": 0,
     "minecraft:lit_furnace": 0,
