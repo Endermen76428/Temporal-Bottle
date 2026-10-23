@@ -9,6 +9,6 @@ const scriptEventManager = {
     "temporal_bottle:start_acceleration": (message, sourceE) => {
         if (!sourceE || !sourceE.isValid)
             return;
-        temporalZone.createZone(sourceE);
+        temporalZone.create(sourceE);
     }
 };

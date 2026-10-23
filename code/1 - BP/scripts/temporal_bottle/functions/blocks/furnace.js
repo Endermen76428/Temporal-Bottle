@@ -1,11 +1,11 @@
 import { compatibleAddonsTranslation, BACSFurnaceRecipeScore, BACSFurnaceRecipeDenyScore } from "../../../1-bacs/recipes/variables";
 import { furnaceRecipeList, furnaceRecipeDenyList, furnaceHasRecipe } from "../../../1-bacs/recipes/furnace/recipes";
 import { BlockComponentTypes, ItemStack, system, world } from "@minecraft/server";
+import { activatedTemporalZoneScore, coalItem } from "../../lib/variables";
 import { furnaceFuelList } from "../../../1-bacs/recipes/furnace/fuel";
 import { removeFromGlobalLoop } from "../../../1-bacs/globalLoop";
 import { apiNumbers } from "../../../0-lib/math/numbers";
 import { apiWarn } from "../../../0-lib/player/warn";
-import { coalItem } from "../../lib/variables";
 const tempGettingRecipeTarget = new Set();
 const furnacesInfo = {};
 export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
@@ -19,6 +19,7 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
             const index = furnaceIndex[block.typeId];
             if (index == undefined)
                 return;
+            activatedTemporalZoneScore.setScore(entity.id, 0);
             furnacesInfo[id] = { entity, block, index, inventory, multiplier, fuelTime: 0, progress: 0, maxProcess };
         }
     }
@@ -34,6 +35,7 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
             if (!entity.isValid || !block.isValid || !inventory.isValid) {
                 invalids++;
                 delete furnacesInfo[key];
+                activatedTemporalZoneScore.removeParticipant(entity.id);
                 continue;
             }
             if (gettingRecipe != undefined)

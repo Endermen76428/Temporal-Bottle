@@ -5,7 +5,7 @@ import { temporalBottleFuncFurnace } from "./blocks/furnace"
 import { addToGlobalLoop } from "../../1-bacs/globalLoop"
 
 export const temporalZone = new class TemporalZone {
-  createZone(entity: Entity): void {
+  create(entity: Entity): void {
     const block = entity.dimension.getBlock(entity.location)
     if(block == undefined || !block.isValid) return
 

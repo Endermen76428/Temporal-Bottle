@@ -1,11 +1,11 @@
 import { compatibleAddonsTranslation, BACSFurnaceRecipeScore, BACSFurnaceRecipeDenyScore } from "../../../1-bacs/recipes/variables"
 import { furnaceRecipeList, furnaceRecipeDenyList, furnaceHasRecipe } from "../../../1-bacs/recipes/furnace/recipes"
 import { Block, BlockComponentTypes, Container, Entity, ItemStack, system, world } from "@minecraft/server"
+import { activatedTemporalZoneScore, coalItem } from "../../lib/variables"
 import { furnaceFuelList } from "../../../1-bacs/recipes/furnace/fuel"
 import { removeFromGlobalLoop } from "../../../1-bacs/globalLoop"
 import { apiNumbers } from "../../../0-lib/math/numbers"
 import { apiWarn } from "../../../0-lib/player/warn"
-import { coalItem } from "../../lib/variables"
 
 const tempGettingRecipeTarget = new Set<string>() // Item Id
 const furnacesInfo: { [key: string]: IIntervalInfo } = {}
@@ -19,6 +19,8 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
     } else {
       const index = furnaceIndex[block.typeId]
       if(index == undefined) return
+
+      activatedTemporalZoneScore.setScore(entity.id, 0)
       furnacesInfo[id] = { entity, block, index, inventory, multiplier, fuelTime: 0, progress: 0, maxProcess }
     }
   }
@@ -37,6 +39,7 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
       if(!entity.isValid || !block.isValid || !inventory.isValid){
         invalids++
         delete furnacesInfo[key]
+        activatedTemporalZoneScore.removeParticipant(entity.id)
         continue
       }
 
@@ -79,6 +82,7 @@ export const temporalBottleFuncFurnace = new class TemporalBottleFuncFurnace {
 
         // let furnaceBlock = block.dimension.getBlock({x: block.x, y: block.y +2, z: block.z})
         // for(let i2 = 0; i2 < 5; i2++){ if(furnaceBlock && furnaceBlock?.typeId != "minecraft:air"){ furnaceBlock = furnaceBlock.east(1); break } }
+
         let furnaceBlock = block.dimension.getBlock({x: block.x, y: block.dimension.heightRange.min, z: block.z})
         for(let i2 = 0; i2 < 5; i2++){ if(furnaceBlock && furnaceBlock?.typeId != "minecraft:bedrock"){ furnaceBlock = furnaceBlock.east(1); break } }
         if(furnaceBlock == undefined || !furnaceBlock.isValid) continue
