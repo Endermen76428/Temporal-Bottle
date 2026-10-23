@@ -13,12 +13,27 @@
       "textures": [ "v.searching > 0 ? Texture.search_background : Array.tier[v.tier]" ],
       "part_visibility": [
         { "*": true },
+        { "timerH1": false },
+        { "timerH2": false },
+        { "timerV": false },
         { "1": false },
         { "2": false },
         { "3": false },
         { "4": false },
         { "5": false },
         { "6": false }
+      ]
+    },
+    "controller.render.temporal_bottle.temporal_zone.timer": {
+      "ignore_lighting": true,
+      "geometry": "Geometry.default",
+      "materials": [ { "*": "Material.default" } ],
+      "textures": [ "Texture.timer" ],
+      "part_visibility": [
+        { "*": false },
+        { "timerH1": true },
+        { "timerH2": true },
+        { "timerV": true }
       ]
     },
     "controller.render.temporal_bottle.temporal_zone.searching": {
@@ -28,7 +43,10 @@
       "textures": [ "Texture.search_timer" ],
       "part_visibility": [
         { "*": true },
-        { "all": false }
+        { "all": false },
+        { "timerH1": false },
+        { "timerH2": false },
+        { "timerV": false }
       ]
     }
   }
