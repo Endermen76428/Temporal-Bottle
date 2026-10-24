@@ -230,4 +230,8 @@ export const furnaceRecipeList: { [key: string]: string } = {
   "digital_miner:steel_dust": "digital_miner:steel_nugget"
 }
 
-export const furnaceRecipeDenyList: { [key: string]: boolean } = {}
+export const furnaceRecipeDenyList: { [key: string]: boolean } = {
+  "2/digital_miner:gold_dust": true,
+  "2/digital_miner:iron_dust": true,
+  "2/digital_miner:steel_dust": true
+}

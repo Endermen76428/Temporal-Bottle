@@ -220,4 +220,8 @@ export const furnaceRecipeList = {
     "digital_miner:iron_dust": "minecraft:iron_ingot",
     "digital_miner:steel_dust": "digital_miner:steel_nugget"
 };
-export const furnaceRecipeDenyList = {};
+export const furnaceRecipeDenyList = {
+    "2/digital_miner:gold_dust": true,
+    "2/digital_miner:iron_dust": true,
+    "2/digital_miner:steel_dust": true
+};
