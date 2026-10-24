@@ -215,6 +215,9 @@ export const furnaceRecipeList = {
     "minecraft:wet_sponge": "minecraft:sponge",
     "minecraft:white_terracotta": "minecraft:white_glazed_terracotta",
     "minecraft:yellow_poplar_leaves": "minecraft:leaf_litter",
-    "minecraft:yellow_terracotta": "minecraft:yellow_glazed_terracotta"
+    "minecraft:yellow_terracotta": "minecraft:yellow_glazed_terracotta",
+    "digital_miner:gold_dust": "minecraft:gold_ingot",
+    "digital_miner:iron_dust": "minecraft:iron_ingot",
+    "digital_miner:steel_dust": "digital_miner:steel_nugget"
 };
 export const furnaceRecipeDenyList = {};
